@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@layer utilities {
+  /* Royal Calligraphy Script Font for Names */
+  .font-script {
+    font-family: 'Great Vibes', 'Alex Brush', 'Pinyon Script', cursive !important;
+    font-variant-ligatures: common-ligatures contextual !important;
+    font-feature-settings: "liga" 1, "clig" 1, "dlig" 1, "calt" 1 !important;
+    letter-spacing: -0.015em !important;
+  }
+
+  /* High-Shine Metallic Rose-Gold Gradient */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFD6E5 20%, #F596AA 50%, #E86B8A 80%, #FFD6E5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-rendering: optimizeLegibility;
+    -webkit-text-stroke: 0.35px rgba(245, 150, 170, 0.45);
+  }
+  
+  /* Rich Deep Rose Metallic Gradient */
+  .text-rose-gradient {
+    background: linear-gradient(135deg, #FFD6E5 0%, #F596AA 50%, #C94A6E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Royal Dark Magenta Texture Pattern */
+  .bg-burgundy-pattern {
+    background-color: #3D061A;
+    background-image: radial-gradient(#F596AA 0.65px, transparent 0.65px), radial-gradient(#F596AA 0.65px, #3D061A 0.65px);
+    background-size: 26px 26px;
+    background-position: 0 0, 13px 13px;
+  }
+
+  /* Soft Blush Pink Dotted Texture Pattern */
+  .bg-pink-paper-pattern {
+    background-color: #FFF0F5;
+    background-image: radial-gradient(#E6A4B4 0.75px, transparent 0.75px), radial-gradient(#E6A4B4 0.75px, #FFF0F5 0.75px);
+    background-size: 24px 24px;
+    background-position: 0 0, 12px 12px;
+  }
+
+  /* Slow Metallic Shine Shimmer Effect */
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(245, 150, 170, 0.35) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Custom Rose-Gold Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #3D061A;
+}
+::-webkit-scrollbar-thumb {
+  background: #F596AA;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD6E5;
+}
