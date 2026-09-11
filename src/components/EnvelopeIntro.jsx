@@ -5,8 +5,17 @@ import confetti from 'canvas-confetti';
 export default function EnvelopeIntro({ onOpen }) {
   const [isOpen, setIsOpen] = useState(false);
   // Default selected animation set to 'stardust' (Golden Stardust & Ripple)
-  // Options preserved in code: 'outburst', 'lotus', 'stardust', 'curtain', 'butterfly'
   const [activeAnim, setActiveAnim] = useState('stardust');
+
+  React.useEffect(() => {
+    const handlePalm = () => {
+      if (!isOpen) {
+        handleOpen();
+      }
+    };
+    window.addEventListener('MAGIC_OPEN_PALM', handlePalm);
+    return () => window.removeEventListener('MAGIC_OPEN_PALM', handlePalm);
+  }, [isOpen]);
 
   const handleOpen = (e) => {
     if (e) {
@@ -98,7 +107,7 @@ export default function EnvelopeIntro({ onOpen }) {
       {/* Full-Screen Velvet Envelope Container */}
       <div className="relative w-full h-full overflow-hidden flex items-center justify-center bg-black">
         
-        {/* Pure Photographic Velvet Envelope Image (Only the original envelope photograph) */}
+        {/* Pure Photographic Velvet Envelope Image */}
         <img 
           src="/velvet-envelope.png" 
           alt="Real Royal Plush Velvet Envelope" 
@@ -108,13 +117,13 @@ export default function EnvelopeIntro({ onOpen }) {
         {/* Subtle Dark Vignette Overlay for Contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/50 pointer-events-none" />
         
-        {/* Invisible Interactive Click/Touch Target directly over the Envelope Seal */}
+        {/* Interactive Click/Touch Target directly over the Envelope Seal */}
         {!isOpen && (
           <button 
             onClick={handleOpen}
             onTouchEnd={handleOpen}
             aria-label="Open Invitation Wax Seal"
-            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 sm:w-36 sm:h-36 rounded-full z-40 cursor-pointer focus:outline-none opacity-0"
+            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 rounded-full z-40 cursor-pointer focus:outline-none opacity-0"
           />
         )}
 
@@ -247,10 +256,10 @@ export default function EnvelopeIntro({ onOpen }) {
             <motion.div 
               animate={{ opacity: [0.6, 1, 0.6] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="absolute bottom-10 left-0 right-0 z-40 text-center px-4 flex items-center justify-center pointer-events-none"
+              className="absolute bottom-10 left-0 right-0 z-[60] text-center px-4 flex items-center justify-center pointer-events-none"
             >
               <p className="font-serif text-[11px] sm:text-xs uppercase tracking-[0.35em] text-[#FFF0F5] font-semibold flex items-center justify-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/60 py-2.5 px-6 rounded-full border border-[#E6A4B4]/50 backdrop-blur-md">
-                Tap Wax Seal to Open Invitation
+                Tap Wax Seal or Show Open Palm to Open
               </p>
             </motion.div>
           )}

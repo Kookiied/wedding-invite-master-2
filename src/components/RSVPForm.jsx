@@ -10,6 +10,7 @@ export default function RSVPForm() {
     whatsapp: '',
     email: '',
     guestCount: '',
+    arrivalDate: '',
     arrivalTime: '',
     travelMode: 'Flight',
     travelNumber: '',
@@ -47,7 +48,7 @@ export default function RSVPForm() {
       email: formData.email,
       guestCount: formData.guestCount || 1,
       attending: 'yes',
-      message: `Travel: ${formData.travelMode} ${formData.travelNumber || ''} | Arrival: ${formData.arrivalTime || 'N/A'}`,
+      message: `Travel: ${formData.travelMode} ${formData.travelNumber || ''} | Arrival Date: ${formData.arrivalDate || 'N/A'} | Arrival Time: ${formData.arrivalTime || 'N/A'}`,
       idFileName: formData.idFileName || '',
       idFileData: formData.idFileData || ''
     });
@@ -194,14 +195,32 @@ export default function RSVPForm() {
               </h3>
               
               <div className="space-y-5">
+                {/* Date of Arrival */}
                 <div>
                   <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
-                    Arrival Time on 25/10/2026
+                    Date of Arrival
+                  </label>
+                  <select 
+                    name="arrivalDate"
+                    value={formData.arrivalDate}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors cursor-pointer"
+                  >
+                    <option value="" disabled>Select date of arrival</option>
+                    <option value="24 October 2026">24 October 2026</option>
+                    <option value="25 October 2026">25 October 2026</option>
+                  </select>
+                </div>
+
+                {/* Arrival Time */}
+                <div>
+                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                    Arrival Time
                   </label>
                   <input 
                     type="text"
                     name="arrivalTime"
-                    placeholder="eg. 12:00 PM"
+                    placeholder="e.g. 12:00 PM"
                     value={formData.arrivalTime}
                     onChange={handleChange}
                     className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors placeholder:text-gray-400"

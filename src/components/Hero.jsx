@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import WhimsicalButterflies from './WhimsicalButterflies';
+import BloomingFlowers from '../animations/BloomingFlowers';
 import { Sliders, X } from 'lucide-react';
 
 /* 
@@ -28,6 +29,9 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen w-full flex flex-col items-center justify-between text-center overflow-hidden bg-gradient-to-b from-[#FFF0F5] via-[#FFEBEF] to-[#FFF0F5]">
       
+      {/* Blooming Flowers layer */}
+      <BloomingFlowers />
+
       {/* Delicate Theme-based Light Polka-Dot Matrix Background Pattern */}
       <div className="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(#E6A4B4_1.2px,transparent_1.2px)] [background-size:20px_20px] pointer-events-none" />
 

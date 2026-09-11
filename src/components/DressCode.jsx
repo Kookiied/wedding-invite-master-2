@@ -16,7 +16,7 @@ export default function DressCode() {
           Dress Code
         </h2>
         <p className="font-serif text-xs text-[#5E0B2B]/70 uppercase tracking-widest mt-2">
-          Saree / Lehenga / Sherwani & Shimmer
+          Saree / Lehenga / Jodhpuri & Shimmer
         </p>
         <div className="w-16 h-0.5 bg-[#E6A4B4] mx-auto mt-3 rounded-full" />
       </div>

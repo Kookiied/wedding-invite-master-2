@@ -9,9 +9,13 @@ import DressCode from './components/DressCode';
 import LocationDetails from './components/LocationDetails';
 import RSVPForm from './components/RSVPForm';
 import RSVPHosts from './components/RSVPHosts';
+import CandleReveal from './components/CandleReveal';
 import FinalPortrait from './components/FinalPortrait';
 import FloatingMusic from './components/FloatingMusic';
 import AdminDashboard from './components/AdminDashboard';
+import MagicModeOverlay from './components/MagicMode/MagicModeOverlay';
+import ExperienceSelector from './components/MagicMode/ExperienceSelector';
+import ParticleCanvas from './graphics/ParticleCanvas';
 
 // Feature Flag: Lock scrolling past countdown until scratch cards are scratched.
 // Set to false: Allows guests to freely scroll the entire website immediately!
@@ -23,6 +27,17 @@ export default function App() {
   const [autoPlayAudio, setAutoPlayAudio] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isScratchUnlocked, setIsScratchUnlocked] = useState(!ENABLE_SCRATCH_LOCK);
+  const [experienceMode, setExperienceMode] = useState(null); // null = modal prompt, 'magic' | 'classic'
+  const magicOverlayRef = React.useRef(null);
+
+  const handleSelectExperienceMode = (mode) => {
+    setExperienceMode(mode);
+    if (mode === 'magic') {
+      setTimeout(() => {
+        magicOverlayRef.current?.startMagicMode();
+      }, 100);
+    }
+  };
 
   const handleEnvelopeOpen = () => {
     setIsEnvelopeOpen(true);
@@ -41,10 +56,25 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#1A030D] flex justify-center items-center font-sans antialiased text-[#2D2D2D] sm:py-6">
+    <div className="min-h-screen w-full bg-[#1A030D] flex justify-center items-center font-sans antialiased text-[#2D2D2D] sm:py-6 relative">
       
+      {/* Upfront Luxury Choice Screen */}
+      {experienceMode === null && (
+        <ExperienceSelector onSelectMode={handleSelectExperienceMode} />
+      )}
+
+      {/* Global Particle VFX System */}
+      <ParticleCanvas />
+
+      {/* Global Magic Mode Permission & Overlay */}
+      <MagicModeOverlay 
+        ref={magicOverlayRef} 
+        externalTrigger={true}
+        onMagicModeReady={(ready) => console.log('Magic Mode Ready:', ready)} 
+      />
+
       {/* Mobile-first Container Frame (max-w-md centered on desktop) */}
-      <div className="w-full max-w-md min-h-screen sm:min-h-[92vh] sm:rounded-3xl bg-[#FFF0F5] relative shadow-[0_0_50px_rgba(61,6,26,0.9)] overflow-x-hidden border-x sm:border-2 border-[#E6A4B4]/50 flex flex-col">
+      <div className="w-full max-w-md min-h-screen sm:min-h-[92vh] sm:rounded-3xl bg-[#FFF0F5] relative shadow-[0_0_50px_rgba(61,6,26,0.9)] overflow-x-hidden border-x sm:border-2 border-[#E6A4B4]/50 flex flex-col z-10">
         
         {/* Floating Persistent Audio Controller */}
         <FloatingMusic autoPlayTriggered={autoPlayAudio} />
@@ -52,7 +82,10 @@ export default function App() {
         {/* 1. Envelope Intro Screen */}
         <AnimatePresence>
           {!isEnvelopeOpen && (
-            <EnvelopeIntro onOpen={handleEnvelopeOpen} />
+            <EnvelopeIntro 
+              onOpen={handleEnvelopeOpen} 
+              experienceMode={experienceMode || 'magic'}
+            />
           )}
         </AnimatePresence>
 
@@ -88,6 +121,9 @@ export default function App() {
 
                 {/* 8. RSVP Hosts Details */}
                 <RSVPHosts />
+
+                {/* 8.5 Magic Candle Reveal */}
+                <CandleReveal />
 
                 {/* 9. Final Portrait */}
                 <FinalPortrait />
