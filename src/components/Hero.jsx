@@ -14,17 +14,42 @@ const ENABLE_DEV_CONTROLLER = false;
 export default function Hero() {
   const [showTuner, setShowTuner] = useState(false);
 
-  // Permanently Locked Layout & Font Size Values
-  const [layout, setLayout] = useState({
-    mantraTop: 79,           // Mantra position from top (px)
-    topPadding: 120,         // Section top distance (px)
-    nameFontSize: 86,        // Vivek & Indira name font size (px)
-    vivekParentGap: -5,      // Vivek family text top margin (px)
-    vivekParentSize: 11,     // Vivek family text font size (px)
-    wedsGap: 27,             // Gap around Weds separator (px)
-    indiraParentGap: 27,     // Indira family text top margin (px)
-    indiraParentSize: 11     // Indira family text font size (px)
-  });
+  const getResponsiveLayout = () => {
+    if (typeof window === 'undefined') return {
+      mantraTop: 79, topPadding: 120, nameFontSize: 86,
+      vivekParentGap: -5, vivekParentSize: 11, wedsGap: 27,
+      indiraParentGap: 27, indiraParentSize: 11
+    };
+    const w = window.innerWidth;
+    if (w >= 1024) { // lg
+      return {
+        mantraTop: 120, topPadding: 180, nameFontSize: 130,
+        vivekParentGap: -8, vivekParentSize: 16, wedsGap: 40,
+        indiraParentGap: 40, indiraParentSize: 16
+      };
+    } else if (w >= 768) { // md
+      return {
+        mantraTop: 100, topPadding: 150, nameFontSize: 110,
+        vivekParentGap: -6, vivekParentSize: 14, wedsGap: 32,
+        indiraParentGap: 32, indiraParentSize: 14
+      };
+    }
+    return {
+      mantraTop: 79, topPadding: 120, nameFontSize: 86,
+      vivekParentGap: -5, vivekParentSize: 11, wedsGap: 27,
+      indiraParentGap: 27, indiraParentSize: 11
+    };
+  };
+
+  const [layout, setLayout] = useState(getResponsiveLayout());
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setLayout(getResponsiveLayout());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <section className="relative min-h-screen w-full flex flex-col items-center justify-between text-center overflow-hidden bg-gradient-to-b from-[#FFF0F5] via-[#FFEBEF] to-[#FFF0F5]">
@@ -63,11 +88,11 @@ export default function Hero() {
         <img 
           src="/ganesha-magenta.png" 
           alt="Dark Magenta Lord Ganesha" 
-          className="w-14 h-16 sm:w-18 sm:h-20 object-contain mb-1.5 filter drop-shadow-[0_2px_8px_rgba(139,0,50,0.25)]"
+          className="w-14 h-16 sm:w-18 sm:h-20 md:w-20 md:h-24 object-contain mb-1.5 filter drop-shadow-[0_2px_8px_rgba(139,0,50,0.25)]"
         />
 
         {/* Sanskrit Mantra */}
-        <p className="font-serif text-[11px] sm:text-xs text-[#E65C8A] tracking-wide max-w-xs sm:max-w-sm mx-auto font-bold leading-relaxed drop-shadow-sm">
+        <p className="font-serif text-[11px] sm:text-xs md:text-sm text-[#E65C8A] tracking-wide max-w-xs sm:max-w-sm md:max-w-md mx-auto font-bold leading-relaxed drop-shadow-sm">
           वक्रतुण्ड महाकाय सूर्यकोटि समप्रभः ।<br />
           निर्विघ्नं कुरु में देव, सर्व कार्येषु सर्वदा ॥
         </p>
@@ -78,12 +103,12 @@ export default function Hero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.3 }}
-        className="relative z-20 px-6 my-auto pb-2 max-w-lg w-full flex flex-col items-center transition-all duration-75"
+        className="relative z-20 px-6 my-auto pb-2 max-w-lg md:max-w-3xl w-full flex flex-col items-center transition-all duration-75"
         style={{ paddingTop: `${layout.topPadding}px` }}
       >
         {/* Invitation Text (Between Mantra and Vivek's Name) */}
         <p 
-          className="font-sans uppercase tracking-widest text-[#5E0B2B] font-extrabold leading-relaxed text-center mb-8 max-w-xs sm:max-w-md"
+          className="font-sans uppercase tracking-widest text-[#5E0B2B] font-extrabold leading-relaxed text-center mb-8 max-w-xs sm:max-w-md md:max-w-xl"
           style={{ fontSize: `${layout.vivekParentSize}px` }}
         >
           We request your gracious<br />

@@ -73,8 +73,8 @@ export default function App() {
         onMagicModeReady={(ready) => console.log('Magic Mode Ready:', ready)} 
       />
 
-      {/* Mobile-first Container Frame (max-w-md centered on desktop) */}
-      <div className="w-full max-w-md min-h-screen sm:min-h-[92vh] sm:rounded-3xl bg-[#FFF0F5] relative shadow-[0_0_50px_rgba(61,6,26,0.9)] overflow-x-hidden border-x sm:border-2 border-[#E6A4B4]/50 flex flex-col z-10">
+      {/* Mobile-first Container Frame (max-w-md centered on desktop, expanded on tablets) */}
+      <div className="w-full max-w-md md:max-w-3xl lg:max-w-4xl xl:max-w-5xl min-h-screen sm:min-h-[92vh] sm:rounded-3xl bg-[#FFF0F5] relative shadow-[0_0_50px_rgba(61,6,26,0.9)] overflow-x-hidden border-x sm:border-2 border-[#E6A4B4]/50 flex flex-col z-10">
         
         {/* Floating Persistent Audio Controller */}
         <FloatingMusic autoPlayTriggered={autoPlayAudio} />

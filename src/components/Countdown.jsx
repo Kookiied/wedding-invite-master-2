@@ -56,7 +56,7 @@ export default function Countdown({ onScratchComplete }) {
         </svg>
       </div>
 
-      <div className="max-w-md mx-auto px-6 text-center pt-1">
+      <div className="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-6 text-center pt-1">
         
         {/* Header Block: SAVE THE DATE (Shifted Upper) */}
         <motion.div 
@@ -69,7 +69,7 @@ export default function Countdown({ onScratchComplete }) {
           <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-[#F8C8DC] font-bold block mb-1">
             SAVE THE DATE
           </span>
-          <h2 className="font-script text-4xl sm:text-5xl text-[#F8C8DC] font-bold leading-[1.15] my-1">
+          <h2 className="font-script text-4xl sm:text-5xl md:text-6xl text-[#F8C8DC] font-bold leading-[1.15] my-1">
             Reveal<br />Our Big Day
           </h2>
           <span className="font-serif text-[11px] italic text-[#FFF0F5]/80 block mt-1.5 mb-5">
@@ -97,48 +97,48 @@ export default function Countdown({ onScratchComplete }) {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="mt-6"
             >
-              <h2 className="font-script text-4xl text-[#F8C8DC] font-semibold mb-6">
+              <h2 className="font-script text-4xl md:text-5xl text-[#F8C8DC] font-semibold mb-6">
                 The beginning of forever...
               </h2>
 
               {/* Classy Rounded Blush Pink Countdown Timer Grid */}
-              <div className="grid grid-cols-4 gap-3 max-w-xs sm:max-w-sm mx-auto">
+              <div className="grid grid-cols-4 gap-3 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
                 {/* Days */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl font-bold text-[#5E0B2B] block leading-none">
+                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
+                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
                     {timeLeft.days}
                   </span>
-                  <span className="font-sans text-[8px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 block font-bold">
+                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
                     DAYS
                   </span>
                 </div>
 
                 {/* Hours */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl font-bold text-[#5E0B2B] block leading-none">
+                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
+                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
                     {timeLeft.hours}
                   </span>
-                  <span className="font-sans text-[8px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 block font-bold">
+                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
                     HRS
                   </span>
                 </div>
 
                 {/* Minutes */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl font-bold text-[#5E0B2B] block leading-none">
+                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
+                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
                     {timeLeft.minutes}
                   </span>
-                  <span className="font-sans text-[8px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 block font-bold">
+                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
                     MINS
                   </span>
                 </div>
 
                 {/* Seconds */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl font-bold text-[#5E0B2B] block leading-none">
+                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
+                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
                     {timeLeft.seconds}
                   </span>
-                  <span className="font-sans text-[8px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 block font-bold">
+                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
                     SECS
                   </span>
                 </div>

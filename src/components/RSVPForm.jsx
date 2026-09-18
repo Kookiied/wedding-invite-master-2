@@ -57,7 +57,7 @@ export default function RSVPForm() {
   };
 
   return (
-    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-24 pb-16 px-4">
+    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-24 md:pt-32 pb-16 px-4">
       
       {/* Seamless Overlapping Floral Divider */}
       <div className="absolute top-0 left-0 right-0 -translate-y-1/2 z-20 pointer-events-none flex justify-center">
@@ -68,14 +68,14 @@ export default function RSVPForm() {
         />
       </div>
 
-      <div className="max-w-md mx-auto">
+      <div className="max-w-md md:max-w-2xl lg:max-w-3xl mx-auto">
         
         {/* Section Header */}
         <div className="text-center mb-10">
           <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#5E0B2B]/70 font-semibold block mb-2">
             Confirm Your Attendance
           </span>
-          <h2 className="font-serif text-5xl text-[#5E0B2B] tracking-wide font-medium">
+          <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#5E0B2B] tracking-wide font-medium">
             RSVP
           </h2>
           <div className="w-12 h-0.5 bg-[#E6A4B4]/70 mx-auto mt-3 rounded-full" />
@@ -106,11 +106,11 @@ export default function RSVPForm() {
           </motion.div>
         ) : (
           /* Scrollable Form Cards Stack */
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
             
             {/* CARD 1: Personal Details */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 shadow-md relative">
-              <h3 className="font-serif text-lg italic text-[#B83B5E] text-center mb-6">
+            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
+              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
                 Personal Details
               </h3>
               
@@ -162,8 +162,8 @@ export default function RSVPForm() {
             </div>
 
             {/* CARD 2: Guest Details */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 shadow-md relative">
-              <h3 className="font-serif text-lg italic text-[#B83B5E] text-center mb-6">
+            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
+              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
                 Guest Details
               </h3>
               
@@ -189,8 +189,8 @@ export default function RSVPForm() {
             </div>
 
             {/* CARD 3: Travel Details */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 shadow-md relative">
-              <h3 className="font-serif text-lg italic text-[#B83B5E] text-center mb-6">
+            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
+              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
                 Travel Details
               </h3>
               
@@ -260,8 +260,8 @@ export default function RSVPForm() {
             </div>
 
             {/* CARD 4: Hotel Check-in */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 shadow-md relative">
-              <h3 className="font-serif text-lg italic text-[#B83B5E] text-center mb-6">
+            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
+              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
                 Hotel Check-in
               </h3>
               

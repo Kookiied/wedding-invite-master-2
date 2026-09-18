@@ -123,7 +123,7 @@ export default function EnvelopeIntro({ onOpen }) {
             onClick={handleOpen}
             onTouchEnd={handleOpen}
             aria-label="Open Invitation Wax Seal"
-            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 rounded-full z-40 cursor-pointer focus:outline-none opacity-0"
+            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full z-40 cursor-pointer focus:outline-none opacity-0"
           />
         )}
 
@@ -258,7 +258,7 @@ export default function EnvelopeIntro({ onOpen }) {
               transition={{ repeat: Infinity, duration: 2 }}
               className="absolute bottom-10 left-0 right-0 z-[60] text-center px-4 flex items-center justify-center pointer-events-none"
             >
-              <p className="font-serif text-[11px] sm:text-xs uppercase tracking-[0.35em] text-[#FFF0F5] font-semibold flex items-center justify-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/60 py-2.5 px-6 rounded-full border border-[#E6A4B4]/50 backdrop-blur-md">
+              <p className="font-serif text-[11px] sm:text-xs md:text-sm lg:text-base uppercase tracking-[0.35em] text-[#FFF0F5] font-semibold flex items-center justify-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/60 py-2.5 px-6 md:py-3 md:px-8 rounded-full border border-[#E6A4B4]/50 backdrop-blur-md">
                 Tap Wax Seal or Show Open Palm to Open
               </p>
             </motion.div>

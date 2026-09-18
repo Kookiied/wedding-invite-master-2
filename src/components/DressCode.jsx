@@ -8,11 +8,11 @@ export default function DressCode() {
     <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] py-16 px-4">
       
       {/* Section Header */}
-      <div className="text-center max-w-md mx-auto mb-12">
+      <div className="text-center max-w-md md:max-w-xl lg:max-w-3xl mx-auto mb-12 md:mb-16">
         <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#5E0B2B] font-semibold block mb-6">
           Attire Guide
         </span>
-        <h2 className="font-script text-5xl sm:text-6xl text-[#5E0B2B]">
+        <h2 className="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#5E0B2B]">
           Dress Code
         </h2>
         <p className="font-serif text-xs text-[#5E0B2B]/70 uppercase tracking-widest mt-2">
@@ -21,7 +21,7 @@ export default function DressCode() {
         <div className="w-16 h-0.5 bg-[#E6A4B4] mx-auto mt-3 rounded-full" />
       </div>
 
-      <div className="max-w-md mx-auto space-y-6">
+      <div className="max-w-md md:max-w-4xl mx-auto space-y-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:space-y-0 md:gap-6">
         {weddingData.dressCodes.map((item, index) => (
           <motion.div
             key={item.title}
@@ -42,14 +42,14 @@ export default function DressCode() {
               <span className="font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-bold block mb-1">
                 Event Attire
               </span>
-              <h3 className="font-serif text-xl font-bold text-[#5E0B2B]">
+              <h3 className="font-serif text-xl md:text-2xl font-bold text-[#5E0B2B]">
                 {item.title}
               </h3>
             </div>
 
             {/* Color Palette Display */}
             <div className="flex flex-col items-center mb-4">
-              <span className="font-script text-2xl text-[#B83B5E] mb-2 font-bold">
+              <span className="font-script text-2xl md:text-3xl text-[#B83B5E] mb-2 font-bold">
                 {item.theme}
               </span>
               <div className="flex gap-2">
@@ -57,7 +57,7 @@ export default function DressCode() {
                   <span 
                     key={cIdx} 
                     style={{ backgroundColor: color }} 
-                    className="w-5 h-5 rounded-full border border-black/20 shadow-inner"
+                    className="w-5 h-5 md:w-6 md:h-6 rounded-full border border-black/20 shadow-inner"
                   />
                 ))}
               </div>
@@ -67,10 +67,10 @@ export default function DressCode() {
             </div>
 
             {/* Recommendations Grid */}
-            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#E6A4B4]/30 text-xs font-sans">
+            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#E6A4B4]/30 text-xs md:text-sm font-sans">
               {/* Women */}
-              <div className="bg-[#FFF0F5]/70 p-3 rounded-xl border border-[#E6A4B4]/30">
-                <span className="font-serif text-[11px] uppercase tracking-wider text-[#5E0B2B] font-bold flex items-center gap-1 mb-1">
+              <div className="bg-[#FFF0F5]/70 p-3 md:p-4 rounded-xl border border-[#E6A4B4]/30">
+                <span className="font-serif text-[11px] md:text-xs uppercase tracking-wider text-[#5E0B2B] font-bold flex items-center gap-1 mb-1">
                   <User className="w-3 h-3 text-[#B83B5E]" /> Women
                 </span>
                 <p className="text-[#2D2D2D]/80 leading-snug">
@@ -79,8 +79,8 @@ export default function DressCode() {
               </div>
 
               {/* Men */}
-              <div className="bg-[#FFF0F5]/70 p-3 rounded-xl border border-[#E6A4B4]/30">
-                <span className="font-serif text-[11px] uppercase tracking-wider text-[#5E0B2B] font-bold flex items-center gap-1 mb-1">
+              <div className="bg-[#FFF0F5]/70 p-3 md:p-4 rounded-xl border border-[#E6A4B4]/30">
+                <span className="font-serif text-[11px] md:text-xs uppercase tracking-wider text-[#5E0B2B] font-bold flex items-center gap-1 mb-1">
                   <Shirt className="w-3 h-3 text-[#B83B5E]" /> Men
                 </span>
                 <p className="text-[#2D2D2D]/80 leading-snug">
