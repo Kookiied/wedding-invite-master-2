@@ -9,8 +9,10 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
+  const [hasBeenClosed, setHasBeenClosed] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
+  const constraintsRef = useRef(null); // Ref for drag boundaries
 
   // Notifications
   const [notification, setNotification] = useState(null);
@@ -96,14 +98,20 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
     }
     setIsCameraActive(false);
     setIsOpen(false);
+    setHasBeenClosed(true); // Remember that user manually closed it
     if (onMagicModeReady) onMagicModeReady(false);
   };
 
   return (
     <>
+      {/* Invisible screen boundary for dragging constraints */}
+      <div ref={constraintsRef} className="fixed inset-4 z-0 pointer-events-none" />
+
       {/* Draggable Camera Container */}
       <motion.div
         drag
+        dragConstraints={constraintsRef}
+        dragElastic={0.1}
         dragMomentum={false}
         className={`fixed bottom-[100px] sm:bottom-6 right-6 z-[60] w-28 h-36 rounded-2xl shadow-2xl border-2 border-[#E6A4B4] overflow-hidden cursor-grab active:cursor-grabbing bg-black transition-opacity duration-300 ${
           isCameraActive ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -130,8 +138,8 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
         )}
       </motion.div>
 
-      {/* Floating Action Button for Magic Mode (if not active & not handled externally) */}
-      {!isCameraActive && !externalTrigger && (
+      {/* Floating Action Button for Magic Mode */}
+      {!isCameraActive && (!externalTrigger || hasBeenClosed) && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
