@@ -101,26 +101,34 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
 
   return (
     <>
-      {/* Hidden Persistent Video Element ALWAYS in DOM */}
-      <video 
-        ref={videoRef}
-        autoPlay
-        playsInline
-        muted
-        className={`fixed bottom-6 right-6 z-[60] w-28 h-36 bg-black rounded-2xl object-cover transform -scale-x-100 border-2 border-[#E6A4B4] shadow-2xl transition-opacity duration-300 ${
+      {/* Draggable Camera Container */}
+      <motion.div
+        drag
+        dragMomentum={false}
+        className={`fixed bottom-[100px] sm:bottom-6 right-6 z-[60] w-28 h-36 rounded-2xl shadow-2xl border-2 border-[#E6A4B4] overflow-hidden cursor-grab active:cursor-grabbing bg-black transition-opacity duration-300 ${
           isCameraActive ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
-      />
+      >
+        <video 
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="absolute inset-0 w-full h-full object-cover transform -scale-x-100 pointer-events-none"
+        />
 
-      {isCameraActive && (
-        <button 
-          onClick={stopMagicMode}
-          title="Turn off camera"
-          className="fixed bottom-36 right-6 z-[65] bg-black/70 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg border border-white/20 transition-all"
-        >
-          <CameraOff className="w-3.5 h-3.5" />
-        </button>
-      )}
+        {/* Turn Off Camera Button inside the draggable window */}
+        {isCameraActive && (
+          <button 
+            onClick={stopMagicMode}
+            title="Turn off camera"
+            className="absolute top-2 right-2 z-[65] bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-full backdrop-blur-sm border border-white/20 transition-all"
+            onPointerDown={(e) => e.stopPropagation()} // Prevent dragging when clicking the button
+          >
+            <CameraOff className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </motion.div>
 
       {/* Floating Action Button for Magic Mode (if not active & not handled externally) */}
       {!isCameraActive && !externalTrigger && (
