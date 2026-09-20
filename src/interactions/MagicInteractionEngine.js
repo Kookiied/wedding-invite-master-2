@@ -155,17 +155,23 @@ class MagicInteractionEngine {
 
       // 2. CANDLE BLOW DETECTION (Open-mouth airflow shape: funnel > 0.25 or pucker with open jaw)
       const isBlowingAir = (funnelScore > 0.25) || (puckerScore > 0.3 && jawOpenScore > 0.08);
-      if (isBlowingAir && timeMs > this.cooldowns.BLOW) {
-        this.dispatchEvent('MAGIC_BLOW', { confidence: Math.max(funnelScore, puckerScore) });
-        this.cooldowns.BLOW = timeMs + COOLDOWN_MS;
-        return; // ABSOLUTELY DO NOT trigger kiss hearts when blowing air!
+      
+      if (isBlowingAir) {
+        // If they are blowing air, NEVER evaluate it as a kiss, even if blow is on cooldown.
+        if (timeMs > this.cooldowns.BLOW) {
+          this.dispatchEvent('MAGIC_BLOW', { confidence: Math.max(funnelScore, puckerScore) });
+          this.cooldowns.BLOW = timeMs + COOLDOWN_MS;
+        }
+        return; // Stop processing further facial expressions for this frame
       }
 
       // 3. KISS DETECTION (Very tight lip compression: pucker > 0.85 & jaw closed & no funneling & no smiling)
       const isKissing = (puckerScore > 0.85 && jawOpenScore < 0.05 && funnelScore < 0.15 && smileScore < 0.15);
-      if (isKissing && timeMs > this.cooldowns.KISS) {
-        this.dispatchEvent('MAGIC_BLOW_KISS', { confidence: puckerScore });
-        this.cooldowns.KISS = timeMs + COOLDOWN_MS;
+      if (isKissing) {
+        if (timeMs > this.cooldowns.KISS) {
+          this.dispatchEvent('MAGIC_BLOW_KISS', { confidence: puckerScore });
+          this.cooldowns.KISS = timeMs + COOLDOWN_MS;
+        }
       }
     }
   }
