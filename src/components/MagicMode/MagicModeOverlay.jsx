@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, Camera, CameraOff } from 'lucide-react';
+import { Sparkles, X, Camera, CameraOff, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { magicInteractionEngine } from '../../interactions/MagicInteractionEngine';
 
 const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false }, ref) => {
@@ -10,9 +10,10 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
   const [error, setError] = useState(null);
   
   const [hasBeenClosed, setHasBeenClosed] = useState(false);
+  const [stashedState, setStashedState] = useState(null); // 'left', 'right', or null
+
   const videoRef = useRef(null);
   const streamRef = useRef(null);
-  const constraintsRef = useRef(null); // Ref for drag boundaries
 
   // Notifications
   const [notification, setNotification] = useState(null);
@@ -21,6 +22,18 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
     startMagicMode: () => startMagicMode(),
     stopMagicMode: () => stopMagicMode()
   }));
+
+  const handleDragEnd = (event, info) => {
+    // If dragged near the edges, stash it!
+    const threshold = 50;
+    if (info.point.x < threshold) {
+      setStashedState('left');
+      stopMagicMode(); // Stashes and pauses camera automatically
+    } else if (info.point.x > window.innerWidth - threshold) {
+      setStashedState('right');
+      stopMagicMode();
+    }
+  };
 
   useEffect(() => {
     // Listen for custom magic events with specific matching symbols
@@ -104,17 +117,14 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
 
   return (
     <>
-      {/* Invisible screen boundary for dragging constraints */}
-      <div ref={constraintsRef} className="fixed inset-4 z-0 pointer-events-none" />
-
       {/* Draggable Camera Container */}
       <motion.div
         drag
-        dragConstraints={constraintsRef}
+        onDragEnd={handleDragEnd}
         dragElastic={0.1}
         dragMomentum={false}
         className={`fixed bottom-[100px] sm:bottom-6 right-6 z-[60] w-28 h-36 rounded-2xl shadow-2xl border-2 border-[#E6A4B4] overflow-hidden cursor-grab active:cursor-grabbing bg-black transition-opacity duration-300 ${
-          isCameraActive ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          isCameraActive && !stashedState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
         <video 
@@ -138,15 +148,32 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
         )}
       </motion.div>
 
-      {/* Floating Action Button for Magic Mode */}
-      {!isCameraActive && (!externalTrigger || hasBeenClosed) && (
+      {/* FaceTime-style Stash Tab */}
+      {stashedState && !isCameraActive && (
+        <motion.div 
+          initial={{ opacity: 0, x: stashedState === 'left' ? -20 : 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className={`fixed top-1/2 -translate-y-1/2 z-[65] bg-[#3D061A]/95 border border-[#E6A4B4]/50 shadow-[0_0_15px_rgba(230,164,180,0.4)] backdrop-blur-md p-1.5 flex items-center justify-center cursor-pointer hover:bg-[#5E0B2B] transition-colors h-16 w-8 ${
+            stashedState === 'left' ? 'left-0 rounded-r-xl border-l-0' : 'right-0 rounded-l-xl border-r-0'
+          }`}
+          onClick={async () => {
+            setStashedState(null);
+            await startMagicMode();
+          }}
+        >
+          {stashedState === 'left' ? <ChevronRight className="w-5 h-5 text-[#F8C8DC]" /> : <ChevronLeft className="w-5 h-5 text-[#F8C8DC]" />}
+        </motion.div>
+      )}
+
+      {/* Floating Action Button for Magic Mode (Golden Star placed above Volume button) */}
+      {!isCameraActive && (!externalTrigger || hasBeenClosed) && !stashedState && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-[60] bg-gradient-to-r from-[#5E0B2B] to-[#3D061A] text-[#F8C8DC] p-3 rounded-full shadow-[0_0_20px_rgba(230,164,180,0.5)] border border-[#E6A4B4]/50 flex items-center justify-center hover:scale-105 transition-transform"
+          className="fixed bottom-24 right-5 z-[60] bg-gradient-to-r from-[#5E0B2B] to-[#3D061A] text-[#FFD700] p-3 rounded-full shadow-[0_0_20px_rgba(255,215,0,0.4)] border border-[#FFD700]/50 flex items-center justify-center hover:scale-105 transition-transform"
         >
-          <Sparkles className="w-6 h-6" />
+          <Star className="w-6 h-6 fill-current text-[#FFD700]" />
         </motion.button>
       )}
 
