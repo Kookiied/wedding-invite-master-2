@@ -98,24 +98,6 @@ class MagicInteractionEngine {
         raw: landmarks
       });
 
-      const distance = Math.sqrt(
-        Math.pow(indexTip.x - thumbTip.x, 2) +
-        Math.pow(indexTip.y - thumbTip.y, 2)
-      );
-
-      if (this.lastThumbTip && this.lastIndexTip && timeMs > this.cooldowns.SNAP) {
-        const prevDistance = Math.sqrt(
-          Math.pow(this.lastIndexTip.x - this.lastThumbTip.x, 2) +
-          Math.pow(this.lastIndexTip.y - this.lastThumbTip.y, 2)
-        );
-        const velocity = (prevDistance - distance);
-        
-        if (velocity > SNAP_VELOCITY_THRESHOLD && distance < 0.1) {
-          this.dispatchEvent('MAGIC_SNAP');
-          this.cooldowns.SNAP = timeMs + COOLDOWN_MS;
-        }
-      }
-
       this.lastThumbTip = thumbTip;
       this.lastIndexTip = indexTip;
 
