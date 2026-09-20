@@ -5,7 +5,7 @@ import { Shirt, User } from 'lucide-react';
 
 export default function DressCode() {
   return (
-    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] py-16 px-4">
+    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-16 pb-32 md:pb-40 px-4">
       
       {/* Section Header */}
       <div className="text-center max-w-md md:max-w-xl lg:max-w-3xl mx-auto mb-12 md:mb-16">
@@ -21,7 +21,7 @@ export default function DressCode() {
         <div className="w-16 h-0.5 bg-[#E6A4B4] mx-auto mt-3 rounded-full" />
       </div>
 
-      <div className="max-w-md md:max-w-4xl mx-auto space-y-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:space-y-0 md:gap-6">
+      <div className="max-w-md md:max-w-xl lg:max-w-2xl mx-auto space-y-6 md:space-y-8">
         {weddingData.dressCodes.map((item, index) => (
           <motion.div
             key={item.title}
