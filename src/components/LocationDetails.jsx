@@ -5,7 +5,7 @@ import { MapPin, ExternalLink, Phone, MessageSquare } from 'lucide-react';
 
 export default function LocationDetails() {
   return (
-    <section className="relative w-full bg-[#5E0B2B] text-[#FFF0F5] pt-24 sm:pt-28 pb-16 px-4">
+    <section className="relative w-full bg-[#5E0B2B] text-[#FFF0F5] pt-40 sm:pt-48 md:pt-56 pb-48 sm:pb-56 md:pb-64 lg:pb-72 px-4">
       
       {/* Seamless Overlapping Floral Divider */}
       <div className="absolute top-0 left-0 right-0 -translate-y-1/2 z-20 pointer-events-none flex justify-center">
@@ -24,9 +24,9 @@ export default function LocationDetails() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-8 mt-4 sm:mt-6"
+          className="mb-8 mt-2 sm:mt-4"
         >
-          <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#F8C8DC] font-semibold block -mt-2 sm:-mt-3 mb-6 sm:mb-8">
+          <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#F8C8DC] font-semibold block mb-6 sm:mb-8">
             The Destination
           </span>
           <h2 className="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#F8C8DC]">
