@@ -13,6 +13,8 @@ export default function CandleReveal() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
+        // Turn OFF kiss detection entirely while the candle section is on screen
+        window.dispatchEvent(new CustomEvent('SET_KISS_DETECTION', { detail: !entry.isIntersecting }));
       },
       { threshold: 0.3 }
     );
@@ -21,7 +23,11 @@ export default function CandleReveal() {
       observer.observe(sectionRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      // Ensure kisses are re-enabled if the component unmounts
+      window.dispatchEvent(new CustomEvent('SET_KISS_DETECTION', { detail: true }));
+    };
   }, []);
 
   // Extinguish candle ONLY when section is visible and blow event fires

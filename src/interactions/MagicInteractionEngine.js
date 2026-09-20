@@ -25,6 +25,11 @@ class MagicInteractionEngine {
 
     this.lastThumbTip = null;
     this.lastIndexTip = null;
+
+    this.kissDetectionEnabled = true;
+    window.addEventListener('SET_KISS_DETECTION', (e) => {
+      this.kissDetectionEnabled = e.detail;
+    });
   }
 
   async start(videoElement, canvasElement) {
@@ -166,11 +171,13 @@ class MagicInteractionEngine {
       }
 
       // 3. KISS DETECTION (Very tight lip compression: pucker > 0.85 & jaw closed & no funneling & no smiling)
-      const isKissing = (puckerScore > 0.85 && jawOpenScore < 0.05 && funnelScore < 0.15 && smileScore < 0.15);
-      if (isKissing) {
-        if (timeMs > this.cooldowns.KISS) {
-          this.dispatchEvent('MAGIC_BLOW_KISS', { confidence: puckerScore });
-          this.cooldowns.KISS = timeMs + COOLDOWN_MS;
+      if (this.kissDetectionEnabled) {
+        const isKissing = (puckerScore > 0.85 && jawOpenScore < 0.05 && funnelScore < 0.15 && smileScore < 0.15);
+        if (isKissing) {
+          if (timeMs > this.cooldowns.KISS) {
+            this.dispatchEvent('MAGIC_BLOW_KISS', { confidence: puckerScore });
+            this.cooldowns.KISS = timeMs + COOLDOWN_MS;
+          }
         }
       }
     }
