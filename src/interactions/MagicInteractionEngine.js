@@ -161,8 +161,8 @@ class MagicInteractionEngine {
         return; // ABSOLUTELY DO NOT trigger kiss hearts when blowing air!
       }
 
-      // 3. KISS DETECTION (Tight lip compression with closed jaw: pucker > 0.55 & jaw < 0.08 & funnel < 0.25)
-      const isKissing = (puckerScore > 0.55 && jawOpenScore < 0.08 && funnelScore < 0.25);
+      // 3. KISS DETECTION (Very tight lip compression: pucker > 0.85 & jaw closed & no funneling & no smiling)
+      const isKissing = (puckerScore > 0.85 && jawOpenScore < 0.05 && funnelScore < 0.15 && smileScore < 0.15);
       if (isKissing && timeMs > this.cooldowns.KISS) {
         this.dispatchEvent('MAGIC_BLOW_KISS', { confidence: puckerScore });
         this.cooldowns.KISS = timeMs + COOLDOWN_MS;
