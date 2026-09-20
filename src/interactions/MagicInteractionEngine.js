@@ -17,7 +17,7 @@ class MagicInteractionEngine {
     // Cooldown trackers
     this.cooldowns = {
       SMILE: 0,
-      KISS: 0,
+      HEART: 0,
       SNAP: 0,
       OPEN_PALM: 0,
       BLOW: 0,
@@ -25,11 +25,6 @@ class MagicInteractionEngine {
 
     this.lastThumbTip = null;
     this.lastIndexTip = null;
-
-    this.kissDetectionEnabled = true;
-    window.addEventListener('SET_KISS_DETECTION', (e) => {
-      this.kissDetectionEnabled = e.detail;
-    });
   }
 
   async start(videoElement, canvasElement) {
@@ -123,6 +118,64 @@ class MagicInteractionEngine {
 
       this.lastThumbTip = thumbTip;
       this.lastIndexTip = indexTip;
+
+      // HAND HEART GESTURE DETECTION (2-Hand Heart or 1-Hand Finger Heart)
+      if (timeMs > this.cooldowns.HEART) {
+        let heartDetected = false;
+
+        // 1. TWO-HAND HEART GESTURE (Thumbs touching at bottom point, index tips touching at top arch)
+        if (results.landmarks.length >= 2) {
+          const hand1 = results.landmarks[0];
+          const hand2 = results.landmarks[1];
+
+          const index1 = hand1[8];
+          const thumb1 = hand1[4];
+          const index2 = hand2[8];
+          const thumb2 = hand2[4];
+
+          const indexDist = Math.hypot(index1.x - index2.x, index1.y - index2.y);
+          const thumbDist = Math.hypot(thumb1.x - thumb2.x, thumb1.y - thumb2.y);
+
+          const hand1Span = Math.hypot(index1.x - thumb1.x, index1.y - thumb1.y);
+          const hand2Span = Math.hypot(index2.x - thumb2.x, index2.y - thumb2.y);
+
+          const avgIndexY = (index1.y + index2.y) / 2;
+          const avgThumbY = (thumb1.y + thumb2.y) / 2;
+
+          // Index tips close (<0.16), thumb tips close (<0.16), hands forming open span (>0.03)
+          if (indexDist < 0.16 && thumbDist < 0.16 && hand1Span > 0.03 && hand2Span > 0.03 && avgThumbY > avgIndexY - 0.10) {
+            heartDetected = true;
+          }
+        }
+
+        // 2. SINGLE-HAND FINGER HEART (Thumb & Index crossed/pinched, other 3 fingers curled)
+        if (!heartDetected && results.landmarks.length >= 1) {
+          for (const hand of results.landmarks) {
+            const thumbTip = hand[4];
+            const indexTip = hand[8];
+            const middleTip = hand[12];
+            const ringTip = hand[16];
+            const pinkyTip = hand[20];
+            const wrist = hand[0];
+
+            const thumbIndexDist = Math.hypot(thumbTip.x - indexTip.x, thumbTip.y - indexTip.y);
+            const middleWristDist = Math.hypot(middleTip.x - wrist.x, middleTip.y - wrist.y);
+            const ringWristDist = Math.hypot(ringTip.x - wrist.x, ringTip.y - wrist.y);
+            const pinkyWristDist = Math.hypot(pinkyTip.x - wrist.x, pinkyTip.y - wrist.y);
+            const indexWristDist = Math.hypot(indexTip.x - wrist.x, indexTip.y - wrist.y);
+
+            if (thumbIndexDist < 0.05 && middleWristDist < indexWristDist && ringWristDist < indexWristDist && pinkyWristDist < indexWristDist) {
+              heartDetected = true;
+              break;
+            }
+          }
+        }
+
+        if (heartDetected) {
+          this.dispatchEvent('MAGIC_HEART');
+          this.cooldowns.HEART = timeMs + COOLDOWN_MS;
+        }
+      }
     } else {
       this.dispatchEvent('MAGIC_HAND_LOST');
     }
@@ -158,38 +211,33 @@ class MagicInteractionEngine {
         this.cooldowns.SMILE = timeMs + COOLDOWN_MS;
       }
 
-      // 2. CANDLE BLOW DETECTION (Open-mouth airflow shape: funnel > 0.25 or pucker with open jaw)
+      // 2. CANDLE BLOW DETECTION (Open-mouth airflow shape)
       const isBlowingAir = (funnelScore > 0.25) || (puckerScore > 0.3 && jawOpenScore > 0.08);
       
-      if (isBlowingAir) {
-        // If they are blowing air, NEVER evaluate it as a kiss, even if blow is on cooldown.
-        if (timeMs > this.cooldowns.BLOW) {
-          this.dispatchEvent('MAGIC_BLOW', { confidence: Math.max(funnelScore, puckerScore) });
-          this.cooldowns.BLOW = timeMs + COOLDOWN_MS;
-        }
-        return; // Stop processing further facial expressions for this frame
-      }
-
-      // 3. KISS DETECTION (Very tight lip compression: pucker > 0.85 & jaw closed & no funneling & no smiling)
-      if (this.kissDetectionEnabled) {
-        const isKissing = (puckerScore > 0.85 && jawOpenScore < 0.05 && funnelScore < 0.15 && smileScore < 0.15);
-        if (isKissing) {
-          if (timeMs > this.cooldowns.KISS) {
-            this.dispatchEvent('MAGIC_BLOW_KISS', { confidence: puckerScore });
-            this.cooldowns.KISS = timeMs + COOLDOWN_MS;
-          }
-        }
+      if (isBlowingAir && timeMs > this.cooldowns.BLOW) {
+        this.dispatchEvent('MAGIC_BLOW', { confidence: Math.max(funnelScore, puckerScore) });
+        this.cooldowns.BLOW = timeMs + COOLDOWN_MS;
       }
     }
   }
 
   handleGestureResults(results, timeMs) {
     if (results.gestures && results.gestures.length > 0) {
-      const gesture = results.gestures[0][0];
-      if (gesture.categoryName === 'Open_Palm' && gesture.score > CONFIDENCE_THRESHOLD) {
-        if (timeMs > this.cooldowns.OPEN_PALM) {
-          this.dispatchEvent('MAGIC_OPEN_PALM', { confidence: gesture.score });
-          this.cooldowns.OPEN_PALM = timeMs + COOLDOWN_MS;
+      for (const gList of results.gestures) {
+        if (gList && gList.length > 0) {
+          const gesture = gList[0];
+          if (gesture.categoryName === 'Open_Palm' && gesture.score > CONFIDENCE_THRESHOLD) {
+            if (timeMs > this.cooldowns.OPEN_PALM) {
+              this.dispatchEvent('MAGIC_OPEN_PALM', { confidence: gesture.score });
+              this.cooldowns.OPEN_PALM = timeMs + COOLDOWN_MS;
+            }
+          }
+          if ((gesture.categoryName === 'ILoveYou' || gesture.categoryName === 'Heart') && gesture.score > CONFIDENCE_THRESHOLD) {
+            if (timeMs > this.cooldowns.HEART) {
+              this.dispatchEvent('MAGIC_HEART', { confidence: gesture.score });
+              this.cooldowns.HEART = timeMs + COOLDOWN_MS;
+            }
+          }
         }
       }
     }

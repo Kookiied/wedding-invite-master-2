@@ -38,20 +38,20 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
   useEffect(() => {
     // Listen for custom magic events with specific matching symbols
     const handleSmile = () => showFeedback("🌸", "Smile Detected");
-    const handleKiss = () => showFeedback("💕", "Kiss Detected");
+    const handleHeart = () => showFeedback("💕", "Hand Heart Detected");
     const handleSnap = () => showFeedback("⚡", "Snap Detected");
     const handlePalm = () => showFeedback("✋", "Open Palm Detected");
     const handleBlow = () => showFeedback("🌬️", "Blow Detected");
 
     window.addEventListener('MAGIC_SMILE', handleSmile);
-    window.addEventListener('MAGIC_BLOW_KISS', handleKiss);
+    window.addEventListener('MAGIC_HEART', handleHeart);
     window.addEventListener('MAGIC_SNAP', handleSnap);
     window.addEventListener('MAGIC_OPEN_PALM', handlePalm);
     window.addEventListener('MAGIC_BLOW', handleBlow);
 
     return () => {
       window.removeEventListener('MAGIC_SMILE', handleSmile);
-      window.removeEventListener('MAGIC_BLOW_KISS', handleKiss);
+      window.removeEventListener('MAGIC_HEART', handleHeart);
       window.removeEventListener('MAGIC_SNAP', handleSnap);
       window.removeEventListener('MAGIC_OPEN_PALM', handlePalm);
       window.removeEventListener('MAGIC_BLOW', handleBlow);

@@ -57,7 +57,7 @@ class MediaPipeManager {
               delegate
             },
             runningMode: "VIDEO",
-            numHands: 1
+            numHands: 2
           })
         ]);
       };

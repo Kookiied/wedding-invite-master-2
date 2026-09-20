@@ -10,11 +10,11 @@ export default function ParticleCanvas() {
     }
     
     // Global event listeners for magic interactions
-    const handleKiss = () => {
+    const handleHeart = () => {
       // Spawn FaceTime-style red hearts floating up from center
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-      particleSystem.emit(centerX, centerY, 25, 'HEART');
+      particleSystem.emit(centerX, centerY, 30, 'HEART');
     };
 
     const handleSnap = (e) => {
@@ -23,12 +23,12 @@ export default function ParticleCanvas() {
       particleSystem.emit(x, y, 40, 'SPARKLE');
     };
 
-    window.addEventListener('MAGIC_BLOW_KISS', handleKiss);
+    window.addEventListener('MAGIC_HEART', handleHeart);
     window.addEventListener('MAGIC_SNAP', handleSnap);
 
     return () => {
       particleSystem.unmount();
-      window.removeEventListener('MAGIC_BLOW_KISS', handleKiss);
+      window.removeEventListener('MAGIC_HEART', handleHeart);
       window.removeEventListener('MAGIC_SNAP', handleSnap);
     };
   }, []);
