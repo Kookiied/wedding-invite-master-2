@@ -39,8 +39,14 @@ export default function EventTimeline() {
       {/* Falling Flora and Butterfly Background Animation */}
       <FallingFlora />
       
+      {/* Subtle Islamic Girih Geometric Tessellation Texture */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.08] sm:opacity-[0.10] bg-girih-pattern transition-opacity duration-500 z-0"
+        aria-hidden="true"
+      />
+      
       {/* Section Header */}
-      <div className="text-center max-w-md mx-auto mb-16">
+      <div className="text-center max-w-md mx-auto mb-16 relative z-10">
         <span 
           className="font-sans text-xs uppercase tracking-[0.3em] font-semibold block mb-2 transition-colors duration-500"
           style={{ color: theme.colors.textLight }}
@@ -59,7 +65,7 @@ export default function EventTimeline() {
         />
       </div>
 
-      <div ref={containerRef} className="max-w-lg md:max-w-3xl lg:max-w-4xl mx-auto relative px-1 md:px-4">
+      <div ref={containerRef} className="max-w-lg md:max-w-3xl lg:max-w-4xl mx-auto relative px-1 md:px-4 z-10">
         
         {/* Central Vertical Line */}
         <div 

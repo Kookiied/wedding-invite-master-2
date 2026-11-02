@@ -25,7 +25,13 @@ export default function LocationDetails() {
         />
       </div>
 
-      <div className="max-w-md md:max-w-2xl lg:max-w-3xl mx-auto text-center">
+      {/* Subtle Islamic Girih Geometric Tessellation Texture */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.08] sm:opacity-[0.10] bg-girih-pattern transition-opacity duration-500 z-0"
+        aria-hidden="true"
+      />
+
+      <div className="max-w-md md:max-w-2xl lg:max-w-3xl mx-auto text-center relative z-10">
 
         {/* Section Header */}
         <motion.div 
