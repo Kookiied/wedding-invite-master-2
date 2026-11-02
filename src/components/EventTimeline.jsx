@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import { Clock, MapPin } from 'lucide-react';
@@ -7,6 +7,8 @@ import { useTheme } from '../context/ThemeContext';
 
 export default function EventTimeline() {
   const { theme } = useTheme();
+  const [hoveredEventId, setHoveredEventId] = useState(null);
+  const [activeEventId, setActiveEventId] = useState(null);
   const containerRef = useRef(null);
 
   // Track scroll position as user scrolls through the schedule section
@@ -127,6 +129,7 @@ export default function EventTimeline() {
             <div className="space-y-14">
               {dayGroup.events.map((event, eventIdx) => {
                 const isEven = eventIdx % 2 === 0;
+                const isGlowing = hoveredEventId === event.id || activeEventId === event.id;
 
                 return (
                   <motion.div 
@@ -138,12 +141,12 @@ export default function EventTimeline() {
                     className="relative flex items-center"
                   >
                     {/* Delicate Diamond Marker */}
-                    <div className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
+                    <div className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center pointer-events-none">
                       <div 
-                        className="w-2 h-2 sm:w-2.5 sm:h-2.5 rotate-45 transition-colors duration-500"
+                        className="w-2 h-2 sm:w-2.5 sm:h-2.5 rotate-45 transition-all duration-500"
                         style={{
                           backgroundColor: theme.colors.border,
-                          boxShadow: `0 0 6px ${theme.colors.glow}`
+                          boxShadow: isGlowing ? `0 0 8px ${theme.colors.glowShadow}` : `0 0 4px ${theme.colors.glowShadow}`
                         }}
                       />
                     </div>
@@ -152,14 +155,21 @@ export default function EventTimeline() {
                     <div className={`w-1/2 ${isEven ? 'pr-4 sm:pr-8 text-left sm:text-right' : 'ml-auto pl-4 sm:pl-8 text-left'}`}>
 
                       <div 
-                        className="border rounded-2xl p-4 sm:p-7 shadow-2xl transition-all duration-500 group text-left"
+                        onMouseEnter={() => setHoveredEventId(event.id)}
+                        onMouseLeave={() => setHoveredEventId(null)}
+                        onClick={() => setActiveEventId(activeEventId === event.id ? null : event.id)}
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={isGlowing}
+                        className="border rounded-2xl p-4 sm:p-7 shadow-2xl transition-all duration-500 ease-out text-left relative cursor-pointer select-none"
                         style={{
                           backgroundColor: `${theme.colors.darkRich}F2`,
-                          borderColor: theme.colors.borderLight,
-                          boxShadow: `0 8px 30px rgba(0,0,0,0.4)`
+                          borderColor: isGlowing ? theme.colors.border : theme.colors.borderLight,
+                          boxShadow: isGlowing 
+                            ? `0 0 16px ${theme.colors.glowShadow}, 0 8px 30px rgba(0,0,0,0.4)`
+                            : `0 8px 30px rgba(0,0,0,0.4)`
                         }}
                       >
-                        
                         {/* Event Number & Time */}
                         <div 
                           className={`flex items-center gap-1 mb-2 text-[11px] sm:text-sm md:text-base font-semibold ${isEven ? 'justify-start sm:justify-end' : 'justify-start'}`}

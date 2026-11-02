@@ -50,12 +50,6 @@ export default function DressCode() {
               boxShadow: `0 4px 20px ${theme.colors.glowShadow}`
             }}
           >
-            {/* Corner Decorative Borders */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2" style={{ borderColor: theme.colors.border }} />
-            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2" style={{ borderColor: theme.colors.border }} />
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2" style={{ borderColor: theme.colors.border }} />
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2" style={{ borderColor: theme.colors.border }} />
-
             {/* Event Title */}
             <div className="text-center mb-4">
               <span 
