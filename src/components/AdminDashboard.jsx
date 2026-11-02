@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Download, RefreshCw, X, Users, CheckCircle, XCircle, Utensils, FileText } from 'lucide-react';
 import { getAllRSVPs, exportRSVPsToCSV } from '../services/rsvpService';
+import { useTheme } from '../context/ThemeContext';
 
 export default function AdminDashboard({ isOpen, onClose }) {
+  const { theme } = useTheme();
   const [pin, setPin] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinError, setPinError] = useState(false);
@@ -114,19 +116,43 @@ export default function AdminDashboard({ isOpen, onClose }) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="relative w-full max-w-5xl bg-[#FFF0F5] border-2 border-[#E6A4B4] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
+          className="relative w-full max-w-5xl border-2 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] transition-all duration-500"
+          style={{
+            backgroundColor: theme.colors.lightBg,
+            borderColor: theme.colors.border,
+            boxShadow: `0 25px 60px -15px ${theme.colors.glowShadow}`
+          }}
         >
           {/* Header Bar */}
-          <div className="bg-gradient-to-r from-[#3D061A] via-[#5E0B2B] to-[#3D061A] p-4 sm:p-5 text-[#FFF0F5] border-b border-[#E6A4B4]/50 flex items-center justify-between">
+          <div 
+            className="p-4 sm:p-5 border-b flex items-center justify-between transition-colors duration-500"
+            style={{
+              background: `linear-gradient(to right, ${theme.colors.darkRich}, ${theme.colors.darkAccent}, ${theme.colors.darkRich})`,
+              borderColor: theme.colors.borderLight,
+              color: theme.colors.textLightMuted
+            }}
+          >
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-[#E6A4B4]/20 border border-[#E6A4B4]">
-                <Lock className="w-5 h-5 text-[#F8C8DC]" />
+              <div 
+                className="p-2 rounded-full border transition-colors duration-500"
+                style={{
+                  backgroundColor: `${theme.colors.lightAccent}26`,
+                  borderColor: theme.colors.borderLight
+                }}
+              >
+                <Lock className="w-5 h-5" style={{ color: theme.colors.textLight }} />
               </div>
               <div>
-                <h2 className="font-serif text-base sm:text-lg font-bold text-[#F8C8DC]">
+                <h2 
+                  className="font-serif text-base sm:text-lg font-bold transition-colors duration-500"
+                  style={{ color: theme.colors.textLight }}
+                >
                   RSVP Management Portal
                 </h2>
-                <p className="font-sans text-[9px] sm:text-[10px] text-[#FFF0F5]/80 uppercase tracking-widest">
+                <p 
+                  className="font-sans text-[9px] sm:text-[10px] uppercase tracking-widest opacity-80"
+                  style={{ color: theme.colors.textLightMuted }}
+                >
                   Vivek & Indira Wedding Database
                 </p>
               </div>
@@ -134,7 +160,8 @@ export default function AdminDashboard({ isOpen, onClose }) {
 
             <button 
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-white/10 text-[#FFF0F5] transition-colors cursor-pointer"
+              className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+              style={{ color: theme.colors.textLightMuted }}
             >
               <X className="w-5 h-5" />
             </button>
@@ -143,11 +170,21 @@ export default function AdminDashboard({ isOpen, onClose }) {
           {/* Login Screen (If not authenticated) */}
           {!isAuthenticated ? (
             <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center my-auto">
-              <div className="w-16 h-16 rounded-full bg-[#5E0B2B] border-2 border-[#E6A4B4] flex items-center justify-center mb-4 text-[#F8C8DC] shadow-lg">
+              <div 
+                className="w-16 h-16 rounded-full border-2 flex items-center justify-center mb-4 shadow-lg transition-colors duration-500"
+                style={{
+                  backgroundColor: theme.colors.darkAccent,
+                  borderColor: theme.colors.border,
+                  color: theme.colors.textLight
+                }}
+              >
                 <Lock className="w-8 h-8" />
               </div>
               
-              <h3 className="font-serif text-2xl text-[#5E0B2B] font-bold mb-1">
+              <h3 
+                className="font-serif text-2xl font-bold mb-1 transition-colors duration-500"
+                style={{ color: theme.colors.textTitle }}
+              >
                 Admin Access
               </h3>
               <p className="font-sans text-xs text-[#2D2D2D]/70 mb-6 max-w-xs">
@@ -160,7 +197,8 @@ export default function AdminDashboard({ isOpen, onClose }) {
                   placeholder="Enter Password"
                   value={pin}
                   onChange={(e) => setPin(e.target.value)}
-                  className="w-full px-4 py-3 rounded-full border-2 border-[#E6A4B4] text-center font-bold tracking-widest text-lg focus:outline-none focus:ring-2 focus:ring-[#5E0B2B] bg-white text-[#2D2D2D]"
+                  className="w-full px-4 py-3 rounded-full border-2 text-center font-bold tracking-widest text-lg focus:outline-none transition-all bg-white text-[#2D2D2D]"
+                  style={{ borderColor: theme.colors.border }}
                 />
 
                 {pinError && (
@@ -171,7 +209,12 @@ export default function AdminDashboard({ isOpen, onClose }) {
 
                 <button 
                   type="submit"
-                  className="w-full py-3 rounded-full bg-gradient-to-r from-[#5E0B2B] via-[#700933] to-[#5E0B2B] text-[#FFF0F5] border border-[#E6A4B4]/60 font-serif font-bold text-xs uppercase tracking-widest shadow-lg cursor-pointer hover:brightness-110"
+                  className="w-full py-3 rounded-full border font-serif font-bold text-xs uppercase tracking-widest shadow-lg cursor-pointer hover:brightness-110 transition-all duration-300"
+                  style={{
+                    background: `linear-gradient(to right, ${theme.colors.darkAccent}, ${theme.colors.darkRich})`,
+                    color: theme.colors.textLight,
+                    borderColor: theme.colors.borderLight
+                  }}
                 >
                   Unlock Portal
                 </button>
@@ -182,11 +225,18 @@ export default function AdminDashboard({ isOpen, onClose }) {
             <div className="p-3 sm:p-6 overflow-y-auto flex-1 flex flex-col gap-4 sm:gap-6 touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
               
               {/* Action Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6A4B4]/30 pb-3">
+              <div 
+                className="flex flex-wrap items-center justify-between gap-3 border-b pb-3 transition-colors duration-500"
+                style={{ borderColor: `${theme.colors.border}4D` }}
+              >
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={fetchData}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-[#E6A4B4] text-xs font-bold text-[#5E0B2B] shadow-sm hover:bg-[#FFF0F5] cursor-pointer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white border text-xs font-bold shadow-sm hover:brightness-95 transition-all cursor-pointer"
+                    style={{
+                      borderColor: theme.colors.border,
+                      color: theme.colors.textTitle
+                    }}
                   >
                     <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                     Refresh Data
@@ -195,7 +245,12 @@ export default function AdminDashboard({ isOpen, onClose }) {
 
                 <button 
                   onClick={() => exportRSVPsToCSV(rsvps)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#5E0B2B] to-[#700933] text-[#F8C8DC] border border-[#E6A4B4] text-xs font-bold shadow-md hover:brightness-110 cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold shadow-md hover:brightness-110 transition-all cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, ${theme.colors.darkAccent}, ${theme.colors.darkRich})`,
+                    color: theme.colors.textLight,
+                    borderColor: theme.colors.borderLight
+                  }}
                 >
                   <Download className="w-4 h-4" />
                   Download Excel (.CSV)
@@ -206,12 +261,18 @@ export default function AdminDashboard({ isOpen, onClose }) {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
                 
                 {/* Total Attending */}
-                <div className="bg-white border border-[#E6A4B4]/40 rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col">
-                  <div className="flex items-center justify-between text-[#5E0B2B] mb-1">
+                <div 
+                  className="bg-white border rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col transition-colors duration-500"
+                  style={{ borderColor: `${theme.colors.border}66` }}
+                >
+                  <div className="flex items-center justify-between mb-1" style={{ color: theme.colors.textTitle }}>
                     <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#2D2D2D]/60">Total Attending</span>
-                    <Users className="w-4 h-4 text-[#B83B5E]" />
+                    <Users className="w-4 h-4" style={{ color: theme.colors.accentPop }} />
                   </div>
-                  <span className="font-serif text-2xl sm:text-3xl font-bold text-[#5E0B2B]">
+                  <span 
+                    className="font-serif text-2xl sm:text-3xl font-bold transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     {totalAttendingGuests}
                   </span>
                   <span className="text-[9px] sm:text-[10px] text-[#2D2D2D]/50 mt-0.5">Confirmed Guests</span>
@@ -256,9 +317,21 @@ export default function AdminDashboard({ isOpen, onClose }) {
               </div>
 
               {/* Responses Data Table Container */}
-              <div className="bg-white border border-[#E6A4B4]/40 rounded-2xl shadow-sm overflow-hidden flex-1 flex flex-col min-h-[300px]">
-                <div className="p-3 sm:p-4 border-b border-gray-100 flex items-center justify-between bg-pink-50/30">
-                  <h4 className="font-serif font-bold text-xs sm:text-sm text-[#5E0B2B]">
+              <div 
+                className="bg-white border rounded-2xl shadow-sm overflow-hidden flex-1 flex flex-col min-h-[300px] transition-colors duration-500"
+                style={{ borderColor: `${theme.colors.border}66` }}
+              >
+                <div 
+                  className="p-3 sm:p-4 border-b flex items-center justify-between transition-colors duration-500"
+                  style={{
+                    backgroundColor: theme.colors.lightSubtle,
+                    borderColor: `${theme.colors.border}33`
+                  }}
+                >
+                  <h4 
+                    className="font-serif font-bold text-xs sm:text-sm transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     All Submissions ({totalSubmissions})
                   </h4>
                 </div>
@@ -266,7 +339,13 @@ export default function AdminDashboard({ isOpen, onClose }) {
                 <div className="overflow-x-auto overflow-y-auto max-h-[55vh] sm:max-h-80 touch-pan-x touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
                   <table className="w-full text-left border-collapse text-xs min-w-[650px]">
                     <thead>
-                      <tr className="bg-[#5E0B2B] text-[#F8C8DC] uppercase text-[10px] tracking-wider sticky top-0 z-10 font-serif">
+                      <tr 
+                        className="uppercase text-[10px] tracking-wider sticky top-0 z-10 font-serif transition-colors duration-500"
+                        style={{
+                          backgroundColor: theme.colors.darkAccent,
+                          color: theme.colors.textLight
+                        }}
+                      >
                         <th className="p-3">Guest Name</th>
                         <th className="p-3">Status</th>
                         <th className="p-3 text-center">Count</th>
@@ -286,8 +365,11 @@ export default function AdminDashboard({ isOpen, onClose }) {
                         </tr>
                       ) : (
                         rsvps.map((record, index) => (
-                          <tr key={record.id || index} className="hover:bg-pink-50/50 transition-colors">
-                            <td className="p-3 font-semibold text-[#5E0B2B] whitespace-nowrap">
+                          <tr key={record.id || index} className="hover:bg-black/5 transition-colors">
+                            <td 
+                              className="p-3 font-semibold whitespace-nowrap transition-colors duration-500"
+                              style={{ color: theme.colors.textTitle }}
+                            >
                               {record.name}
                             </td>
 
@@ -324,15 +406,23 @@ export default function AdminDashboard({ isOpen, onClose }) {
                               {record.idFileData ? (
                                 <button 
                                   onClick={(e) => handleDownloadID(e, record)}
-                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#5E0B2B] text-[#F8C8DC] border border-[#E6A4B4] text-[10px] font-bold shadow-xs hover:bg-[#700933] transition-colors cursor-pointer"
+                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[10px] font-bold shadow-xs hover:brightness-110 transition-all cursor-pointer"
+                                  style={{
+                                    backgroundColor: theme.colors.darkAccent,
+                                    color: theme.colors.textLight,
+                                    borderColor: theme.colors.border
+                                  }}
                                   title="Click to view or download ID proof"
                                 >
-                                  <FileText className="w-3 h-3 text-[#F8C8DC]" />
+                                  <FileText className="w-3 h-3" style={{ color: theme.colors.textLight }} />
                                   <span className="max-w-[85px] truncate">{record.idFileName || 'View ID'}</span>
-                                  <Download className="w-2.5 h-2.5 text-[#F8C8DC]" />
+                                  <Download className="w-2.5 h-2.5" style={{ color: theme.colors.textLight }} />
                                 </button>
                               ) : record.idFileName ? (
-                                <span className="text-[10px] text-[#5E0B2B] font-semibold">
+                                <span 
+                                  className="text-[10px] font-semibold transition-colors duration-500"
+                                  style={{ color: theme.colors.textTitle }}
+                                >
                                   {record.idFileName}
                                 </span>
                               ) : (
