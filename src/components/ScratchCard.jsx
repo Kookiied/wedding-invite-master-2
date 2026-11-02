@@ -173,14 +173,18 @@ function ScratchHeart({ hiddenText, label, onReveal }) {
   );
 }
 
+// Feature Flag: Enable Multicolor Confetti on Scratch Reveals (Default: false)
+const ENABLE_MULTICOLOR_CONFETTI = false;
+
 export default function ScratchCard({ onAllRevealed }) {
   const { themeId } = useTheme();
   const [revealedCount, setRevealedCount] = useState(0);
 
   const getConfettiColors = () => {
-    return themeId === 'rani'
-      ? ['#FFD6E5', '#F596AA', '#5E0B2B', '#E86B8A', '#FFFFFF']
-      : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+    if (ENABLE_MULTICOLOR_CONFETTI && themeId !== 'rani') {
+      return ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+    }
+    return ['#FFD6E5', '#F596AA', '#5E0B2B', '#E86B8A', '#FFFFFF'];
   };
 
   const handleHeartReveal = () => {

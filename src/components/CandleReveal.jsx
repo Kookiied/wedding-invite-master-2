@@ -4,6 +4,9 @@ import confetti from 'canvas-confetti';
 import { Wind, Heart, Sparkles } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
+// Feature Flag: Enable Multicolor Confetti on Candle Blow (Default: false)
+const ENABLE_MULTICOLOR_CONFETTI = false;
+
 export default function CandleReveal() {
   const { theme, themeId } = useTheme();
   const [isLit, setIsLit] = useState(true);
@@ -33,9 +36,9 @@ export default function CandleReveal() {
     const handleBlow = () => {
       if (isLit && isInView) {
         setIsLit(false);
-        const confettiColors = themeId === 'rani'
-          ? [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF']
-          : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+        const confettiColors = (ENABLE_MULTICOLOR_CONFETTI && themeId !== 'rani')
+          ? ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF']
+          : [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF'];
 
         confetti({
           particleCount: 150,
@@ -52,9 +55,9 @@ export default function CandleReveal() {
 
   const handleManualBlow = () => {
     setIsLit(false);
-    const confettiColors = themeId === 'rani'
-      ? [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF']
-      : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+    const confettiColors = (ENABLE_MULTICOLOR_CONFETTI && themeId !== 'rani')
+      ? ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF']
+      : [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF'];
 
     confetti({
       particleCount: 150,

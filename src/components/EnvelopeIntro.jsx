@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../context/ThemeContext';
 
+// Feature Flag: Enable Multicolor Confetti on Envelope Opening (Default: false)
+// Set to false: uses the exact original golden stardust opening as designed
+// Set to true: enables vibrant multicolor confetti bursts in future
+const ENABLE_MULTICOLOR_CONFETTI = false;
+
 export default function EnvelopeIntro({ onOpen }) {
   const { theme, themeId } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -28,10 +33,11 @@ export default function EnvelopeIntro({ onOpen }) {
 
     let timeoutDuration = 1500;
 
-    const getConfettiColors = (raniColors) => {
-      return themeId === 'rani'
-        ? raniColors
-        : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+    const getConfettiColors = (defaultColors) => {
+      if (ENABLE_MULTICOLOR_CONFETTI && themeId !== 'rani') {
+        return ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+      }
+      return defaultColors;
     };
 
     if (activeAnim === 'outburst') {
@@ -63,7 +69,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 55,
         origin: { y: 0.5 },
-        colors: getConfettiColors([theme.colors.gold, '#FFA500', '#FFFFFF', theme.colors.lightAccent]),
+        colors: getConfettiColors(['#FFD700', '#FFA500', '#FFFFFF', '#F8C8DC']),
         shapes: ['star', 'circle'],
         gravity: 0.8,
         scalar: 1.1,
@@ -203,19 +209,12 @@ export default function EnvelopeIntro({ onOpen }) {
               transition={{ duration: 2.4, ease: "easeInOut" }}
               className="absolute z-30 pointer-events-none flex items-center justify-center"
             >
-              <div 
-                className="absolute w-[400px] h-[400px] rounded-full blur-3xl"
-                style={{ backgroundColor: `${theme.colors.gold}66` }} 
-              />
+              <div className="absolute w-[400px] h-[400px] rounded-full bg-[#FFD700]/40 blur-3xl" />
               <motion.div 
                 initial={{ opacity: 1, scale: 0 }}
                 animate={{ opacity: 0, scale: 8 }}
                 transition={{ duration: 2.0, ease: "easeOut" }}
-                className="absolute w-[200px] h-[200px] rounded-full border-[6px]"
-                style={{
-                  borderColor: theme.colors.gold,
-                  filter: `drop-shadow(0 0 20px ${theme.colors.gold})`
-                }}
+                className="absolute w-[200px] h-[200px] rounded-full border-[6px] border-[#FFD700] drop-shadow-[0_0_20px_rgba(255,215,0,1)]"
               />
             </motion.div>
           )}
