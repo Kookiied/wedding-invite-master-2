@@ -4,8 +4,8 @@ import confetti from 'canvas-confetti';
 import { Wind, Heart, Sparkles } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-// Feature Flag: Enable Multicolor Confetti on Candle Blow (Default: false)
-const ENABLE_MULTICOLOR_CONFETTI = false;
+// Feature Flag: Enable Multicolor Confetti on Candle Blow (Enabled for all themes except Rani)
+const ENABLE_MULTICOLOR_CONFETTI = true;
 
 export default function CandleReveal() {
   const { theme, themeId } = useTheme();

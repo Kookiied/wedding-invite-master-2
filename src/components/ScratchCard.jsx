@@ -173,8 +173,8 @@ function ScratchHeart({ hiddenText, label, onReveal }) {
   );
 }
 
-// Feature Flag: Enable Multicolor Confetti on Scratch Reveals (Default: false)
-const ENABLE_MULTICOLOR_CONFETTI = false;
+// Feature Flag: Enable Multicolor Confetti on Scratch Reveals (Enabled for all themes except Rani)
+const ENABLE_MULTICOLOR_CONFETTI = true;
 
 export default function ScratchCard({ onAllRevealed }) {
   const { themeId } = useTheme();

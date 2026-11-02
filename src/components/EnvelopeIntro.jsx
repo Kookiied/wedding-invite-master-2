@@ -69,7 +69,8 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 55,
         origin: { y: 0.5 },
-        colors: getConfettiColors(['#FFD700', '#FFA500', '#FFFFFF', '#F8C8DC']),
+        // Original Golden Stardust opening (Stars & Shimmer)
+        colors: ['#FFD700', '#FFA500', '#FFFFFF', '#F8C8DC'],
         shapes: ['star', 'circle'],
         gravity: 0.8,
         scalar: 1.1,
