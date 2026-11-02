@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import { saveRSVP } from '../services/rsvpService';
+import { useTheme } from '../context/ThemeContext';
 
 export default function RSVPForm() {
+  const { theme } = useTheme();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -57,7 +59,7 @@ export default function RSVPForm() {
   };
 
   return (
-    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-36 sm:pt-44 md:pt-48 pb-24 md:pb-32 px-4">
+    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-36 sm:pt-44 md:pt-48 pb-24 md:pb-32 px-4 transition-colors duration-500">
       
       {/* Seamless Overlapping Floral Divider */}
       <div className="absolute top-0 left-0 right-0 -translate-y-1/2 z-20 pointer-events-none flex justify-center">
@@ -72,13 +74,22 @@ export default function RSVPForm() {
         
         {/* Section Header */}
         <div className="text-center mb-10">
-          <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#5E0B2B]/70 font-semibold block mb-2">
+          <span 
+            className="font-sans text-xs uppercase tracking-[0.3em] font-semibold block mb-2 opacity-80 transition-colors duration-500"
+            style={{ color: theme.colors.textTitle }}
+          >
             Confirm Your Attendance
           </span>
-          <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#5E0B2B] tracking-wide font-medium">
+          <h2 
+            className="font-serif text-5xl md:text-6xl lg:text-7xl tracking-wide font-medium transition-colors duration-500"
+            style={{ color: theme.colors.textTitle }}
+          >
             RSVP
           </h2>
-          <div className="w-12 h-0.5 bg-[#E6A4B4]/70 mx-auto mt-3 rounded-full" />
+          <div 
+            className="w-12 h-0.5 mx-auto mt-3 rounded-full opacity-70 transition-colors duration-500" 
+            style={{ backgroundColor: theme.colors.border }}
+          />
         </div>
 
         {submitted ? (
@@ -86,12 +97,23 @@ export default function RSVPForm() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white border border-[#E6A4B4]/50 rounded-2xl p-8 shadow-xl text-center"
+            className="bg-white border rounded-2xl p-8 shadow-xl text-center transition-colors duration-500"
+            style={{ borderColor: theme.colors.borderLight }}
           >
-            <div className="w-16 h-16 rounded-full bg-[#5E0B2B] text-[#F8C8DC] border border-[#E6A4B4]/60 flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div 
+              className="w-16 h-16 rounded-full border flex items-center justify-center mx-auto mb-4 shadow-lg transition-colors duration-500"
+              style={{
+                backgroundColor: theme.colors.darkAccent,
+                borderColor: theme.colors.border,
+                color: theme.colors.textLight
+              }}
+            >
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3 className="font-serif text-2xl font-bold text-[#5E0B2B] mb-2">
+            <h3 
+              className="font-serif text-2xl font-bold mb-2 transition-colors duration-500"
+              style={{ color: theme.colors.textTitle }}
+            >
               Response Recorded!
             </h3>
             <p className="font-sans text-xs text-[#2D2D2D]/80 max-w-xs mx-auto leading-relaxed mb-6">
@@ -99,7 +121,8 @@ export default function RSVPForm() {
             </p>
             <button
               onClick={() => setSubmitted(false)}
-              className="text-xs font-sans font-semibold text-[#5E0B2B] uppercase tracking-widest underline underline-offset-4 cursor-pointer"
+              className="text-xs font-sans font-semibold uppercase tracking-widest underline underline-offset-4 cursor-pointer transition-colors duration-500"
+              style={{ color: theme.colors.textTitle }}
             >
               Update RSVP Details
             </button>
@@ -109,14 +132,23 @@ export default function RSVPForm() {
           <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
             
             {/* CARD 1: Personal Details */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
-              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
+            <div 
+              className="bg-white border rounded-2xl p-6 md:p-8 shadow-md relative transition-all duration-500"
+              style={{ borderColor: theme.colors.borderLight }}
+            >
+              <h3 
+                className="font-serif text-lg md:text-xl italic text-center mb-6 transition-colors duration-500"
+                style={{ color: theme.colors.darkAccent }}
+              >
                 Personal Details
               </h3>
               
               <div className="space-y-5">
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     Full Name
                   </label>
                   <input 
@@ -126,85 +158,112 @@ export default function RSVPForm() {
                     placeholder="Enter your full name"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors placeholder:text-gray-400"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors placeholder:text-gray-400"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   />
                 </div>
 
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     WhatsApp Number
                   </label>
                   <input 
                     type="tel"
                     name="whatsapp"
                     required
-                    placeholder="+91 00000 00000"
+                    placeholder="+91 98765 43210"
                     value={formData.whatsapp}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors placeholder:text-gray-400"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors placeholder:text-gray-400"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   />
                 </div>
 
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     Email Address
                   </label>
                   <input 
                     type="email"
                     name="email"
-                    placeholder="your.email@example.com"
+                    required
+                    placeholder="yourname@example.com"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors placeholder:text-gray-400"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors placeholder:text-gray-400"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   />
                 </div>
               </div>
             </div>
 
-            {/* CARD 2: Guest Details */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
-              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
-                Guest Details
+            {/* CARD 2: Guest Count */}
+            <div 
+              className="bg-white border rounded-2xl p-6 md:p-8 shadow-md relative transition-all duration-500"
+              style={{ borderColor: theme.colors.borderLight }}
+            >
+              <h3 
+                className="font-serif text-lg md:text-xl italic text-center mb-6 transition-colors duration-500"
+                style={{ color: theme.colors.darkAccent }}
+              >
+                Guest Count
               </h3>
               
               <div>
-                <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
-                  Number of Pax (From Your Group)
+                <label 
+                  className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                  style={{ color: theme.colors.textTitle }}
+                >
+                  Number of Guests Attending
                 </label>
                 <select 
                   name="guestCount"
                   value={formData.guestCount}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors cursor-pointer"
+                  className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors cursor-pointer"
+                  style={{ borderColor: `${theme.colors.border}80` }}
                 >
-                  <option value="" disabled>Select number of guests</option>
-                  <option value="1">1 (Self)</option>
-                  <option value="2">2 Guests</option>
-                  <option value="3">3 Guests</option>
-                  <option value="4">4 Guests</option>
-                  <option value="5">5 Guests</option>
-                  <option value="6+">6+ Guests</option>
+                  <option value="1">1 Person</option>
+                  <option value="2">2 Persons</option>
+                  <option value="3">3 Persons</option>
+                  <option value="4">4 Persons</option>
+                  <option value="5+">5+ Persons</option>
                 </select>
               </div>
             </div>
 
-            {/* CARD 3: Travel Details */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
-              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
-                Travel Details
+            {/* CARD 3: Travel Information */}
+            <div 
+              className="bg-white border rounded-2xl p-6 md:p-8 shadow-md relative transition-all duration-500"
+              style={{ borderColor: theme.colors.borderLight }}
+            >
+              <h3 
+                className="font-serif text-lg md:text-xl italic text-center mb-6 transition-colors duration-500"
+                style={{ color: theme.colors.darkAccent }}
+              >
+                Travel Information
               </h3>
               
               <div className="space-y-5">
-                {/* Date of Arrival */}
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
-                    Date of Arrival
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
+                    Arrival Date
                   </label>
                   <select 
                     name="arrivalDate"
                     value={formData.arrivalDate}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors cursor-pointer"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors cursor-pointer"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   >
                     <option value="" disabled>Select date of arrival</option>
                     <option value="24 October 2026">24 October 2026</option>
@@ -212,9 +271,11 @@ export default function RSVPForm() {
                   </select>
                 </div>
 
-                {/* Arrival Time */}
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     Arrival Time
                   </label>
                   <input 
@@ -223,19 +284,24 @@ export default function RSVPForm() {
                     placeholder="e.g. 12:00 PM"
                     value={formData.arrivalTime}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors placeholder:text-gray-400"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors placeholder:text-gray-400"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   />
                 </div>
 
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     Mode of Travel
                   </label>
                   <select 
                     name="travelMode"
                     value={formData.travelMode}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors cursor-pointer"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors cursor-pointer"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   >
                     <option value="Flight">Flight</option>
                     <option value="Train">Train</option>
@@ -244,7 +310,10 @@ export default function RSVPForm() {
                 </div>
 
                 <div>
-                  <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                  <label 
+                    className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     Flight / Train Number
                   </label>
                   <input 
@@ -253,25 +322,42 @@ export default function RSVPForm() {
                     placeholder="e.g. AI-101 or 12345"
                     value={formData.travelNumber}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-[#E6A4B4]/50 py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none focus:border-[#5E0B2B] transition-colors placeholder:text-gray-400"
+                    className="w-full bg-transparent border-b py-2 font-sans text-xs text-[#2D2D2D] focus:outline-none transition-colors placeholder:text-gray-400"
+                    style={{ borderColor: `${theme.colors.border}80` }}
                   />
                 </div>
               </div>
             </div>
 
             {/* CARD 4: Hotel Check-in */}
-            <div className="bg-white border border-[#E6A4B4]/45 rounded-2xl p-6 md:p-8 shadow-md relative">
-              <h3 className="font-serif text-lg md:text-xl italic text-[#B83B5E] text-center mb-6">
+            <div 
+              className="bg-white border rounded-2xl p-6 md:p-8 shadow-md relative transition-all duration-500"
+              style={{ borderColor: theme.colors.borderLight }}
+            >
+              <h3 
+                className="font-serif text-lg md:text-xl italic text-center mb-6 transition-colors duration-500"
+                style={{ color: theme.colors.darkAccent }}
+              >
                 Hotel Check-in
               </h3>
               
               <div className="space-y-4">
-                <label className="block font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-semibold mb-1">
+                <label 
+                  className="block font-sans text-[10px] uppercase tracking-widest font-semibold mb-1"
+                  style={{ color: theme.colors.textTitle }}
+                >
                   Upload ID for Check-in (All members from your group)
                 </label>
                 
                 <div className="flex items-center gap-3">
-                  <label className="px-4 py-2 bg-[#FFF0F5] border border-[#E6A4B4]/60 rounded-lg text-[11px] font-sans font-semibold text-[#5E0B2B] hover:bg-[#F8C8DC]/30 transition-colors cursor-pointer shrink-0">
+                  <label 
+                    className="px-4 py-2 border rounded-lg text-[11px] font-sans font-semibold hover:opacity-80 transition-opacity cursor-pointer shrink-0"
+                    style={{
+                      backgroundColor: theme.colors.lightBg,
+                      borderColor: theme.colors.border,
+                      color: theme.colors.textTitle
+                    }}
+                  >
                     Choose Files
                     <input 
                       type="file"
@@ -296,7 +382,12 @@ export default function RSVPForm() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full py-4 rounded-full bg-gradient-to-r from-[#5E0B2B] via-[#700933] to-[#5E0B2B] text-[#FFF0F5] border border-[#E6A4B4]/60 font-serif font-bold text-xs uppercase tracking-widest shadow-xl flex items-center justify-center cursor-pointer hover:brightness-110 transition-all"
+              className="w-full py-4 rounded-full border font-serif font-bold text-xs uppercase tracking-widest shadow-xl flex items-center justify-center cursor-pointer hover:brightness-110 transition-all"
+              style={{
+                background: `linear-gradient(to right, ${theme.colors.darkAccent}, ${theme.colors.darkRich}, ${theme.colors.darkAccent})`,
+                color: theme.colors.textLight,
+                borderColor: theme.colors.borderLight
+              }}
             >
               Submit
             </motion.button>

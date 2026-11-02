@@ -4,6 +4,7 @@ import { weddingData } from '../config/weddingData';
 import WhimsicalButterflies from './WhimsicalButterflies';
 import BloomingFlowers from '../animations/BloomingFlowers';
 import { Sliders, X } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 /* 
  * DEVELOPER TOGGLE FOR LIVE POSITION & SIZE CONTROLLER:
@@ -12,6 +13,7 @@ import { Sliders, X } from 'lucide-react';
 const ENABLE_DEV_CONTROLLER = false;
 
 export default function Hero() {
+  const { theme } = useTheme();
   const [showTuner, setShowTuner] = useState(false);
 
   const getResponsiveLayout = () => {
@@ -52,47 +54,75 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-between text-center overflow-hidden bg-gradient-to-b from-[#FFF0F5] via-[#FFEBEF] to-[#FFF0F5]">
+    <section 
+      className="relative min-h-screen w-full flex flex-col items-center justify-between text-center overflow-hidden transition-colors duration-500"
+      style={{
+        background: `linear-gradient(to bottom, ${theme.colors.lightBg}, ${theme.colors.lightSubtle}, ${theme.colors.lightBg})`
+      }}
+    >
       
       {/* Blooming Flowers layer */}
       <BloomingFlowers />
 
       {/* Delicate Theme-based Light Polka-Dot Matrix Background Pattern */}
-      <div className="absolute inset-0 z-0 opacity-40 bg-[radial-gradient(#E6A4B4_1.2px,transparent_1.2px)] [background-size:20px_20px] pointer-events-none" />
+      <div 
+        className="absolute inset-0 z-0 opacity-40 [background-size:20px_20px] pointer-events-none transition-all duration-500" 
+        style={{
+          backgroundImage: `radial-gradient(${theme.colors.border} 1.2px, transparent 1.2px)`
+        }}
+      />
 
-      {/* Subtle Soft Rose Glow Orbs in Corners */}
-      <div className="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-[#F596AA]/20 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 -right-16 w-72 h-72 rounded-full bg-[#E6A4B4]/25 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-16 -left-16 w-80 h-80 rounded-full bg-[#F596AA]/20 blur-3xl pointer-events-none" />
+      {/* Subtle Soft Glow Orbs in Corners */}
+      <div 
+        className="absolute -top-12 -left-12 w-64 h-64 rounded-full blur-3xl pointer-events-none transition-colors duration-500" 
+        style={{ backgroundColor: `${theme.colors.glow}33` }}
+      />
+      <div 
+        className="absolute top-1/3 -right-16 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-colors duration-500" 
+        style={{ backgroundColor: `${theme.colors.border}40` }}
+      />
+      <div 
+        className="absolute -bottom-16 -left-16 w-80 h-80 rounded-full blur-3xl pointer-events-none transition-colors duration-500" 
+        style={{ backgroundColor: `${theme.colors.glow}33` }}
+      />
 
       {/* Whimsical Animated Flying Butterflies Layer */}
       <WhimsicalButterflies />
 
       {/* S.B.D Monograms at Upper Corners */}
       <div className="absolute top-4 sm:top-6 left-0 right-0 z-20 flex justify-between items-center px-6 sm:px-10 pointer-events-none">
-        <span className="font-serif text-sm sm:text-base md:text-lg font-black tracking-normal text-[#E65C8A] drop-shadow-sm uppercase">
+        <span 
+          className="font-serif text-sm sm:text-base md:text-lg font-black tracking-normal drop-shadow-sm uppercase transition-colors duration-500"
+          style={{ color: theme.colors.accentPop }}
+        >
           S.B.D
         </span>
 
-        <span className="font-serif text-sm sm:text-base md:text-lg font-black tracking-normal text-[#E65C8A] drop-shadow-sm uppercase">
+        <span 
+          className="font-serif text-sm sm:text-base md:text-lg font-black tracking-normal drop-shadow-sm uppercase transition-colors duration-500"
+          style={{ color: theme.colors.accentPop }}
+        >
           S.B.D
         </span>
       </div>
 
-      {/* Dark Magenta Ganesha Symbol & Sanskrit Mantra Container (Positioned in Upper Mid) */}
+      {/* Lord Ganesha Symbol & Sanskrit Mantra Container (Positioned in Upper Mid) */}
       <div 
         className="absolute left-0 right-0 z-20 px-4 text-center pointer-events-none transition-all duration-75 flex flex-col items-center"
         style={{ top: `${layout.mantraTop - 58}px` }}
       >
-        {/* Dark Magenta Lord Ganesha Icon (Enlarged & Centered Directly Above Mantra) */}
+        {/* Lord Ganesha Icon Perfectly Matched to the Active Theme */}
         <img 
-          src="/ganesha-magenta.png" 
-          alt="Dark Magenta Lord Ganesha" 
-          className="w-14 h-16 sm:w-18 sm:h-20 md:w-20 md:h-24 object-contain mb-1.5 filter drop-shadow-[0_2px_8px_rgba(139,0,50,0.25)]"
+          src={theme.ganeshaIcon || `/ganesha-${theme.id}.png`} 
+          alt="Lord Ganesha" 
+          className="w-14 h-16 sm:w-18 sm:h-20 md:w-20 md:h-24 object-contain mb-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-all duration-500"
         />
 
         {/* Sanskrit Mantra */}
-        <p className="font-serif text-[11px] sm:text-xs md:text-sm text-[#E65C8A] tracking-wide max-w-xs sm:max-w-sm md:max-w-md mx-auto font-bold leading-relaxed drop-shadow-sm">
+        <p 
+          className="font-serif text-[11px] sm:text-xs md:text-sm tracking-wide max-w-xs sm:max-w-sm md:max-w-md mx-auto font-bold leading-relaxed drop-shadow-sm transition-colors duration-500"
+          style={{ color: theme.colors.accentPop }}
+        >
           वक्रतुण्ड महाकाय सूर्यकोटि समप्रभः ।<br />
           निर्विघ्नं कुरु में देव, सर्व कार्येषु सर्वदा ॥
         </p>
@@ -108,8 +138,11 @@ export default function Hero() {
       >
         {/* Invitation Text (Between Mantra and Vivek's Name) */}
         <p 
-          className="font-sans uppercase tracking-widest text-[#5E0B2B] font-extrabold leading-relaxed text-center mb-8 max-w-xs sm:max-w-md md:max-w-xl"
-          style={{ fontSize: `${layout.vivekParentSize}px` }}
+          className="font-sans uppercase tracking-widest font-extrabold leading-relaxed text-center mb-8 max-w-xs sm:max-w-md md:max-w-xl transition-colors duration-500"
+          style={{ 
+            fontSize: `${layout.vivekParentSize}px`,
+            color: theme.colors.textTitle 
+          }}
         >
           We request your gracious<br />
           presence and blessings on the auspicious occasion<br />
@@ -119,16 +152,21 @@ export default function Hero() {
         {/* Groom: Vivek */}
         <div className="mb-0 text-center w-full">
           <h1 
-            className="font-script text-[#5E0B2B] font-normal tracking-wide drop-shadow-[0_2px_4px_rgba(94,11,43,0.15)] py-0 px-3 leading-tight transition-all duration-75"
-            style={{ fontSize: `${layout.nameFontSize}px` }}
+            className="font-script font-normal tracking-wide py-0 px-3 leading-tight transition-all duration-500"
+            style={{ 
+              fontSize: `${layout.nameFontSize}px`,
+              color: theme.colors.textTitle,
+              textShadow: `0 2px 10px ${theme.colors.glow}33`
+            }}
           >
             Vivek
           </h1>
           <p 
-            className="font-sans uppercase tracking-widest text-[#3D061A] font-extrabold leading-relaxed transition-all duration-75"
+            className="font-sans uppercase tracking-widest font-extrabold leading-relaxed transition-all duration-500"
             style={{ 
               marginTop: `${layout.vivekParentGap}px`,
-              fontSize: `${layout.vivekParentSize}px`
+              fontSize: `${layout.vivekParentSize}px`,
+              color: theme.colors.textBodyDark 
             }}
           >
             Grand S/o Mrs. Devi Rani Raitani & Late Duni Chand Raitani<br />
@@ -141,26 +179,44 @@ export default function Hero() {
           className="flex items-center justify-center gap-4 w-5/6 transition-all duration-75"
           style={{ marginTop: `${layout.wedsGap}px`, marginBottom: `${layout.wedsGap}px` }}
         >
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#E6A4B4] to-[#5E0B2B]/40" />
-          <span className="font-serif text-base sm:text-lg text-[#5E0B2B] font-bold tracking-widest uppercase">
+          <div 
+            className="h-px flex-1 transition-all duration-500" 
+            style={{ 
+              background: `linear-gradient(to right, transparent, ${theme.colors.border}, ${theme.colors.textTitle}66)` 
+            }} 
+          />
+          <span 
+            className="font-serif text-base sm:text-lg font-bold tracking-widest uppercase transition-colors duration-500"
+            style={{ color: theme.colors.textTitle }}
+          >
             Weds
           </span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-[#E6A4B4] to-[#5E0B2B]/40" />
+          <div 
+            className="h-px flex-1 transition-all duration-500" 
+            style={{ 
+              background: `linear-gradient(to left, transparent, ${theme.colors.border}, ${theme.colors.textTitle}66)` 
+            }} 
+          />
         </div>
 
         {/* Bride: Indira */}
         <div className="mb-2 text-center w-full">
           <h1 
-            className="font-script text-[#5E0B2B] font-normal tracking-wide drop-shadow-[0_2px_4px_rgba(94,11,43,0.15)] py-0 px-3 leading-tight transition-all duration-75"
-            style={{ fontSize: `${layout.nameFontSize}px` }}
+            className="font-script font-normal tracking-wide py-0 px-3 leading-tight transition-all duration-500"
+            style={{ 
+              fontSize: `${layout.nameFontSize}px`,
+              color: theme.colors.textTitle,
+              textShadow: `0 2px 10px ${theme.colors.glow}33`
+            }}
           >
             Indira
           </h1>
           <p 
-            className="font-sans uppercase tracking-widest text-[#3D061A] font-extrabold leading-relaxed transition-all duration-75"
+            className="font-sans uppercase tracking-widest font-extrabold leading-relaxed transition-all duration-500"
             style={{ 
               marginTop: `${layout.indiraParentGap}px`,
-              fontSize: `${layout.indiraParentSize}px`
+              fontSize: `${layout.indiraParentSize}px`,
+              color: theme.colors.textBodyDark 
             }}
           >
             Grand D/o Late Sushila Devi Lakhmani & Late Lal Chand Lakhmani<br />
@@ -168,8 +224,14 @@ export default function Hero() {
           </p>
         </div>
 
-        <div className="w-12 h-0.5 bg-[#E6A4B4] mx-auto my-3 rounded-full opacity-80" />
-        <p className="font-serif text-[11px] tracking-[0.2em] text-[#5E0B2B] uppercase font-bold">
+        <div 
+          className="w-12 h-0.5 mx-auto my-3 rounded-full opacity-80 transition-colors duration-500" 
+          style={{ backgroundColor: theme.colors.border }}
+        />
+        <p 
+          className="font-serif text-[11px] tracking-[0.2em] uppercase font-bold transition-colors duration-500"
+          style={{ color: theme.colors.textTitle }}
+        >
           {weddingData.venue.name} &bull; {weddingData.venue.city}
         </p>
       </motion.div>
@@ -183,9 +245,14 @@ export default function Hero() {
           <div className="fixed bottom-4 right-4 z-50">
             <button
               onClick={() => setShowTuner(!showTuner)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#5E0B2B] text-[#F8C8DC] border-2 border-[#E6A4B4] font-sans text-xs font-bold shadow-2xl hover:scale-105 transition-all cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full font-sans text-xs font-bold shadow-2xl hover:scale-105 transition-all cursor-pointer"
+              style={{
+                backgroundColor: theme.colors.darkAccent,
+                color: theme.colors.textLight,
+                borderColor: theme.colors.border
+              }}
             >
-              <Sliders className="w-4 h-4 text-[#F8C8DC]" />
+              <Sliders className="w-4 h-4" />
               <span>{showTuner ? 'Close Controller' : '🎛️ Adjust Size & Position'}</span>
             </button>
           </div>
@@ -196,13 +263,17 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 50, scale: 0.95 }}
-                className="fixed bottom-16 right-4 left-4 sm:left-auto sm:w-84 z-50 bg-[#3D061A]/95 backdrop-blur-xl border-2 border-[#E6A4B4] rounded-2xl p-4 text-[#FFF0F5] shadow-2xl flex flex-col gap-2.5 text-left max-h-[80vh] overflow-y-auto"
+                className="fixed bottom-16 right-4 left-4 sm:left-auto sm:w-84 z-50 backdrop-blur-xl border-2 rounded-2xl p-4 text-[#FFF0F5] shadow-2xl flex flex-col gap-2.5 text-left max-h-[80vh] overflow-y-auto"
+                style={{
+                  backgroundColor: `${theme.colors.darkRich}F2`,
+                  borderColor: theme.colors.border
+                }}
               >
-                <div className="flex items-center justify-between border-b border-[#E6A4B4]/40 pb-2 sticky top-0 bg-[#3D061A] z-10 pt-1">
-                  <span className="font-serif text-xs font-bold text-[#F8C8DC] uppercase tracking-wider">
+                <div className="flex items-center justify-between border-b pb-2 sticky top-0 z-10 pt-1" style={{ borderColor: `${theme.colors.border}66`, backgroundColor: theme.colors.darkRich }}>
+                  <span className="font-serif text-xs font-bold uppercase tracking-wider" style={{ color: theme.colors.textLight }}>
                     🎛️ Size & Position Controller
                   </span>
-                  <button onClick={() => setShowTuner(false)} className="text-[#FFF0F5]/70 hover:text-white p-1">
+                  <button onClick={() => setShowTuner(false)} className="text-white/70 hover:text-white p-1">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
@@ -210,8 +281,8 @@ export default function Hero() {
                 {/* Slider 1: Mantra Top Position */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Mantra Top Position:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.mantraTop}px</span>
+                    <span className="font-medium text-white/90">Mantra Top Position:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.mantraTop}px</span>
                   </div>
                   <input
                     type="range"
@@ -219,31 +290,31 @@ export default function Hero() {
                     max="200"
                     value={layout.mantraTop}
                     onChange={(e) => setLayout({ ...layout, mantraTop: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
-                {/* Slider 2: Section Top Padding */}
+                {/* Slider 2: Content Top Padding */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Section Top Position:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.topPadding}px</span>
+                    <span className="font-medium text-white/90">Content Top Padding:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.topPadding}px</span>
                   </div>
                   <input
                     type="range"
-                    min="40"
-                    max="300"
+                    min="60"
+                    max="240"
                     value={layout.topPadding}
                     onChange={(e) => setLayout({ ...layout, topPadding: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
-                {/* Slider 3: Couple Names Font Size */}
+                {/* Slider 3: Couple Names Size */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Couple Names Size:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.nameFontSize}px</span>
+                    <span className="font-medium text-white/90">Couple Names Size:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.nameFontSize}px</span>
                   </div>
                   <input
                     type="range"
@@ -251,15 +322,15 @@ export default function Hero() {
                     max="120"
                     value={layout.nameFontSize}
                     onChange={(e) => setLayout({ ...layout, nameFontSize: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
                 {/* Slider 4: Vivek Family Gap */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Vivek Family Text Gap:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.vivekParentGap}px</span>
+                    <span className="font-medium text-white/90">Vivek Family Text Gap:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.vivekParentGap}px</span>
                   </div>
                   <input
                     type="range"
@@ -267,15 +338,15 @@ export default function Hero() {
                     max="40"
                     value={layout.vivekParentGap}
                     onChange={(e) => setLayout({ ...layout, vivekParentGap: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
                 {/* Slider 5: Vivek Family Font Size */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Vivek Family Font Size:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.vivekParentSize}px</span>
+                    <span className="font-medium text-white/90">Vivek Family Font Size:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.vivekParentSize}px</span>
                   </div>
                   <input
                     type="range"
@@ -283,15 +354,15 @@ export default function Hero() {
                     max="20"
                     value={layout.vivekParentSize}
                     onChange={(e) => setLayout({ ...layout, vivekParentSize: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
                 {/* Slider 6: Weds Separator Gap */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Weds Separator Gap:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.wedsGap}px</span>
+                    <span className="font-medium text-white/90">Weds Separator Gap:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.wedsGap}px</span>
                   </div>
                   <input
                     type="range"
@@ -299,15 +370,15 @@ export default function Hero() {
                     max="60"
                     value={layout.wedsGap}
                     onChange={(e) => setLayout({ ...layout, wedsGap: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
                 {/* Slider 7: Indira Family Gap */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Indira Family Text Gap:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.indiraParentGap}px</span>
+                    <span className="font-medium text-white/90">Indira Family Text Gap:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.indiraParentGap}px</span>
                   </div>
                   <input
                     type="range"
@@ -315,15 +386,15 @@ export default function Hero() {
                     max="40"
                     value={layout.indiraParentGap}
                     onChange={(e) => setLayout({ ...layout, indiraParentGap: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
                 {/* Slider 8: Indira Family Font Size */}
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-[11px] font-sans">
-                    <span className="font-medium text-[#FFF0F5]/90">Indira Family Font Size:</span>
-                    <span className="font-bold text-[#F8C8DC]">{layout.indiraParentSize}px</span>
+                    <span className="font-medium text-white/90">Indira Family Font Size:</span>
+                    <span className="font-bold" style={{ color: theme.colors.textLight }}>{layout.indiraParentSize}px</span>
                   </div>
                   <input
                     type="range"
@@ -331,11 +402,11 @@ export default function Hero() {
                     max="20"
                     value={layout.indiraParentSize}
                     onChange={(e) => setLayout({ ...layout, indiraParentSize: Number(e.target.value) })}
-                    className="w-full accent-[#E6A4B4] cursor-pointer"
+                    className="w-full cursor-pointer"
                   />
                 </div>
 
-                <div className="text-[10px] text-[#F8C8DC] bg-[#5E0B2B] p-2 rounded-lg border border-[#E6A4B4]/40 mt-1 font-mono text-center">
+                <div className="text-[10px] p-2 rounded-lg border mt-1 font-mono text-center" style={{ backgroundColor: theme.colors.darkAccent, color: theme.colors.textLight, borderColor: theme.colors.border }}>
                   Copy values to state to lock permanently!
                 </div>
               </motion.div>

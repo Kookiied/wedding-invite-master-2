@@ -2,10 +2,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import { MapPin, ExternalLink, Phone, MessageSquare } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function LocationDetails() {
+  const { theme } = useTheme();
+
   return (
-    <section className="relative w-full bg-[#5E0B2B] text-[#FFF0F5] pt-40 sm:pt-48 md:pt-56 pb-48 sm:pb-56 md:pb-64 lg:pb-72 px-4">
+    <section 
+      className="relative w-full pt-40 sm:pt-48 md:pt-56 pb-48 sm:pb-56 md:pb-64 lg:pb-72 px-4 transition-colors duration-500"
+      style={{
+        backgroundColor: theme.colors.darkAccent,
+        color: theme.colors.textLightMuted
+      }}
+    >
       
       {/* Seamless Overlapping Floral Divider */}
       <div className="absolute top-0 left-0 right-0 -translate-y-1/2 z-20 pointer-events-none flex justify-center">
@@ -26,10 +35,16 @@ export default function LocationDetails() {
           transition={{ duration: 0.6 }}
           className="mb-8 mt-2 sm:mt-4"
         >
-          <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#F8C8DC] font-semibold block mb-6 sm:mb-8">
+          <span 
+            className="font-sans text-xs uppercase tracking-[0.3em] font-semibold block mb-6 sm:mb-8 transition-colors duration-500"
+            style={{ color: theme.colors.textLight }}
+          >
             The Destination
           </span>
-          <h2 className="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#F8C8DC]">
+          <h2 
+            className="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl transition-colors duration-500"
+            style={{ color: theme.colors.textLight }}
+          >
             Location & Venue
           </h2>
         </motion.div>
@@ -40,10 +55,18 @@ export default function LocationDetails() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="bg-[#3D061A] border-2 border-[#E6A4B4]/60 rounded-2xl p-6 shadow-2xl overflow-hidden mb-12"
+          className="border-2 rounded-2xl p-6 shadow-2xl overflow-hidden mb-12 transition-all duration-500"
+          style={{
+            backgroundColor: theme.colors.darkRich,
+            borderColor: theme.colors.border,
+            boxShadow: `0 10px 40px ${theme.colors.glowShadow}`
+          }}
         >
           {/* Watercolor Venue Sketch */}
-          <div className="w-full h-48 md:h-64 rounded-xl border border-[#E6A4B4]/30 overflow-hidden mb-6 relative group shadow-lg">
+          <div 
+            className="w-full h-48 md:h-64 rounded-xl border overflow-hidden mb-6 relative group shadow-lg"
+            style={{ borderColor: theme.colors.borderLight }}
+          >
             <img 
               src="/venue-sketch.jpg" 
               alt="Raj Vilas Watercolor Sketch" 
@@ -51,10 +74,16 @@ export default function LocationDetails() {
             />
           </div>
 
-          <h3 className="font-serif text-2xl md:text-3xl font-bold text-[#F8C8DC] mb-2">
+          <h3 
+            className="font-serif text-2xl md:text-3xl font-bold mb-2 transition-colors duration-500"
+            style={{ color: theme.colors.textLight }}
+          >
             {weddingData.venue.name}
           </h3>
-          <p className="font-sans text-xs md:text-sm text-[#FFF0F5]/80 leading-relaxed max-w-xs md:max-w-sm mx-auto mb-6">
+          <p 
+            className="font-sans text-xs md:text-sm leading-relaxed max-w-xs md:max-w-sm mx-auto mb-6 opacity-90 transition-colors duration-500"
+            style={{ color: theme.colors.textLightMuted }}
+          >
             {weddingData.venue.fullAddress}
           </p>
 
@@ -65,11 +94,15 @@ export default function LocationDetails() {
             href={weddingData.venue.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#F8C8DC] via-[#E6A4B4] to-[#F8C8DC] text-[#3D061A] font-serif font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg hover:shadow-pink-glow transition-all"
+            className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full font-serif font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg transition-all"
+            style={{
+              background: `linear-gradient(to right, ${theme.colors.lightAccent}, ${theme.colors.border}, ${theme.colors.lightAccent})`,
+              color: theme.colors.darkRich
+            }}
           >
-            <MapPin className="w-4 h-4 text-[#3D061A]" />
+            <MapPin className="w-4 h-4" style={{ color: theme.colors.darkRich }} />
             View On Google Maps
-            <ExternalLink className="w-3.5 h-3.5 text-[#3D061A]" />
+            <ExternalLink className="w-3.5 h-3.5" style={{ color: theme.colors.darkRich }} />
           </motion.a>
 
         </motion.div>
@@ -80,28 +113,56 @@ export default function LocationDetails() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-[#3D061A]/80 border border-[#E6A4B4]/30 rounded-xl p-5"
+          className="border rounded-xl p-5 transition-all duration-500"
+          style={{
+            backgroundColor: `${theme.colors.darkRich}CC`,
+            borderColor: theme.colors.borderLight
+          }}
         >
-          <span className="font-sans text-[11px] md:text-xs uppercase tracking-widest text-[#F8C8DC] font-semibold block mb-1">
+          <span 
+            className="font-sans text-[11px] md:text-xs uppercase tracking-widest font-semibold block mb-1"
+            style={{ color: theme.colors.textLight }}
+          >
             Questions & Assistance
           </span>
-          <p className="font-serif text-xs md:text-sm text-[#FFF0F5]/80 italic mb-4">
+          <p 
+            className="font-serif text-xs md:text-sm italic mb-4 opacity-90"
+            style={{ color: theme.colors.textLightMuted }}
+          >
             For travel inquiries, accommodation, or directions, please reach out to our team:
           </p>
 
           <div className="grid grid-cols-2 gap-3">
             {weddingData.contacts.map((contact) => (
-              <div key={contact.name} className="bg-[#5E0B2B] border border-[#E6A4B4]/30 p-3 md:p-4 rounded-lg text-center">
-                <span className="font-serif text-xs md:text-sm font-bold text-[#F8C8DC] block mb-1">
+              <div 
+                key={contact.name} 
+                className="border p-3 md:p-4 rounded-lg text-center transition-colors duration-500"
+                style={{
+                  backgroundColor: theme.colors.darkAccent,
+                  borderColor: theme.colors.borderLight
+                }}
+              >
+                <span 
+                  className="font-serif text-xs md:text-sm font-bold block mb-1"
+                  style={{ color: theme.colors.textLight }}
+                >
                   {contact.name}
                 </span>
-                <span className="font-sans text-[11px] md:text-xs text-[#FFF0F5]/90 block mb-2">
+                <span 
+                  className="font-sans text-[11px] md:text-xs block mb-2 opacity-90"
+                  style={{ color: theme.colors.textLightMuted }}
+                >
                   {contact.phone}
                 </span>
                 <div className="flex justify-center gap-2">
                   <a 
                     href={`tel:${contact.phone.replace(/\s+/g, '')}`} 
-                    className="p-1.5 rounded-full bg-[#E6A4B4]/20 text-[#F8C8DC] hover:bg-[#E6A4B4] hover:text-[#3D061A] transition-colors"
+                    className="p-1.5 rounded-full border transition-colors"
+                    style={{
+                      backgroundColor: `${theme.colors.border}33`,
+                      borderColor: theme.colors.borderLight,
+                      color: theme.colors.textLight
+                    }}
                     title="Call"
                   >
                     <Phone className="w-3.5 h-3.5" />

@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } f
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, X, Camera, CameraOff, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { magicInteractionEngine } from '../../interactions/MagicInteractionEngine';
+import { useTheme } from '../../context/ThemeContext';
 
 const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false }, ref) => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -120,9 +122,10 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
         onDragEnd={handleDragEnd}
         dragElastic={0.1}
         dragMomentum={false}
-        className={`fixed bottom-[100px] sm:bottom-6 right-6 z-[60] w-28 h-36 rounded-2xl shadow-2xl border-2 border-[#E6A4B4] overflow-hidden cursor-grab active:cursor-grabbing bg-black transition-opacity duration-300 ${
+        className={`fixed bottom-[100px] sm:bottom-6 right-6 z-[60] w-28 h-36 rounded-2xl shadow-2xl border-2 overflow-hidden cursor-grab active:cursor-grabbing bg-black transition-opacity duration-300 ${
           isCameraActive && !stashedState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
+        style={{ borderColor: theme.colors.border }}
       >
         <video 
           ref={videoRef}
@@ -137,7 +140,7 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
           <button 
             onClick={stopMagicMode}
             title="Turn off camera"
-            className="absolute top-2 right-2 z-[65] bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-full backdrop-blur-sm border border-white/20 transition-all"
+            className="absolute top-2 right-2 z-[65] bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-full backdrop-blur-sm border border-white/20 transition-all cursor-pointer"
             onPointerDown={(e) => e.stopPropagation()} // Prevent dragging when clicking the button
           >
             <CameraOff className="w-3.5 h-3.5" />
@@ -150,15 +153,24 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
         <motion.div 
           initial={{ opacity: 0, x: stashedState === 'left' ? -20 : 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className={`fixed top-1/2 -translate-y-1/2 z-[65] bg-[#3D061A]/95 border border-[#E6A4B4]/50 shadow-[0_0_15px_rgba(230,164,180,0.4)] backdrop-blur-md p-1.5 flex items-center justify-center cursor-pointer hover:bg-[#5E0B2B] transition-colors h-16 w-8 ${
+          className={`fixed top-1/2 -translate-y-1/2 z-[65] backdrop-blur-md p-1.5 flex items-center justify-center cursor-pointer transition-colors h-16 w-8 border ${
             stashedState === 'left' ? 'left-0 rounded-r-xl border-l-0' : 'right-0 rounded-l-xl border-r-0'
           }`}
+          style={{
+            backgroundColor: `${theme.colors.darkRich}F2`,
+            borderColor: theme.colors.borderLight,
+            boxShadow: `0 0 15px ${theme.colors.glowShadow}`
+          }}
           onClick={async () => {
             setStashedState(null);
             await startMagicMode();
           }}
         >
-          {stashedState === 'left' ? <ChevronRight className="w-5 h-5 text-[#F8C8DC]" /> : <ChevronLeft className="w-5 h-5 text-[#F8C8DC]" />}
+          {stashedState === 'left' ? (
+            <ChevronRight className="w-5 h-5" style={{ color: theme.colors.textLight }} />
+          ) : (
+            <ChevronLeft className="w-5 h-5" style={{ color: theme.colors.textLight }} />
+          )}
         </motion.div>
       )}
 
@@ -168,9 +180,14 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-24 right-5 z-[60] bg-gradient-to-r from-[#5E0B2B] to-[#3D061A] text-[#FFD700] p-3 rounded-full shadow-[0_0_20px_rgba(255,215,0,0.4)] border border-[#FFD700]/50 flex items-center justify-center hover:scale-105 transition-transform"
+          className="fixed bottom-24 right-5 z-[60] p-3 rounded-full border flex items-center justify-center hover:scale-105 transition-all cursor-pointer"
+          style={{
+            background: `linear-gradient(to right, ${theme.colors.darkAccent}, ${theme.colors.darkRich})`,
+            borderColor: `${theme.colors.gold}99`,
+            boxShadow: `0 0 20px ${theme.colors.gold}66`
+          }}
         >
-          <Star className="w-6 h-6 fill-current text-[#FFD700]" />
+          <Star className="w-6 h-6 fill-current" style={{ color: theme.colors.gold }} />
         </motion.button>
       )}
 
@@ -186,25 +203,38 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
             <motion.div 
               initial={{ y: 50, scale: 0.9 }}
               animate={{ y: 0, scale: 1 }}
-              className="bg-[#3D061A] border border-[#E6A4B4]/40 p-8 rounded-3xl max-w-sm w-full text-center relative shadow-2xl"
+              className="border p-8 rounded-3xl max-w-sm w-full text-center relative shadow-2xl transition-all duration-500"
+              style={{
+                backgroundColor: theme.colors.darkRich,
+                borderColor: theme.colors.borderLight
+              }}
             >
               <button 
                 onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 text-[#E6A4B4] hover:text-white"
+                className="absolute top-4 right-4 hover:text-white"
+                style={{ color: theme.colors.border }}
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="w-16 h-16 mx-auto bg-[#5E0B2B] rounded-full flex items-center justify-center mb-6 border border-[#E6A4B4]/30 shadow-[0_0_15px_rgba(230,164,180,0.3)]">
-                <Camera className="w-8 h-8 text-[#F8C8DC]" />
+              <div 
+                className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-6 border shadow-lg"
+                style={{
+                  backgroundColor: theme.colors.darkAccent,
+                  borderColor: theme.colors.borderLight
+                }}
+              >
+                <Camera className="w-8 h-8" style={{ color: theme.colors.textLight }} />
               </div>
               
-              <h3 className="font-serif text-2xl text-[#F8C8DC] mb-2">Enter Magic Mode</h3>
-              <p className="font-sans text-sm text-[#FFF0F5]/80 mb-6 leading-relaxed">
+              <h3 className="font-serif text-2xl mb-2" style={{ color: theme.colors.textLight }}>
+                Enter Magic Mode
+              </h3>
+              <p className="font-sans text-sm mb-6 leading-relaxed opacity-90" style={{ color: theme.colors.textLightMuted }}>
                 Allow camera access to interact using hand gestures, smiles, and magic.
               </p>
 
-              <div className="text-[10px] text-[#E6A4B4]/70 mb-6 uppercase tracking-wider">
+              <div className="text-[10px] mb-6 uppercase tracking-wider opacity-75" style={{ color: theme.colors.border }}>
                 Processing happens securely on your device. No video is recorded or uploaded.
               </div>
 
@@ -217,7 +247,11 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
               <button
                 onClick={startMagicMode}
                 disabled={loading}
-                className="w-full bg-[#E6A4B4] text-[#3D061A] font-bold py-3 rounded-full hover:bg-[#F8C8DC] transition-colors flex justify-center items-center gap-2"
+                className="w-full font-bold py-3 rounded-full transition-colors flex justify-center items-center gap-2 cursor-pointer"
+                style={{
+                  backgroundColor: theme.colors.lightAccent,
+                  color: theme.colors.darkRich
+                }}
               >
                 {loading ? (
                   <span className="animate-pulse">Initializing Magic...</span>
@@ -232,14 +266,20 @@ const MagicModeOverlay = forwardRef(({ onMagicModeReady, externalTrigger = false
         )}
       </AnimatePresence>
 
-      {/* Floating Detection Toast Notifications with specific matching symbol */}
+      {/* Floating Detection Toast Notifications */}
       <AnimatePresence>
         {notification && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed top-8 left-1/2 -translate-x-1/2 z-[110] bg-[#3D061A]/95 backdrop-blur-md border border-[#E6A4B4]/60 text-[#F8C8DC] px-5 py-2.5 rounded-full font-serif text-sm shadow-[0_0_20px_rgba(230,164,180,0.5)] flex items-center gap-2"
+            className="fixed top-8 left-1/2 -translate-x-1/2 z-[110] backdrop-blur-md border px-5 py-2.5 rounded-full font-serif text-sm shadow-xl flex items-center gap-2"
+            style={{
+              backgroundColor: `${theme.colors.darkRich}F2`,
+              borderColor: theme.colors.borderLight,
+              color: theme.colors.textLight,
+              boxShadow: `0 0 20px ${theme.colors.glowShadow}`
+            }}
           >
             <span className="text-base">{notification.icon}</span>
             <span>{notification.text}</span>

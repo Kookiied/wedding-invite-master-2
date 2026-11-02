@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
+import { useTheme } from '../context/ThemeContext';
 
 export default function FloatingMusic({ autoPlayTriggered = false }) {
+  const { theme } = useTheme();
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const audioRef = useRef(null);
@@ -129,12 +131,18 @@ export default function FloatingMusic({ autoPlayTriggered = false }) {
         whileTap={{ scale: 0.92 }}
         onClick={togglePlay}
         aria-label="Toggle Background Music"
-        className="relative group p-3.5 rounded-full bg-[#5E0B2B] text-[#F8C8DC] border-2 border-[#E6A4B4] shadow-2xl hover:shadow-[#E6A4B4]/50 transition-all flex items-center justify-center cursor-pointer"
+        className="relative group p-3.5 rounded-full border-2 shadow-2xl transition-all flex items-center justify-center cursor-pointer"
+        style={{
+          backgroundColor: theme.colors.darkAccent,
+          color: theme.colors.textLight,
+          borderColor: theme.colors.border,
+          boxShadow: `0 4px 20px ${theme.colors.glowShadow}`
+        }}
       >
         {isPlaying ? (
-          <Volume2 className="w-5 h-5 text-[#F8C8DC]" />
+          <Volume2 className="w-5 h-5" style={{ color: theme.colors.textLight }} />
         ) : (
-          <VolumeX className="w-5 h-5 text-[#FFF0F5]/70 group-hover:text-[#F8C8DC]" />
+          <VolumeX className="w-5 h-5 opacity-70 group-hover:opacity-100" style={{ color: theme.colors.textLight }} />
         )}
       </motion.button>
     </div>

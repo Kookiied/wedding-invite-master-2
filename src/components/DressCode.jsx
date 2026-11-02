@@ -2,23 +2,38 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import { Shirt, User } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function DressCode() {
+  const { theme } = useTheme();
+
   return (
-    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-16 pb-32 md:pb-40 px-4">
+    <section className="relative w-full bg-pink-paper-pattern text-[#2D2D2D] pt-16 pb-32 md:pb-40 px-4 transition-colors duration-500">
       
       {/* Section Header */}
       <div className="text-center max-w-md md:max-w-xl lg:max-w-3xl mx-auto mb-12 md:mb-16">
-        <span className="font-sans text-xs uppercase tracking-[0.3em] text-[#5E0B2B] font-semibold block mb-6">
+        <span 
+          className="font-sans text-xs uppercase tracking-[0.3em] font-semibold block mb-6 transition-colors duration-500"
+          style={{ color: theme.colors.textTitle }}
+        >
           Attire Guide
         </span>
-        <h2 className="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#5E0B2B]">
+        <h2 
+          className="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl transition-colors duration-500"
+          style={{ color: theme.colors.textTitle }}
+        >
           Dress Code
         </h2>
-        <p className="font-serif text-xs text-[#5E0B2B]/70 uppercase tracking-widest mt-2">
+        <p 
+          className="font-serif text-xs uppercase tracking-widest mt-2 opacity-80 transition-colors duration-500"
+          style={{ color: theme.colors.textTitle }}
+        >
           Saree / Lehenga / Jodhpuri & Shimmer
         </p>
-        <div className="w-16 h-0.5 bg-[#E6A4B4] mx-auto mt-3 rounded-full" />
+        <div 
+          className="w-16 h-0.5 mx-auto mt-3 rounded-full transition-colors duration-500" 
+          style={{ backgroundColor: theme.colors.border }}
+        />
       </div>
 
       <div className="max-w-md md:max-w-xl lg:max-w-2xl mx-auto space-y-6 md:space-y-8">
@@ -29,27 +44,40 @@ export default function DressCode() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="relative bg-white border-2 border-[#E6A4B4] rounded-2xl p-6 shadow-lg overflow-hidden group"
+            className="relative bg-white border-2 rounded-2xl p-6 shadow-lg overflow-hidden group transition-all duration-500"
+            style={{
+              borderColor: theme.colors.border,
+              boxShadow: `0 4px 20px ${theme.colors.glowShadow}`
+            }}
           >
-            {/* Corner Decorative SVGs */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#E6A4B4]" />
-            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#E6A4B4]" />
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#E6A4B4]" />
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#E6A4B4]" />
+            {/* Corner Decorative Borders */}
+            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2" style={{ borderColor: theme.colors.border }} />
+            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2" style={{ borderColor: theme.colors.border }} />
+            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2" style={{ borderColor: theme.colors.border }} />
+            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2" style={{ borderColor: theme.colors.border }} />
 
             {/* Event Title */}
             <div className="text-center mb-4">
-              <span className="font-sans text-[10px] uppercase tracking-widest text-[#5E0B2B] font-bold block mb-1">
+              <span 
+                className="font-sans text-[10px] uppercase tracking-widest font-bold block mb-1"
+                style={{ color: theme.colors.textTitle }}
+              >
                 Event Attire
               </span>
-              <h3 className="font-serif text-xl md:text-2xl font-bold text-[#5E0B2B]">
+              <h3 
+                className="font-serif text-xl md:text-2xl font-bold"
+                style={{ color: theme.colors.textTitle }}
+              >
                 {item.title}
               </h3>
             </div>
 
             {/* Color Palette Display */}
             <div className="flex flex-col items-center mb-4">
-              <span className="font-script text-2xl md:text-3xl text-[#B83B5E] mb-2 font-bold">
+              <span 
+                className="font-script text-2xl md:text-3xl mb-2 font-bold transition-colors duration-500"
+                style={{ color: theme.colors.darkAccent }}
+              >
                 {item.theme}
               </span>
               <div className="flex gap-2">
@@ -67,11 +95,23 @@ export default function DressCode() {
             </div>
 
             {/* Recommendations Grid */}
-            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#E6A4B4]/30 text-xs md:text-sm font-sans">
+            <div 
+              className="grid grid-cols-2 gap-3 pt-3 border-t text-xs md:text-sm font-sans"
+              style={{ borderColor: theme.colors.borderLight }}
+            >
               {/* Women */}
-              <div className="bg-[#FFF0F5]/70 p-3 md:p-4 rounded-xl border border-[#E6A4B4]/30">
-                <span className="font-serif text-[11px] md:text-xs uppercase tracking-wider text-[#5E0B2B] font-bold flex items-center gap-1 mb-1">
-                  <User className="w-3 h-3 text-[#B83B5E]" /> Women
+              <div 
+                className="p-3 md:p-4 rounded-xl border transition-colors duration-500"
+                style={{
+                  backgroundColor: `${theme.colors.lightBg}CC`,
+                  borderColor: theme.colors.borderLight
+                }}
+              >
+                <span 
+                  className="font-serif text-[11px] md:text-xs uppercase tracking-wider font-bold flex items-center gap-1 mb-1"
+                  style={{ color: theme.colors.textTitle }}
+                >
+                  <User className="w-3 h-3" style={{ color: theme.colors.darkAccent }} /> Women
                 </span>
                 <p className="text-[#2D2D2D]/80 leading-snug">
                   {item.women}
@@ -79,9 +119,18 @@ export default function DressCode() {
               </div>
 
               {/* Men */}
-              <div className="bg-[#FFF0F5]/70 p-3 md:p-4 rounded-xl border border-[#E6A4B4]/30">
-                <span className="font-serif text-[11px] md:text-xs uppercase tracking-wider text-[#5E0B2B] font-bold flex items-center gap-1 mb-1">
-                  <Shirt className="w-3 h-3 text-[#B83B5E]" /> Men
+              <div 
+                className="p-3 md:p-4 rounded-xl border transition-colors duration-500"
+                style={{
+                  backgroundColor: `${theme.colors.lightBg}CC`,
+                  borderColor: theme.colors.borderLight
+                }}
+              >
+                <span 
+                  className="font-serif text-[11px] md:text-xs uppercase tracking-wider font-bold flex items-center gap-1 mb-1"
+                  style={{ color: theme.colors.textTitle }}
+                >
+                  <Shirt className="w-3 h-3" style={{ color: theme.colors.darkAccent }} /> Men
                 </span>
                 <p className="text-[#2D2D2D]/80 leading-snug">
                   {item.men}

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useTheme } from '../context/ThemeContext';
 
 export default function EnvelopeIntro({ onOpen }) {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   // Default selected animation set to 'stardust' (Golden Stardust & Ripple)
   const [activeAnim, setActiveAnim] = useState('stardust');
@@ -31,7 +33,7 @@ export default function EnvelopeIntro({ onOpen }) {
         particleCount: 100,
         spread: 110,
         origin: { y: 0.5 },
-        colors: ['#E65C8A', '#FFD6E5', '#F596AA', '#3D061A', '#FFF0F5']
+        colors: [theme.colors.accentPop, theme.colors.lightAccent, theme.colors.glow, theme.colors.darkRich, theme.colors.lightBg]
       });
       timeoutDuration = 1300;
     } 
@@ -41,7 +43,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 45,
         origin: { y: 0.5 },
-        colors: ['#FFB6C1', '#FF69B4', '#FFF0F5', '#E6A4B4', '#F8C8DC'],
+        colors: [theme.colors.lightAccent, theme.colors.accentPop, theme.colors.lightBg, theme.colors.border, theme.colors.glow],
         shapes: ['circle', 'square'], 
         gravity: 0.6,
         scalar: 1.2,
@@ -55,13 +57,13 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 55,
         origin: { y: 0.5 },
-        colors: ['#FFD700', '#FFA500', '#FFFFFF', '#F1C40F'],
+        colors: [theme.colors.gold, '#FFA500', '#FFFFFF', theme.colors.lightAccent],
         shapes: ['star', 'circle'],
         gravity: 0.8,
-        scalar: 1.2,
-        ticks: 200
+        scalar: 1.1,
+        ticks: 250
       });
-      timeoutDuration = 2000;
+      timeoutDuration = 1800;
     }
     else if (activeAnim === 'curtain') {
       confetti({
@@ -69,7 +71,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 180,
         startVelocity: 60,
         origin: { y: 0.5 },
-        colors: ['#FFD700', '#F8C8DC', '#FFFFFF', '#E6A4B4'],
+        colors: [theme.colors.gold, theme.colors.lightAccent, '#FFFFFF', theme.colors.border],
         gravity: 1.2,
         scalar: 0.9,
         ticks: 300
@@ -82,7 +84,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 55,
         origin: { y: 0.5 },
-        colors: ['#1E90FF', '#87CEEB', '#FFFFFF', '#E6A4B4'],
+        colors: [theme.colors.glow, theme.colors.lightAccent, '#FFFFFF', theme.colors.border],
         shapes: ['circle'],
         gravity: 0.5,
         scalar: 1.5,
@@ -101,17 +103,17 @@ export default function EnvelopeIntro({ onOpen }) {
     <motion.div 
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 1.0, ease: "easeInOut" } }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#180104] overflow-hidden select-none"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden select-none bg-black"
     >
 
       {/* Full-Screen Velvet Envelope Container */}
       <div className="relative w-full h-full overflow-hidden flex items-center justify-center bg-black">
         
-        {/* Pure Photographic Velvet Envelope Image */}
+        {/* Pure Photographic Velvet Envelope Image - 100% Original Asset Colors */}
         <img 
           src="/velvet-envelope.png" 
           alt="Real Royal Plush Velvet Envelope" 
-          className="absolute inset-0 w-full h-full object-cover object-center filter contrast-[1.05] brightness-[1.02]"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
 
         {/* Subtle Dark Vignette Overlay for Contrast */}
@@ -128,7 +130,7 @@ export default function EnvelopeIntro({ onOpen }) {
         )}
 
         <AnimatePresence>
-          {/* ANIMATION 1: Pink Sunburst */}
+          {/* ANIMATION 1: Sunburst */}
           {isOpen && activeAnim === 'outburst' && (
             <motion.div 
               initial={{ opacity: 0, scale: 0.2 }}
@@ -136,8 +138,17 @@ export default function EnvelopeIntro({ onOpen }) {
               transition={{ duration: 2.2, ease: "easeOut" }}
               className="absolute z-30 pointer-events-none flex items-center justify-center"
             >
-              <div className="w-[600px] h-[600px] rounded-full bg-radial from-[#FFF0F5] via-[#E65C8A]/85 to-transparent blur-xl" />
-              <svg viewBox="0 0 200 200" className="absolute w-[1000px] h-[1000px] animate-spin-slow opacity-90 text-[#E65C8A] fill-current">
+              <div 
+                className="w-[600px] h-[600px] rounded-full blur-xl"
+                style={{
+                  background: `radial-gradient(circle, ${theme.colors.lightBg} 0%, ${theme.colors.accentPop}D9 60%, transparent 100%)`
+                }} 
+              />
+              <svg 
+                viewBox="0 0 200 200" 
+                className="absolute w-[1000px] h-[1000px] animate-spin-slow opacity-90 fill-current"
+                style={{ color: theme.colors.accentPop }}
+              >
                 {[...Array(16)].map((_, i) => (
                   <polygon key={i} points="100,100 93,0 107,0" transform={`rotate(${i * 22.5} 100 100)`} />
                 ))}
@@ -153,16 +164,26 @@ export default function EnvelopeIntro({ onOpen }) {
               transition={{ duration: 2.6, ease: "easeInOut" }}
               className="absolute z-30 pointer-events-none flex items-center justify-center"
             >
-              <div className="absolute w-[500px] h-[500px] rounded-full bg-[#E6A4B4]/60 blur-3xl" />
-              <svg viewBox="0 0 200 200" className="absolute w-[700px] h-[700px] text-[#E6A4B4] fill-current opacity-95 drop-shadow-[0_0_30px_rgba(230,164,180,0.95)]">
+              <div 
+                className="absolute w-[500px] h-[500px] rounded-full blur-3xl"
+                style={{ backgroundColor: `${theme.colors.border}99` }} 
+              />
+              <svg 
+                viewBox="0 0 200 200" 
+                className="absolute w-[700px] h-[700px] fill-current opacity-95"
+                style={{ 
+                  color: theme.colors.border,
+                  filter: `drop-shadow(0 0 30px ${theme.colors.glow})` 
+                }}
+              >
                 <g transform="translate(100,100)">
                   {[...Array(12)].map((_, i) => (
                     <path key={`outer-${i}`} d="M0,0 C20,-40 20,-80 0,-100 C-20,-80 -20,-40 0,0" transform={`rotate(${i * 30})`} opacity="0.85"/>
                   ))}
                   {[...Array(12)].map((_, i) => (
-                    <path key={`inner-${i}`} d="M0,0 C15,-30 15,-60 0,-75 C-15,-60 -15,-30 0,0" transform={`rotate(${i * 30 + 15})`} fill="#FFF0F5" opacity="0.95"/>
+                    <path key={`inner-${i}`} d="M0,0 C15,-30 15,-60 0,-75 C-15,-60 -15,-30 0,0" transform={`rotate(${i * 30 + 15})`} fill={theme.colors.lightBg} opacity="0.95"/>
                   ))}
-                  <circle cx="0" cy="0" r="18" fill="#FFD6E5" className="animate-pulse" />
+                  <circle cx="0" cy="0" r="18" fill={theme.colors.lightAccent} className="animate-pulse" />
                 </g>
               </svg>
             </motion.div>
@@ -176,12 +197,19 @@ export default function EnvelopeIntro({ onOpen }) {
               transition={{ duration: 2.4, ease: "easeInOut" }}
               className="absolute z-30 pointer-events-none flex items-center justify-center"
             >
-              <div className="absolute w-[400px] h-[400px] rounded-full bg-[#FFD700]/40 blur-3xl" />
+              <div 
+                className="absolute w-[400px] h-[400px] rounded-full blur-3xl"
+                style={{ backgroundColor: `${theme.colors.gold}66` }} 
+              />
               <motion.div 
                 initial={{ opacity: 1, scale: 0 }}
                 animate={{ opacity: 0, scale: 8 }}
                 transition={{ duration: 2.0, ease: "easeOut" }}
-                className="absolute w-[200px] h-[200px] rounded-full border-[6px] border-[#FFD700] drop-shadow-[0_0_20px_rgba(255,215,0,1)]"
+                className="absolute w-[200px] h-[200px] rounded-full border-[6px]"
+                style={{
+                  borderColor: theme.colors.gold,
+                  filter: `drop-shadow(0 0 20px ${theme.colors.gold})`
+                }}
               />
             </motion.div>
           )}
@@ -194,21 +222,30 @@ export default function EnvelopeIntro({ onOpen }) {
                 initial={{ x: '0%' }}
                 animate={{ x: '-100%' }}
                 transition={{ duration: 1.8, ease: "easeInOut" }}
-                className="absolute top-0 bottom-0 left-0 w-1/2 bg-gradient-to-r from-[#3D061A] to-[#5E0B2B] z-40 border-r-4 border-[#FFD700] shadow-[10px_0_40px_rgba(0,0,0,0.9)]"
+                className="absolute top-0 bottom-0 left-0 w-1/2 z-40 border-r-4 shadow-[10px_0_40px_rgba(0,0,0,0.9)]"
+                style={{
+                  background: `linear-gradient(to right, ${theme.colors.darkRich}, ${theme.colors.darkAccent})`,
+                  borderColor: theme.colors.gold
+                }}
               />
               {/* Right Curtain */}
               <motion.div 
                 initial={{ x: '0%' }}
                 animate={{ x: '100%' }}
                 transition={{ duration: 1.8, ease: "easeInOut" }}
-                className="absolute top-0 bottom-0 right-0 w-1/2 bg-gradient-to-l from-[#3D061A] to-[#5E0B2B] z-40 border-l-4 border-[#FFD700] shadow-[-10px_0_40px_rgba(0,0,0,0.9)]"
+                className="absolute top-0 bottom-0 right-0 w-1/2 z-40 border-l-4 shadow-[-10px_0_40px_rgba(0,0,0,0.9)]"
+                style={{
+                  background: `linear-gradient(to left, ${theme.colors.darkRich}, ${theme.colors.darkAccent})`,
+                  borderColor: theme.colors.gold
+                }}
               />
               {/* Glowing Center Sparkle */}
               <motion.div 
                 initial={{ opacity: 1, scale: 0 }}
                 animate={{ opacity: [0, 1, 1], scale: [0, 2, 6] }}
                 transition={{ duration: 2.0, ease: "easeInOut" }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-64 h-64 rounded-full bg-[#FFD700]/50 blur-3xl"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-64 h-64 rounded-full blur-3xl"
+                style={{ backgroundColor: `${theme.colors.gold}80` }}
               />
             </div>
           )}
@@ -223,7 +260,8 @@ export default function EnvelopeIntro({ onOpen }) {
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: [0, 1, 1], scale: [0, 2, 8] }}
                 transition={{ duration: 2.6, ease: "easeInOut" }}
-                className="absolute w-[500px] h-[500px] rounded-full bg-[#1E90FF]/40 blur-3xl"
+                className="absolute w-[500px] h-[500px] rounded-full blur-3xl"
+                style={{ backgroundColor: `${theme.colors.glow}66` }}
               />
               
               {/* Swarm of 16 Butterflies bursting outward */}
@@ -238,8 +276,11 @@ export default function EnvelopeIntro({ onOpen }) {
                     initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
                     animate={{ x: x, y: y, scale: [0, 3, 5], opacity: [0, 1, 0] }}
                     transition={{ duration: 2.2, ease: "easeOut" }}
-                    className="absolute text-5xl sm:text-6xl drop-shadow-[0_0_15px_rgba(30,144,255,0.8)]"
-                    style={{ transformOrigin: 'center' }}
+                    className="absolute text-5xl sm:text-6xl"
+                    style={{ 
+                      transformOrigin: 'center',
+                      filter: `drop-shadow(0 0 15px ${theme.colors.glow})` 
+                    }}
                   >
                     🦋
                   </motion.div>
@@ -258,7 +299,9 @@ export default function EnvelopeIntro({ onOpen }) {
               transition={{ repeat: Infinity, duration: 2 }}
               className="absolute bottom-10 left-0 right-0 z-[60] text-center px-4 flex items-center justify-center pointer-events-none"
             >
-              <p className="font-serif text-[11px] sm:text-xs md:text-sm lg:text-base uppercase tracking-[0.35em] text-[#FFF0F5] font-semibold flex items-center justify-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/60 py-2.5 px-6 md:py-3 md:px-8 rounded-full border border-[#E6A4B4]/50 backdrop-blur-md">
+              <p 
+                className="font-serif text-[11px] sm:text-xs md:text-sm lg:text-base uppercase tracking-[0.35em] text-[#FFF0F5] font-semibold flex items-center justify-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] bg-black/60 py-2.5 px-6 md:py-3 md:px-8 rounded-full border border-[#E6A4B4]/50 backdrop-blur-md"
+              >
                 Tap Wax Seal or Show Open Palm to Open
               </p>
             </motion.div>

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import ScratchCard from './ScratchCard';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Countdown({ onScratchComplete }) {
+  const { theme } = useTheme();
   const [isFullyRevealed, setIsFullyRevealed] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: '00',
@@ -47,11 +49,17 @@ export default function Countdown({ onScratchComplete }) {
   }, []);
 
   return (
-    <section className="relative w-full bg-[#5E0B2B] text-[#FFF0F5] pb-16">
+    <section 
+      className="relative w-full pb-16 transition-colors duration-500"
+      style={{
+        backgroundColor: theme.colors.darkAccent,
+        color: theme.colors.textLightMuted
+      }}
+    >
       
       {/* Top SVG Mask Transition */}
       <div className="relative w-full overflow-hidden leading-none -mt-1 z-10 pointer-events-none">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-12 text-[#5E0B2B] fill-current">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-12 fill-current transition-colors duration-500" style={{ color: theme.colors.darkAccent }}>
           <path d="M0,0 C150,90 350,-40 500,65 C650,170 900,-30 1200,40 L1200,120 L0,120 Z" />
         </svg>
       </div>
@@ -66,13 +74,22 @@ export default function Countdown({ onScratchComplete }) {
           transition={{ duration: 0.6 }}
           className="mb-2"
         >
-          <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-[#F8C8DC] font-bold block mb-1">
+          <span 
+            className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold block mb-1 transition-colors duration-500"
+            style={{ color: theme.colors.textLight }}
+          >
             SAVE THE DATE
           </span>
-          <h2 className="font-script text-4xl sm:text-5xl md:text-6xl text-[#F8C8DC] font-bold leading-[1.15] my-1">
+          <h2 
+            className="font-script text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.15] my-1 transition-colors duration-500"
+            style={{ color: theme.colors.textLight }}
+          >
             Reveal<br />Our Big Day
           </h2>
-          <span className="font-serif text-[11px] italic text-[#FFF0F5]/80 block mt-1.5 mb-5">
+          <span 
+            className="font-serif text-[11px] italic block mt-1.5 mb-5 transition-colors duration-500"
+            style={{ color: theme.colors.textLightMuted }}
+          >
             Scratch the hearts to reveal
           </span>
         </motion.div>
@@ -97,48 +114,99 @@ export default function Countdown({ onScratchComplete }) {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="mt-6"
             >
-              <h2 className="font-script text-4xl md:text-5xl text-[#F8C8DC] font-semibold mb-6">
+              <h2 
+                className="font-script text-4xl md:text-5xl font-semibold mb-6 transition-colors duration-500"
+                style={{ color: theme.colors.textLight }}
+              >
                 The beginning of forever...
               </h2>
 
-              {/* Classy Rounded Blush Pink Countdown Timer Grid */}
+              {/* Classy Rounded Countdown Timer Grid */}
               <div className="grid grid-cols-4 gap-3 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
                 {/* Days */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
+                <div 
+                  className="rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center border transition-colors duration-500"
+                  style={{
+                    backgroundColor: theme.colors.lightBg,
+                    borderColor: theme.colors.borderLight
+                  }}
+                >
+                  <span 
+                    className="font-serif text-2xl md:text-4xl font-bold block leading-none transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     {timeLeft.days}
                   </span>
-                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
+                  <span 
+                    className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest mt-1.5 md:mt-2 block font-bold transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     DAYS
                   </span>
                 </div>
 
                 {/* Hours */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
+                <div 
+                  className="rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center border transition-colors duration-500"
+                  style={{
+                    backgroundColor: theme.colors.lightBg,
+                    borderColor: theme.colors.borderLight
+                  }}
+                >
+                  <span 
+                    className="font-serif text-2xl md:text-4xl font-bold block leading-none transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     {timeLeft.hours}
                   </span>
-                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
+                  <span 
+                    className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest mt-1.5 md:mt-2 block font-bold transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     HRS
                   </span>
                 </div>
 
                 {/* Minutes */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
+                <div 
+                  className="rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center border transition-colors duration-500"
+                  style={{
+                    backgroundColor: theme.colors.lightBg,
+                    borderColor: theme.colors.borderLight
+                  }}
+                >
+                  <span 
+                    className="font-serif text-2xl md:text-4xl font-bold block leading-none transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     {timeLeft.minutes}
                   </span>
-                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
+                  <span 
+                    className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest mt-1.5 md:mt-2 block font-bold transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     MINS
                   </span>
                 </div>
 
                 {/* Seconds */}
-                <div className="bg-[#FFF0F5] border border-[#E6A4B4]/40 rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center">
-                  <span className="font-serif text-2xl md:text-4xl font-bold text-[#5E0B2B] block leading-none">
+                <div 
+                  className="rounded-2xl py-3 md:py-4 px-2 shadow-sm text-center flex flex-col items-center justify-center border transition-colors duration-500"
+                  style={{
+                    backgroundColor: theme.colors.lightBg,
+                    borderColor: theme.colors.borderLight
+                  }}
+                >
+                  <span 
+                    className="font-serif text-2xl md:text-4xl font-bold block leading-none transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     {timeLeft.seconds}
                   </span>
-                  <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest text-[#5E0B2B]/70 mt-1.5 md:mt-2 block font-bold">
+                  <span 
+                    className="font-sans text-[8px] md:text-[10px] uppercase tracking-widest mt-1.5 md:mt-2 block font-bold transition-colors duration-500"
+                    style={{ color: theme.colors.textTitle }}
+                  >
                     SECS
                   </span>
                 </div>
@@ -151,7 +219,7 @@ export default function Countdown({ onScratchComplete }) {
 
       {/* Bottom SVG Divider */}
       <div className="relative w-full overflow-hidden leading-none mt-16 -mb-1 pointer-events-none rotate-180">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-10 text-[#5E0B2B] fill-current">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-10 fill-current transition-colors duration-500" style={{ color: theme.colors.darkAccent }}>
           <path d="M0,0 C150,90 350,-40 500,65 C650,170 900,-30 1200,40 L1200,120 L0,120 Z" />
         </svg>
       </div>
