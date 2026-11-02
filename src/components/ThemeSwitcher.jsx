@@ -79,7 +79,7 @@ export default function ThemeSwitcher() {
             animate={{ height: 'auto', opacity: 1, y: 0 }}
             exit={{ height: 0, opacity: 0, y: -8 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className="flex flex-col items-center gap-2 py-2 px-1.5 rounded-full backdrop-blur-2xl border shadow-2xl overflow-hidden mt-1.5"
+            className="flex flex-col items-center gap-2.5 sm:gap-3 py-3 px-2 rounded-full backdrop-blur-2xl border shadow-2xl overflow-hidden mt-1.5"
             style={{
               backgroundColor: `${theme.colors.darkRich}F2`,
               borderColor: theme.colors.borderLight,
@@ -98,33 +98,35 @@ export default function ThemeSwitcher() {
                   onClick={() => {
                     setTheme(t.id);
                   }}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.94 }}
                   aria-label={`Switch to ${t.name}`}
                   title={`${t.name} (${t.subtitle})`}
                   className={`relative rounded-full transition-all duration-200 cursor-pointer shrink-0 ${
                     isActive 
-                      ? 'scale-115 ring-2 shadow-lg' 
-                      : 'opacity-70 hover:opacity-100 hover:scale-110'
+                      ? 'ring-2 ring-[#FFD700] ring-offset-2 ring-offset-black/50' 
+                      : 'hover:ring-1 hover:ring-white/90'
                   }`}
                   style={{
-                    ringColor: t.colors.gold,
-                    boxShadow: isActive ? `0 0 12px ${t.colors.gold}` : 'none'
+                    boxShadow: isActive ? `0 0 14px ${t.colors.gold}` : '0 2px 8px rgba(0,0,0,0.35)'
                   }}
                 >
-                  {/* Glossy Circular Dual-Tone Swatch */}
+                  {/* Glossy Circular Dual-Tone Swatch - 100% Clear & Vivid */}
                   <div 
-                    className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border shadow-inner relative overflow-hidden"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-[1.5px] shadow-md relative overflow-hidden"
                     style={{
                       background: `linear-gradient(135deg, ${t.colors.darkRich} 50%, ${t.colors.lightAccent} 50%)`,
-                      borderColor: isActive ? t.colors.gold : 'rgba(255,255,255,0.4)'
+                      borderColor: isActive ? t.colors.gold : 'rgba(255,255,255,0.85)'
                     }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/35 via-transparent to-transparent pointer-events-none" />
+                    {/* Subtle Pure Glass Sheen without milkiness */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/20 pointer-events-none" />
                   </div>
 
                   {/* Active theme indicator dot */}
                   {isActive && (
                     <span 
-                      className="absolute -right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full"
+                      className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-black/50"
                       style={{ backgroundColor: t.colors.gold }}
                     />
                   )}
