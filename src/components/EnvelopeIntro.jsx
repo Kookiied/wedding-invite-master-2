@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { useTheme } from '../context/ThemeContext';
 
 export default function EnvelopeIntro({ onOpen }) {
-  const { theme } = useTheme();
+  const { theme, themeId } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   // Default selected animation set to 'stardust' (Golden Stardust & Ripple)
   const [activeAnim, setActiveAnim] = useState('stardust');
@@ -28,12 +28,18 @@ export default function EnvelopeIntro({ onOpen }) {
 
     let timeoutDuration = 1500;
 
+    const getConfettiColors = (raniColors) => {
+      return themeId === 'rani'
+        ? raniColors
+        : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+    };
+
     if (activeAnim === 'outburst') {
       confetti({
         particleCount: 100,
         spread: 110,
         origin: { y: 0.5 },
-        colors: [theme.colors.accentPop, theme.colors.lightAccent, theme.colors.glow, theme.colors.darkRich, theme.colors.lightBg]
+        colors: getConfettiColors([theme.colors.accentPop, theme.colors.lightAccent, theme.colors.glow, theme.colors.darkRich, theme.colors.lightBg])
       });
       timeoutDuration = 1300;
     } 
@@ -43,7 +49,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 45,
         origin: { y: 0.5 },
-        colors: [theme.colors.lightAccent, theme.colors.accentPop, theme.colors.lightBg, theme.colors.border, theme.colors.glow],
+        colors: getConfettiColors([theme.colors.lightAccent, theme.colors.accentPop, theme.colors.lightBg, theme.colors.border, theme.colors.glow]),
         shapes: ['circle', 'square'], 
         gravity: 0.6,
         scalar: 1.2,
@@ -57,7 +63,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 55,
         origin: { y: 0.5 },
-        colors: [theme.colors.gold, '#FFA500', '#FFFFFF', theme.colors.lightAccent],
+        colors: getConfettiColors([theme.colors.gold, '#FFA500', '#FFFFFF', theme.colors.lightAccent]),
         shapes: ['star', 'circle'],
         gravity: 0.8,
         scalar: 1.1,
@@ -71,7 +77,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 180,
         startVelocity: 60,
         origin: { y: 0.5 },
-        colors: [theme.colors.gold, theme.colors.lightAccent, '#FFFFFF', theme.colors.border],
+        colors: getConfettiColors([theme.colors.gold, theme.colors.lightAccent, '#FFFFFF', theme.colors.border]),
         gravity: 1.2,
         scalar: 0.9,
         ticks: 300
@@ -84,7 +90,7 @@ export default function EnvelopeIntro({ onOpen }) {
         spread: 360,
         startVelocity: 55,
         origin: { y: 0.5 },
-        colors: [theme.colors.glow, theme.colors.lightAccent, '#FFFFFF', theme.colors.border],
+        colors: getConfettiColors([theme.colors.glow, theme.colors.lightAccent, '#FFFFFF', theme.colors.border]),
         shapes: ['circle'],
         gravity: 0.5,
         scalar: 1.5,

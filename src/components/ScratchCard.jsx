@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useTheme } from '../context/ThemeContext';
 
 function ScratchHeart({ hiddenText, label, onReveal }) {
   const canvasRef = useRef(null);
@@ -173,7 +174,14 @@ function ScratchHeart({ hiddenText, label, onReveal }) {
 }
 
 export default function ScratchCard({ onAllRevealed }) {
+  const { themeId } = useTheme();
   const [revealedCount, setRevealedCount] = useState(0);
+
+  const getConfettiColors = () => {
+    return themeId === 'rani'
+      ? ['#FFD6E5', '#F596AA', '#5E0B2B', '#E86B8A', '#FFFFFF']
+      : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+  };
 
   const handleHeartReveal = () => {
     // Trigger small confetti burst on individual scratch reveal
@@ -181,7 +189,7 @@ export default function ScratchCard({ onAllRevealed }) {
       particleCount: 45,
       spread: 60,
       origin: { y: 0.75 },
-      colors: ['#FFD6E5', '#F596AA', '#5E0B2B', '#E86B8A', '#FFFFFF']
+      colors: getConfettiColors()
     });
 
     setRevealedCount(prev => {
@@ -199,7 +207,7 @@ export default function ScratchCard({ onAllRevealed }) {
 
   const triggerCelebrationConfetti = () => {
     const end = Date.now() + (2.5 * 1000);
-    const colors = ['#FFD6E5', '#F596AA', '#5E0B2B', '#E86B8A', '#FFFFFF'];
+    const colors = getConfettiColors();
 
     (function frame() {
       confetti({

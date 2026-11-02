@@ -5,7 +5,7 @@ import { Wind, Heart, Sparkles } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export default function CandleReveal() {
-  const { theme } = useTheme();
+  const { theme, themeId } = useTheme();
   const [isLit, setIsLit] = useState(true);
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef(null);
@@ -33,26 +33,34 @@ export default function CandleReveal() {
     const handleBlow = () => {
       if (isLit && isInView) {
         setIsLit(false);
+        const confettiColors = themeId === 'rani'
+          ? [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF']
+          : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+
         confetti({
           particleCount: 150,
           spread: 110,
           origin: { y: 0.7 },
-          colors: [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF']
+          colors: confettiColors
         });
       }
     };
 
     window.addEventListener('MAGIC_BLOW', handleBlow);
     return () => window.removeEventListener('MAGIC_BLOW', handleBlow);
-  }, [isLit, isInView, theme]);
+  }, [isLit, isInView, theme, themeId]);
 
   const handleManualBlow = () => {
     setIsLit(false);
+    const confettiColors = themeId === 'rani'
+      ? [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF']
+      : ['#FFD700', '#FF1493', '#00F0FF', '#00E676', '#FF5722', '#7C4DFF', '#FFEB3B', '#FFFFFF', '#FF4081', '#00B0FF'];
+
     confetti({
       particleCount: 150,
       spread: 110,
       origin: { y: 0.7 },
-      colors: [theme.colors.gold, theme.colors.lightAccent, theme.colors.border, '#FFFFFF']
+      colors: confettiColors
     });
   };
 
