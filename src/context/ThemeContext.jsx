@@ -68,35 +68,68 @@ export const THEMES = [
     }
   },
   {
-    id: 'sapphire',
-    name: 'Midnight Sapphire',
-    subtitle: 'Royal Lapis & Celestial Ice',
-    category: 'Starlight Nocturne & Frost Silk',
-    emoji: '🌌',
-    ganeshaIcon: '/ganesha-sapphire.png',
-    vibe: 'Ethereal, Majestic, Arabian Nights',
+    id: 'sapphire-ocean',
+    name: 'Ocean Sapphire (Option 1)',
+    subtitle: 'Cerulean Azure & Pearl Gold',
+    category: 'Royal Ocean & Celestial Gold',
+    emoji: '🌊',
+    ganeshaIcon: '/ganesha-sapphire-ocean.png',
+    vibe: 'Deep Ocean Cyan & Pearl Gold',
     colors: {
-      darkDeep: '#040E20',
-      darkRich: '#0B2044',
-      darkAccent: '#153267',
-      darkSurface: '#081938',
-      lightBg: '#F1F6FE',
-      lightSubtle: '#E3ECFC',
+      darkDeep: '#021622',
+      darkRich: '#042639',
+      darkAccent: '#086288',
+      darkSurface: '#031E2D',
+      lightBg: '#F3F9FD',
+      lightSubtle: '#E2F1FA',
       lightCard: '#FFFFFF',
-      lightAccent: '#CFE0FD',
-      border: '#8FB2F4',
-      borderLight: 'rgba(143, 178, 244, 0.4)',
-      glow: '#5C90FA',
-      accentPop: '#2A66DE',
-      gold: '#F5D06A',
-      goldSecondary: '#DAAF3B',
-      textTitle: '#0E2B60',
-      textBodyDark: '#0B2044',
-      textLight: '#CFE0FD',
-      textLightMuted: '#F1F6FE',
-      swatchDark: '#0B2044',
-      swatchLight: '#CFE0FD',
-      glowShadow: 'rgba(92, 144, 250, 0.45)',
+      lightAccent: '#97D7FF',
+      border: '#4D8DBA',
+      borderLight: 'rgba(77, 141, 186, 0.45)',
+      glow: '#97D7FF',
+      accentPop: '#086288',
+      gold: '#FFEFC4',
+      goldSecondary: '#D6BF7E',
+      textTitle: '#042639',
+      textBodyDark: '#08405A',
+      textLight: '#FFEFC4',
+      textLightMuted: '#97D7FF',
+      swatchDark: '#086288',
+      swatchLight: '#97D7FF',
+      glowShadow: 'rgba(151, 215, 255, 0.45)',
+      ganeshaFilter: 'none'
+    }
+  },
+  {
+    id: 'sapphire',
+    name: 'Royal Sapphire (Option 2)',
+    subtitle: 'Cobalt Azure & Marigold Gold',
+    category: 'Royal Cobalt & Sun Gold Silk',
+    emoji: '💎',
+    ganeshaIcon: '/ganesha-sapphire.png',
+    vibe: 'Vibrant Cobalt & Festive Sunlight Gold',
+    colors: {
+      darkDeep: '#011524',
+      darkRich: '#002B45',
+      darkAccent: '#006199',
+      darkSurface: '#011E30',
+      lightBg: '#FCFDF5',
+      lightSubtle: '#F4EB6C',
+      lightCard: '#FFFFFF',
+      lightAccent: '#8ACFF8',
+      border: '#006199',
+      borderLight: 'rgba(138, 207, 248, 0.45)',
+      glow: '#FFD444',
+      accentPop: '#006199',
+      gold: '#FFD444',
+      goldSecondary: '#E0B020',
+      textTitle: '#002B45',
+      textBodyDark: '#003C60',
+      textLight: '#FFD444',
+      textLightMuted: '#8ACFF8',
+      swatchDark: '#006199',
+      swatchLight: '#FFD444',
+      glowShadow: 'rgba(0, 97, 153, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -231,6 +264,39 @@ export const THEMES = [
       glowShadow: 'rgba(255, 206, 216, 0.5)',
       ganeshaFilter: 'none'
     }
+  },
+  {
+    id: 'coral-bloom',
+    name: 'Jaipur Bloom',
+    subtitle: 'Coral Rose & Marigold Mint',
+    category: 'Royal Carnival & Festive Silk',
+    emoji: '🌺',
+    ganeshaIcon: '/ganesha-coral.png',
+    vibe: 'Vibrant, Festive, Palace Carnival',
+    colors: {
+      darkDeep: '#1A0707',
+      darkRich: '#341212',
+      darkAccent: '#521C1C',
+      darkSurface: '#240C0C',
+      lightBg: '#FFFDF0',
+      lightSubtle: '#FFF6A9',
+      lightCard: '#FFFFFF',
+      lightAccent: '#FFCA88',
+      border: '#DE7272',
+      borderLight: 'rgba(180, 228, 214, 0.55)',
+      glow: '#DE7272',
+      accentPop: '#DE7272',
+      gold: '#FFCA88',
+      goldSecondary: '#D89A4E',
+      textTitle: '#4A1515',
+      textBodyDark: '#341212',
+      textLight: '#FFF6A9',
+      textLightMuted: '#B4E4D6',
+      swatchDark: '#DE7272',
+      swatchLight: '#B4E4D6',
+      glowShadow: 'rgba(222, 114, 114, 0.45)',
+      ganeshaFilter: 'none'
+    }
   }
 ];
 
@@ -239,12 +305,18 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [themeId, setThemeId] = useState(() => {
     if (typeof window !== 'undefined') {
+      const optionApplied = localStorage.getItem('wedding_blue_option_applied');
+      if (optionApplied !== 'v2') {
+        localStorage.setItem('wedding_blue_option_applied', 'v2');
+        localStorage.setItem('wedding_luxury_theme_id', 'sapphire');
+        return 'sapphire';
+      }
       const saved = localStorage.getItem('wedding_luxury_theme_id');
       if (saved && THEMES.some(t => t.id === saved)) {
         return saved;
       }
     }
-    return 'rani';
+    return 'sapphire';
   });
 
   const currentTheme = THEMES.find(t => t.id === themeId) || THEMES[0];

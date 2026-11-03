@@ -54,7 +54,7 @@ export default function ThemeSwitcher({ isOpen, onToggle, onClose }) {
         <div 
           className="w-3.5 h-3.5 rounded-full border border-white/40 shadow-inner relative overflow-hidden"
           style={{
-            background: `linear-gradient(135deg, ${theme.colors.darkRich} 50%, ${theme.colors.lightAccent} 50%)`
+            background: `linear-gradient(135deg, ${theme.colors.swatchDark || theme.colors.darkRich} 50%, ${theme.colors.swatchLight || theme.colors.lightAccent} 50%)`
           }}
         />
         
@@ -119,7 +119,7 @@ export default function ThemeSwitcher({ isOpen, onToggle, onClose }) {
                   <div 
                     className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-[1.5px] shadow-md relative overflow-hidden"
                     style={{
-                      background: `linear-gradient(135deg, ${t.colors.darkRich} 50%, ${t.colors.lightAccent} 50%)`,
+                      background: `linear-gradient(135deg, ${t.colors.swatchDark || t.colors.darkRich} 50%, ${t.colors.swatchLight || t.colors.lightAccent} 50%)`,
                       borderColor: isActive ? t.colors.gold : 'rgba(255,255,255,0.85)'
                     }}
                   >
