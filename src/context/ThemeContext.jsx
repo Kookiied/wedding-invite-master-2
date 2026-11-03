@@ -288,9 +288,9 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [themeId, setThemeId] = useState(() => {
     if (typeof window !== 'undefined') {
-      const purpleApplied = localStorage.getItem('wedding_purple_theme_applied');
-      if (purpleApplied !== 'v1') {
-        localStorage.setItem('wedding_purple_theme_applied', 'v1');
+      const defaultInitialized = localStorage.getItem('wedding_default_lilac_v2');
+      if (!defaultInitialized) {
+        localStorage.setItem('wedding_default_lilac_v2', 'true');
         localStorage.setItem('wedding_luxury_theme_id', 'amethyst');
         return 'amethyst';
       }

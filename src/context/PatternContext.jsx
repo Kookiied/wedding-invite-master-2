@@ -68,12 +68,19 @@ const PatternContext = createContext();
 export function PatternProvider({ children }) {
   const [patternId, setPatternId] = useState(() => {
     if (typeof window !== 'undefined') {
+      const defaultInitialized = localStorage.getItem('wedding_default_pattern_alhambra_v1');
+      if (!defaultInitialized) {
+        localStorage.setItem('wedding_default_pattern_alhambra_v1', 'true');
+        localStorage.setItem('wedding_luxury_pattern_id', 'pattern-3');
+        localStorage.setItem('wedding_luxury_pattern_opacity', '0.25');
+        return 'pattern-3';
+      }
       const saved = localStorage.getItem('wedding_luxury_pattern_id');
       if (saved && PATTERNS.some(p => p.id === saved)) {
         return saved;
       }
     }
-    return 'none'; // Default to clean plain background
+    return 'pattern-3'; // Default to Alhambra Stars (alambra)
   });
 
   const [patternOpacity, setPatternOpacity] = useState(() => {
@@ -86,7 +93,7 @@ export function PatternProvider({ children }) {
         }
       }
     }
-    return 0.30; // Default to 30% level
+    return 0.25; // Default to 25% opacity
   });
 
   const currentPattern = PATTERNS.find(p => p.id === patternId) || PATTERNS[0];

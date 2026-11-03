@@ -1,25 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --theme-dark-deep: #1A030D;
-  --theme-dark-rich: #3D061A;
-  --theme-dark-accent: #5E0B2B;
-  --theme-dark-surface: #2A0412;
-  --theme-light-bg: #FFF0F5;
-  --theme-light-subtle: #FFEBEF;
+  --theme-dark-deep: #12081C;
+  --theme-dark-rich: #261536;
+  --theme-dark-accent: #7F669D;
+  --theme-dark-surface: #1A0C29;
+  --theme-light-bg: #FDFCF7;
+  --theme-light-subtle: #FBFACD;
   --theme-light-card: #FFFFFF;
-  --theme-light-accent: #F8C8DC;
-  --theme-border: #E6A4B4;
-  --theme-border-light: rgba(230, 164, 180, 0.4);
-  --theme-glow: #F596AA;
-  --theme-accent-pop: #E65C8A;
-  --theme-gold: #FFD700;
-  --theme-gold-secondary: #D4AF37;
-  --theme-text-title: #5E0B2B;
-  --theme-text-body-dark: #3D061A;
-  --theme-text-light: #F8C8DC;
-  --theme-text-light-muted: #FFF0F5;
-  --theme-glow-shadow: rgba(230, 164, 180, 0.45);
+  --theme-light-accent: #BA94D1;
+  --theme-border: #7F669D;
+  --theme-border-light: rgba(186, 148, 209, 0.45);
+  --theme-glow: #BA94D1;
+  --theme-accent-pop: #7F669D;
+  --theme-gold: #FBFACD;
+  --theme-gold-secondary: #D4C778;
+  --theme-text-title: #261536;
+  --theme-text-body-dark: #3D2456;
+  --theme-text-light: #FBFACD;
+  --theme-text-light-muted: #DEBACE;
+  --theme-glow-shadow: rgba(127, 102, 157, 0.45);
+  --theme-timeline-line: #FBFACD;
+  --theme-timeline-line-light: rgba(251, 250, 205, 0.45);
 }
 
 @layer utilities {
