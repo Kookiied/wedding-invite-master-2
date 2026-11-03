@@ -31,6 +31,8 @@ export const THEMES = [
       swatchDark: '#3D061A',
       swatchLight: '#F8C8DC',
       glowShadow: 'rgba(230, 164, 180, 0.45)',
+      timelineLine: '#FFD700',
+      timelineLineLight: 'rgba(255, 215, 0, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -64,6 +66,8 @@ export const THEMES = [
       swatchDark: '#546B41',
       swatchLight: '#99AD7A',
       glowShadow: 'rgba(153, 173, 122, 0.45)',
+      timelineLine: '#DCCCAC',
+      timelineLineLight: 'rgba(220, 204, 172, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -97,6 +101,8 @@ export const THEMES = [
       swatchDark: '#006199',
       swatchLight: '#FFD444',
       glowShadow: 'rgba(0, 97, 153, 0.45)',
+      timelineLine: '#FFEFC4',
+      timelineLineLight: 'rgba(255, 239, 196, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -130,6 +136,8 @@ export const THEMES = [
       swatchDark: '#7F669D',
       swatchLight: '#DEBACE',
       glowShadow: 'rgba(127, 102, 157, 0.45)',
+      timelineLine: '#FBFACD',
+      timelineLineLight: 'rgba(251, 250, 205, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -163,6 +171,8 @@ export const THEMES = [
       swatchDark: '#3E140A',
       swatchLight: '#FCD7C2',
       glowShadow: 'rgba(251, 146, 60, 0.45)',
+      timelineLine: '#FBBF24',
+      timelineLineLight: 'rgba(251, 191, 36, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -196,6 +206,8 @@ export const THEMES = [
       swatchDark: '#241E19',
       swatchLight: '#E6D9C6',
       glowShadow: 'rgba(231, 195, 120, 0.45)',
+      timelineLine: '#D4AF37',
+      timelineLineLight: 'rgba(212, 175, 55, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -229,6 +241,8 @@ export const THEMES = [
       swatchDark: '#542033',
       swatchLight: '#FFCED8',
       glowShadow: 'rgba(255, 206, 216, 0.5)',
+      timelineLine: '#FFE8C4',
+      timelineLineLight: 'rgba(255, 232, 196, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -262,6 +276,8 @@ export const THEMES = [
       swatchDark: '#DE7272',
       swatchLight: '#B4E4D6',
       glowShadow: 'rgba(222, 114, 114, 0.45)',
+      timelineLine: '#FFCA88',
+      timelineLineLight: 'rgba(255, 202, 136, 0.45)',
       ganeshaFilter: 'none'
     }
   }
@@ -316,6 +332,8 @@ export function ThemeProvider({ children }) {
     root.style.setProperty('--theme-text-light', colors.textLight);
     root.style.setProperty('--theme-text-light-muted', colors.textLightMuted);
     root.style.setProperty('--theme-glow-shadow', colors.glowShadow);
+    root.style.setProperty('--theme-timeline-line', colors.timelineLine || colors.border);
+    root.style.setProperty('--theme-timeline-line-light', colors.timelineLineLight || colors.borderLight);
   }, [themeId, currentTheme]);
 
   const changeTheme = (newId) => {

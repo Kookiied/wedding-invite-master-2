@@ -29,6 +29,9 @@ export default function EventTimeline() {
   // Map progress to percentage along vertical line
   const lotusTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
+  const timelineLineColor = theme.colors.timelineLine || theme.colors.border;
+  const timelineLineLight = theme.colors.timelineLineLight || theme.colors.borderLight;
+
   return (
     <section 
       className="relative w-full py-16 md:py-24 px-1 sm:px-4 md:px-8 overflow-hidden transition-colors duration-500"
@@ -92,7 +95,7 @@ export default function EventTimeline() {
         </h2>
         <div 
           className="w-16 h-0.5 mx-auto mt-3 rounded-full opacity-60 transition-colors duration-500" 
-          style={{ backgroundColor: theme.colors.border }}
+          style={{ backgroundColor: timelineLineColor }}
         />
       </div>
 
@@ -102,7 +105,8 @@ export default function EventTimeline() {
         <div 
           className="absolute left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 pointer-events-none transition-all duration-500"
           style={{
-            background: `linear-gradient(to bottom, ${theme.colors.borderLight}, ${theme.colors.border}, ${theme.colors.borderLight})`
+            background: `linear-gradient(to bottom, ${timelineLineLight}, ${timelineLineColor}, ${timelineLineLight})`,
+            boxShadow: `0 0 10px ${timelineLineLight}`
           }}
         >
           
@@ -115,7 +119,7 @@ export default function EventTimeline() {
               {/* Soft halo glow */}
               <div 
                 className="absolute inset-0 rounded-full blur-md animate-pulse" 
-                style={{ backgroundColor: `${theme.colors.glow}99` }}
+                style={{ backgroundColor: `${timelineLineColor}99` }}
               />
 
               {/* White Lotus / Rose Image Asset with subtle theme filter */}
@@ -123,7 +127,7 @@ export default function EventTimeline() {
                 src="/lotus.png" 
                 alt="Lotus Symbol" 
                 className="w-6 h-6 sm:w-9 sm:h-9 object-contain relative z-10 transition-transform hover:scale-110"
-                style={{ filter: `drop-shadow(0 2px 8px ${theme.colors.border})` }}
+                style={{ filter: `drop-shadow(0 2px 8px ${timelineLineColor})` }}
               />
             </div>
           </motion.div>
@@ -182,8 +186,10 @@ export default function EventTimeline() {
                       <div 
                         className="w-2 h-2 sm:w-2.5 sm:h-2.5 rotate-45 transition-all duration-500"
                         style={{
-                          backgroundColor: theme.colors.border,
-                          boxShadow: isGlowing ? `0 0 8px ${theme.colors.glowShadow}` : `0 0 4px ${theme.colors.glowShadow}`
+                          backgroundColor: timelineLineColor,
+                          boxShadow: isGlowing 
+                            ? `0 0 10px ${timelineLineColor}` 
+                            : `0 0 4px ${timelineLineLight}`
                         }}
                       />
                     </div>
