@@ -83,7 +83,7 @@ export default function ThemeSwitcher({ isOpen, onToggle, onClose }) {
             animate={{ height: 'auto', opacity: 1, y: 0 }}
             exit={{ height: 0, opacity: 0, y: -8 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className="flex flex-col items-center gap-2.5 sm:gap-3 py-3 px-2 rounded-full backdrop-blur-2xl border shadow-2xl overflow-hidden mt-1.5"
+            className="flex flex-col items-center gap-2 sm:gap-2.5 py-2.5 px-2 rounded-full backdrop-blur-2xl border shadow-2xl overflow-y-auto max-h-[82vh] scrollbar-none mt-1.5"
             style={{
               backgroundColor: `${theme.colors.darkRich}F2`,
               borderColor: theme.colors.borderLight,
