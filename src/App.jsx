@@ -17,6 +17,7 @@ import MagicModeOverlay from './components/MagicMode/MagicModeOverlay';
 import ExperienceSelector from './components/MagicMode/ExperienceSelector';
 import ParticleCanvas from './graphics/ParticleCanvas';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import PatternSwitcher from './components/PatternSwitcher';
 import { useTheme } from './context/ThemeContext';
 
 // Feature Flag: Lock scrolling past countdown until scratch cards are scratched.
@@ -64,8 +65,13 @@ export default function App() {
       style={{ backgroundColor: theme.colors.darkDeep }}
     >
       
-      {/* 6-THEME TOGGLE DOCK (Available once the invitation envelope is opened) */}
-      {isEnvelopeOpen && <ThemeSwitcher />}
+      {/* 6-THEME & PATTERN TOGGLE DOCKS (Available once the invitation envelope is opened) */}
+      {isEnvelopeOpen && (
+        <>
+          <PatternSwitcher />
+          <ThemeSwitcher />
+        </>
+      )}
 
       {/* Upfront Luxury Choice Screen */}
       {experienceMode === null && (

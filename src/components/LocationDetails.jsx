@@ -3,12 +3,11 @@ import { motion } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import { MapPin, ExternalLink, Phone, MessageSquare } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-
-// Feature Flag: Enable Islamic Girih geometric pattern & background bursts (Default: false)
-const ENABLE_GIRIH_PATTERN = false;
+import { usePattern } from '../context/PatternContext';
 
 export default function LocationDetails() {
   const { theme } = useTheme();
+  const { pattern, patternId } = usePattern();
 
   return (
     <section 
@@ -28,8 +27,8 @@ export default function LocationDetails() {
         />
       </div>
 
-      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Feature Flagged) */}
-      {ENABLE_GIRIH_PATTERN && (
+      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Selected via PatternSwitcher) */}
+      {patternId !== 'none' && pattern.svgUrl && (
         <div 
           className="absolute inset-0 pointer-events-none overflow-hidden z-0"
           aria-hidden="true"
@@ -45,19 +44,16 @@ export default function LocationDetails() {
             }}
           />
 
-          {/* Delicate Seamless Islamic Girih Pattern with Radiant Fade */}
+          {/* Delicate Seamless Geometric Pattern with Radiant Edge Fade */}
           <div 
-            className="absolute inset-0 bg-girih-pattern transition-opacity duration-500"
+            className="absolute inset-0 transition-all duration-500"
             style={{
-              opacity: 0.12,
-              maskImage: `
-                radial-gradient(ellipse at 50% 25%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 50% 75%, black 28%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
-              `,
-              WebkitMaskImage: `
-                radial-gradient(ellipse at 50% 25%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 50% 75%, black 28%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
-              `
+              backgroundImage: `url(${pattern.svgUrl})`,
+              backgroundRepeat: 'repeat',
+              backgroundSize: pattern.scaleDesktop,
+              opacity: pattern.opacity || 0.22,
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)'
             }}
           />
         </div>

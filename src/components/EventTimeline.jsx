@@ -4,12 +4,11 @@ import { weddingData } from '../config/weddingData';
 import { Clock, MapPin } from 'lucide-react';
 import FallingFlora from './FallingFlora';
 import { useTheme } from '../context/ThemeContext';
-
-// Feature Flag: Enable Islamic Girih geometric pattern & background bursts (Default: false)
-const ENABLE_GIRIH_PATTERN = false;
+import { usePattern } from '../context/PatternContext';
 
 export default function EventTimeline() {
   const { theme } = useTheme();
+  const { pattern, patternId } = usePattern();
   const [hoveredEventId, setHoveredEventId] = useState(null);
   const [activeEventId, setActiveEventId] = useState(null);
   const containerRef = useRef(null);
@@ -42,8 +41,8 @@ export default function EventTimeline() {
       {/* Falling Flora and Butterfly Background Animation */}
       <FallingFlora />
       
-      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Feature Flagged) */}
-      {ENABLE_GIRIH_PATTERN && (
+      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Selected via PatternSwitcher) */}
+      {patternId !== 'none' && pattern.svgUrl && (
         <div 
           className="absolute inset-0 pointer-events-none overflow-hidden z-0"
           aria-hidden="true"
@@ -61,23 +60,16 @@ export default function EventTimeline() {
             }}
           />
 
-          {/* Delicate Seamless Islamic Girih Pattern with Radiant Fade */}
+          {/* Delicate Seamless Geometric Pattern with Radiant Edge Fade */}
           <div 
-            className="absolute inset-0 bg-girih-pattern transition-opacity duration-500"
+            className="absolute inset-0 transition-all duration-500"
             style={{
-              opacity: 0.12,
-              maskImage: `
-                radial-gradient(ellipse at 50% 12%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 20% 42%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 80% 68%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 50% 92%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
-              `,
-              WebkitMaskImage: `
-                radial-gradient(ellipse at 50% 12%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 20% 42%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 80% 68%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
-                radial-gradient(ellipse at 50% 92%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
-              `
+              backgroundImage: `url(${pattern.svgUrl})`,
+              backgroundRepeat: 'repeat',
+              backgroundSize: pattern.scaleDesktop,
+              opacity: pattern.opacity || 0.22,
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)'
             }}
           />
         </div>
