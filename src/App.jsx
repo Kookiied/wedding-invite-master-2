@@ -168,7 +168,11 @@ export default function App() {
                   }}
                 >
                   <button 
-                    onClick={() => setIsAdminOpen(true)}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsAdminOpen(true);
+                    }}
                     className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest opacity-80 hover:opacity-100 transition-opacity cursor-pointer font-serif py-1 px-3 rounded-full hover:bg-white/10"
                     style={{ color: theme.colors.textLight }}
                   >

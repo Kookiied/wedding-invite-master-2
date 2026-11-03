@@ -34,58 +34,57 @@ const ButterflySVG = ({ primaryColor = "#00A8FF", secondaryColor = "#0055FF" }) 
   </svg>
 );
 
-export default function FallingFlora() {
-  // Collection of falling sunflowers, pink flowers, and green leaves
-  const flora = [
-    { id: 1, emoji: '🌸', left: '5%', duration: 25, delay: 0, size: 'text-2xl', xOffset: 30 },
-    { id: 2, emoji: '🌻', left: '25%', duration: 28, delay: 5, size: 'text-3xl', xOffset: -40 },
-    { id: 3, emoji: '🍃', left: '40%', duration: 22, delay: 2, size: 'text-xl', xOffset: 25 },
-    { id: 4, emoji: '🌺', left: '55%', duration: 26, delay: 8, size: 'text-2xl', xOffset: -35 },
-    { id: 5, emoji: '🌿', left: '70%', duration: 24, delay: 3, size: 'text-xl', xOffset: 30 },
-    { id: 6, emoji: '🌻', left: '85%', duration: 29, delay: 7, size: 'text-3xl', xOffset: -30 },
-    { id: 7, emoji: '🌸', left: '15%', duration: 27, delay: 10, size: 'text-xl', xOffset: 45 },
-    { id: 8, emoji: '🍃', left: '80%', duration: 25, delay: 12, size: 'text-2xl', xOffset: -25 },
-    { id: 9, emoji: '🌺', left: '95%', duration: 23, delay: 6, size: 'text-xl', xOffset: 35 },
-    { id: 10, emoji: '🌸', left: '33%', duration: 24, delay: 4, size: 'text-2xl', xOffset: -30 },
-    { id: 11, emoji: '🌸', left: '62%', duration: 26, delay: 1, size: 'text-xl', xOffset: 35 },
-    { id: 12, emoji: '🌸', left: '78%', duration: 28, delay: 9, size: 'text-2xl', xOffset: -40 },
-  ];
+// Collection of falling sunflowers, pink flowers, and green leaves
+const flora = [
+  { id: 1, emoji: '🌸', left: '5%', duration: 25, delay: 0, size: 'text-2xl', xOffset: 30 },
+  { id: 2, emoji: '🌻', left: '25%', duration: 28, delay: 5, size: 'text-3xl', xOffset: -40 },
+  { id: 3, emoji: '🍃', left: '40%', duration: 22, delay: 2, size: 'text-xl', xOffset: 25 },
+  { id: 4, emoji: '🌺', left: '55%', duration: 26, delay: 8, size: 'text-2xl', xOffset: -35 },
+  { id: 5, emoji: '🌿', left: '70%', duration: 24, delay: 3, size: 'text-xl', xOffset: 30 },
+  { id: 6, emoji: '🌻', left: '85%', duration: 29, delay: 7, size: 'text-3xl', xOffset: -30 },
+  { id: 7, emoji: '🌸', left: '15%', duration: 27, delay: 10, size: 'text-xl', xOffset: 45 },
+  { id: 8, emoji: '🍃', left: '80%', duration: 25, delay: 12, size: 'text-2xl', xOffset: -25 },
+  { id: 9, emoji: '🌺', left: '95%', duration: 23, delay: 6, size: 'text-xl', xOffset: 35 },
+  { id: 10, emoji: '🌸', left: '33%', duration: 24, delay: 4, size: 'text-2xl', xOffset: -30 },
+  { id: 11, emoji: '🌸', left: '62%', duration: 26, delay: 1, size: 'text-xl', xOffset: 35 },
+  { id: 12, emoji: '🌸', left: '78%', duration: 28, delay: 9, size: 'text-2xl', xOffset: -40 },
+];
 
-  // 3 Vibrant Butterflies with different colors and smooth W / Zigzag paths
-  const butterflies = [
-    {
-      id: 1,
-      primaryColor: "#00BFFF", // Exact Cyan Blue from reference image
-      secondaryColor: "#0055FF",
-      duration: 16,
-      delay: 0,
-      pathLeft: ['-15%', '25%', '50%', '75%', '115%'],
-      pathTop: ['15%', '45%', '10%', '55%', '20%'] // Smooth 'W' Flight Path
-    },
-    {
-      id: 2,
-      primaryColor: "#FF9F00", // Vibrant Golden Amber / Warm Coral
-      secondaryColor: "#FF3366",
-      duration: 20,
-      delay: 5,
-      pathLeft: ['-15%', '30%', '60%', '80%', '115%'],
-      pathTop: ['50%', '20%', '65%', '30%', '70%'] // Smooth Zigzag Wave
-    },
-    {
-      id: 3,
-      primaryColor: "#E056FD", // Electric Violet / Magenta
-      secondaryColor: "#686DE0",
-      duration: 22,
-      delay: 11,
-      pathLeft: ['-15%', '20%', '50%', '80%', '115%'],
-      pathTop: ['75%', '35%', '80%', '25%', '40%'] // Deep Sweeping 'W' Wave
-    }
-  ];
+// 3 Vibrant Butterflies with different colors and smooth W / Zigzag paths
+const butterflies = [
+  {
+    id: 1,
+    primaryColor: "#00BFFF", // Exact Cyan Blue from reference image
+    secondaryColor: "#0055FF",
+    duration: 16,
+    delay: 0,
+    pathLeft: ['-15%', '25%', '50%', '75%', '115%'],
+    pathTop: ['15%', '45%', '10%', '55%', '20%'] // Smooth 'W' Flight Path
+  },
+  {
+    id: 2,
+    primaryColor: "#FF9F00", // Vibrant Golden Amber / Warm Coral
+    secondaryColor: "#FF3366",
+    duration: 20,
+    delay: 5,
+    pathLeft: ['-15%', '30%', '60%', '80%', '115%'],
+    pathTop: ['50%', '20%', '65%', '30%', '70%'] // Smooth Zigzag Wave
+  },
+  {
+    id: 3,
+    primaryColor: "#E056FD", // Electric Violet / Magenta
+    secondaryColor: "#686DE0",
+    duration: 22,
+    delay: 11,
+    pathLeft: ['-15%', '20%', '50%', '80%', '115%'],
+    pathTop: ['75%', '35%', '80%', '25%', '40%'] // Deep Sweeping 'W' Wave
+  }
+];
 
+// Falling flowers and leaves (rendered at z-0, behind the pattern)
+export function FallingFloraPetals() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      
-      {/* Falling Flowers & Leaves */}
       {flora.map((item) => (
         <motion.div
           key={item.id}
@@ -106,8 +105,14 @@ export default function FallingFlora() {
           {item.emoji}
         </motion.div>
       ))}
+    </div>
+  );
+}
 
-      {/* 3 Vibrant Vector Butterflies flying in 'W' & Zigzag paths */}
+// Flying butterflies (rendered at z-[2], in front of / above the pattern)
+export function FlyingButterflies() {
+  return (
+    <div className="absolute inset-0 z-[2] overflow-hidden pointer-events-none">
       {butterflies.map((b) => (
         <motion.div
           key={b.id}
@@ -133,7 +138,15 @@ export default function FallingFlora() {
           </motion.div>
         </motion.div>
       ))}
-
     </div>
+  );
+}
+
+export default function FallingFlora() {
+  return (
+    <>
+      <FallingFloraPetals />
+      <FlyingButterflies />
+    </>
   );
 }

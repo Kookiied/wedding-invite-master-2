@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { weddingData } from '../config/weddingData';
 import { Clock, MapPin } from 'lucide-react';
-import FallingFlora from './FallingFlora';
+import { FallingFloraPetals, FlyingButterflies } from './FallingFlora';
 import { useTheme } from '../context/ThemeContext';
 import { usePattern } from '../context/PatternContext';
 
@@ -41,13 +41,13 @@ export default function EventTimeline() {
       }}
     >
       
-      {/* Falling Flora and Butterfly Background Animation */}
-      <FallingFlora />
+      {/* 1. Falling Flora (Flowers and Leaves) at the back of the pattern */}
+      <FallingFloraPetals />
       
-      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Selected via PatternSwitcher) */}
+      {/* 2. Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Selected via PatternSwitcher) */}
       {patternId !== 'none' && pattern.svgUrl && patternOpacity > 0 && (
         <div 
-          className="absolute inset-0 pointer-events-none overflow-hidden z-0"
+          className="absolute inset-0 pointer-events-none overflow-hidden z-[1]"
           aria-hidden="true"
         >
           {/* Soft Ambient Radial Luminous Bursts */}
@@ -78,6 +78,9 @@ export default function EventTimeline() {
           />
         </div>
       )}
+
+      {/* 3. Flying Butterflies positioned ABOVE / in front of the pattern */}
+      <FlyingButterflies />
 
       {/* Section Header */}
       <div className="text-center max-w-md mx-auto mb-16 relative z-10">

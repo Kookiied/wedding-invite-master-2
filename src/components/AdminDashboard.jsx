@@ -38,6 +38,21 @@ export default function AdminDashboard({ isOpen, onClose }) {
     }
   }, [isAuthenticated, isOpen]);
 
+  // Escape key and background scroll lock for butter-smooth modal UX
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen, onClose]);
+
   // Robust Mobile-Friendly ID Download & View Handler
   const handleDownloadID = (e, record) => {
     if (e) {
@@ -107,22 +122,33 @@ export default function AdminDashboard({ isOpen, onClose }) {
   const nonVegCount = attendingList.filter(r => r.dietary === 'non-veg').reduce((acc, curr) => acc + (parseInt(curr.guestCount) || 1), 0);
   const declinedCount = rsvps.filter(r => r.attending === 'no').length;
 
-  if (!isOpen) return null;
-
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 overflow-y-auto">
+      {isOpen && (
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          className="relative w-full max-w-5xl border-2 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] transition-all duration-500"
-          style={{
-            backgroundColor: theme.colors.lightBg,
-            borderColor: theme.colors.border,
-            boxShadow: `0 25px 60px -15px ${theme.colors.glowShadow}`
+          key="admin-modal-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) onClose();
           }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto"
         >
+          <motion.div 
+            key="admin-modal-content"
+            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 16 }}
+            transition={{ type: "spring", stiffness: 360, damping: 28 }}
+            className="relative w-full max-w-5xl border-2 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
+            style={{
+              backgroundColor: theme.colors.lightBg,
+              borderColor: theme.colors.border,
+              boxShadow: `0 25px 60px -15px ${theme.colors.glowShadow}`
+            }}
+          >
           {/* Header Bar */}
           <div 
             className="p-4 sm:p-5 border-b flex items-center justify-between transition-colors duration-500"
@@ -447,8 +473,9 @@ export default function AdminDashboard({ isOpen, onClose }) {
 
             </div>
           )}
+          </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>
   );
 }
