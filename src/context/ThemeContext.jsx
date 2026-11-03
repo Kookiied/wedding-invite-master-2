@@ -68,41 +68,8 @@ export const THEMES = [
     }
   },
   {
-    id: 'sapphire-ocean',
-    name: 'Ocean Sapphire (Option 1)',
-    subtitle: 'Cerulean Azure & Pearl Gold',
-    category: 'Royal Ocean & Celestial Gold',
-    emoji: '🌊',
-    ganeshaIcon: '/ganesha-sapphire-ocean.png',
-    vibe: 'Deep Ocean Cyan & Pearl Gold',
-    colors: {
-      darkDeep: '#021622',
-      darkRich: '#042639',
-      darkAccent: '#086288',
-      darkSurface: '#031E2D',
-      lightBg: '#F3F9FD',
-      lightSubtle: '#E2F1FA',
-      lightCard: '#FFFFFF',
-      lightAccent: '#97D7FF',
-      border: '#4D8DBA',
-      borderLight: 'rgba(77, 141, 186, 0.45)',
-      glow: '#97D7FF',
-      accentPop: '#086288',
-      gold: '#FFEFC4',
-      goldSecondary: '#D6BF7E',
-      textTitle: '#042639',
-      textBodyDark: '#08405A',
-      textLight: '#FFEFC4',
-      textLightMuted: '#97D7FF',
-      swatchDark: '#086288',
-      swatchLight: '#97D7FF',
-      glowShadow: 'rgba(151, 215, 255, 0.45)',
-      ganeshaFilter: 'none'
-    }
-  },
-  {
     id: 'sapphire',
-    name: 'Royal Sapphire (Option 2)',
+    name: 'Royal Sapphire',
     subtitle: 'Cobalt Azure & Marigold Gold',
     category: 'Royal Cobalt & Sun Gold Silk',
     emoji: '💎',
@@ -136,33 +103,33 @@ export const THEMES = [
   {
     id: 'amethyst',
     name: 'Amethyst Twilight',
-    subtitle: 'Imperial Violet & Whipped Orchid',
-    category: 'Haute Runway & Mystic Lavender',
+    subtitle: 'Royal Heather & Sunlight Chiffon',
+    category: 'Royal Velvet & Mystic Silk',
     emoji: '🔮',
     ganeshaIcon: '/ganesha-amethyst.png',
-    vibe: 'Poetic, Aristocratic, Dreamy Twilight',
+    vibe: 'Poetic, Aristocratic, Dreamy Heather & Orchid',
     colors: {
-      darkDeep: '#140622',
-      darkRich: '#2A0E42',
-      darkAccent: '#46176D',
-      darkSurface: '#200B34',
-      lightBg: '#FAF5FF',
-      lightSubtle: '#F3E8FF',
+      darkDeep: '#12081C',
+      darkRich: '#261536',
+      darkAccent: '#7F669D',
+      darkSurface: '#1A0C29',
+      lightBg: '#FDFCF7',
+      lightSubtle: '#FBFACD',
       lightCard: '#FFFFFF',
-      lightAccent: '#E4CCFB',
-      border: '#BE95EF',
-      borderLight: 'rgba(190, 149, 239, 0.4)',
-      glow: '#AA5BF7',
-      accentPop: '#8E32E2',
-      gold: '#FFD700',
-      goldSecondary: '#D4AF37',
-      textTitle: '#3B135B',
-      textBodyDark: '#2A0E42',
-      textLight: '#E4CCFB',
-      textLightMuted: '#FAF5FF',
-      swatchDark: '#2A0E42',
-      swatchLight: '#E4CCFB',
-      glowShadow: 'rgba(170, 91, 247, 0.45)',
+      lightAccent: '#BA94D1',
+      border: '#7F669D',
+      borderLight: 'rgba(186, 148, 209, 0.45)',
+      glow: '#BA94D1',
+      accentPop: '#7F669D',
+      gold: '#FBFACD',
+      goldSecondary: '#D4C778',
+      textTitle: '#261536',
+      textBodyDark: '#3D2456',
+      textLight: '#FBFACD',
+      textLightMuted: '#DEBACE',
+      swatchDark: '#7F669D',
+      swatchLight: '#DEBACE',
+      glowShadow: 'rgba(127, 102, 157, 0.45)',
       ganeshaFilter: 'none'
     }
   },
@@ -305,18 +272,18 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [themeId, setThemeId] = useState(() => {
     if (typeof window !== 'undefined') {
-      const optionApplied = localStorage.getItem('wedding_blue_option_applied');
-      if (optionApplied !== 'v2') {
-        localStorage.setItem('wedding_blue_option_applied', 'v2');
-        localStorage.setItem('wedding_luxury_theme_id', 'sapphire');
-        return 'sapphire';
+      const purpleApplied = localStorage.getItem('wedding_purple_theme_applied');
+      if (purpleApplied !== 'v1') {
+        localStorage.setItem('wedding_purple_theme_applied', 'v1');
+        localStorage.setItem('wedding_luxury_theme_id', 'amethyst');
+        return 'amethyst';
       }
       const saved = localStorage.getItem('wedding_luxury_theme_id');
       if (saved && THEMES.some(t => t.id === saved)) {
         return saved;
       }
     }
-    return 'sapphire';
+    return 'amethyst';
   });
 
   const currentTheme = THEMES.find(t => t.id === themeId) || THEMES[0];
