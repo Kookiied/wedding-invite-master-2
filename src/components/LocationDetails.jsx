@@ -7,7 +7,7 @@ import { usePattern } from '../context/PatternContext';
 
 export default function LocationDetails() {
   const { theme } = useTheme();
-  const { pattern, patternId } = usePattern();
+  const { pattern, patternId, patternOpacity } = usePattern();
 
   return (
     <section 
@@ -28,15 +28,16 @@ export default function LocationDetails() {
       </div>
 
       {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Selected via PatternSwitcher) */}
-      {patternId !== 'none' && pattern.svgUrl && (
+      {patternId !== 'none' && pattern.svgUrl && patternOpacity > 0 && (
         <div 
           className="absolute inset-0 pointer-events-none overflow-hidden z-0"
           aria-hidden="true"
         >
           {/* Soft Ambient Radial Luminous Bursts */}
           <div 
-            className="absolute inset-0 transition-opacity duration-500"
+            className="absolute inset-0 transition-opacity duration-300"
             style={{
+              opacity: Math.min(1, patternOpacity * 2),
               background: `
                 radial-gradient(circle at 50% 25%, ${theme.colors.glow}33 0%, transparent 60%),
                 radial-gradient(circle at 50% 75%, ${theme.colors.borderLight} 0%, transparent 65%)
@@ -46,12 +47,12 @@ export default function LocationDetails() {
 
           {/* Delicate Seamless Geometric Pattern with Radiant Edge Fade */}
           <div 
-            className="absolute inset-0 transition-all duration-500"
+            className="absolute inset-0 transition-all duration-200"
             style={{
               backgroundImage: `url(${pattern.svgUrl})`,
               backgroundRepeat: 'repeat',
               backgroundSize: pattern.scaleDesktop,
-              opacity: pattern.opacity || 0.22,
+              opacity: patternOpacity,
               maskImage: 'linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%)'
             }}

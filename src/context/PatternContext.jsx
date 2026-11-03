@@ -76,6 +76,19 @@ export function PatternProvider({ children }) {
     return 'none'; // Default to clean plain background
   });
 
+  const [patternOpacity, setPatternOpacity] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('wedding_luxury_pattern_opacity');
+      if (saved !== null) {
+        const val = parseFloat(saved);
+        if (!isNaN(val) && val >= 0 && val <= 1) {
+          return val;
+        }
+      }
+    }
+    return 0.30; // Default to 30% level
+  });
+
   const currentPattern = PATTERNS.find(p => p.id === patternId) || PATTERNS[0];
 
   useEffect(() => {
@@ -84,12 +97,19 @@ export function PatternProvider({ children }) {
     document.documentElement.setAttribute('data-pattern', patternId);
   }, [patternId]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('wedding_luxury_pattern_opacity', patternOpacity.toString());
+  }, [patternOpacity]);
+
   return (
     <PatternContext.Provider value={{
       patternId,
       pattern: currentPattern,
       setPattern: setPatternId,
-      patterns: PATTERNS
+      patterns: PATTERNS,
+      patternOpacity,
+      setPatternOpacity
     }}>
       {children}
     </PatternContext.Provider>

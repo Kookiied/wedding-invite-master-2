@@ -32,6 +32,7 @@ export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isScratchUnlocked, setIsScratchUnlocked] = useState(!ENABLE_SCRATCH_LOCK);
   const [experienceMode, setExperienceMode] = useState(null); // null = modal prompt, 'magic' | 'classic'
+  const [activeMenu, setActiveMenu] = useState(null); // null | 'theme' | 'pattern'
   const magicOverlayRef = React.useRef(null);
 
   const handleSelectExperienceMode = (mode) => {
@@ -65,12 +66,20 @@ export default function App() {
       style={{ backgroundColor: theme.colors.darkDeep }}
     >
       
-      {/* 6-THEME & PATTERN TOGGLE DOCKS (Available once the invitation envelope is opened) */}
+      {/* 6-THEME & PATTERN CONTROLS (Stacked vertically at top-right: Theme on top, Pattern below) */}
       {isEnvelopeOpen && (
-        <>
-          <PatternSwitcher />
-          <ThemeSwitcher />
-        </>
+        <div className="fixed top-12 sm:top-14 right-3.5 sm:right-5 z-[9999] flex flex-col items-end gap-2.5 pointer-events-none select-none">
+          <ThemeSwitcher 
+            isOpen={activeMenu === 'theme'}
+            onToggle={() => setActiveMenu(prev => prev === 'theme' ? null : 'theme')}
+            onClose={() => setActiveMenu(null)}
+          />
+          <PatternSwitcher 
+            isOpen={activeMenu === 'pattern'}
+            onToggle={() => setActiveMenu(prev => prev === 'pattern' ? null : 'pattern')}
+            onClose={() => setActiveMenu(null)}
+          />
+        </div>
       )}
 
       {/* Upfront Luxury Choice Screen */}

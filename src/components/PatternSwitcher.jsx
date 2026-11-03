@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Grid, ChevronDown, Ban } from 'lucide-react';
+import { Grid, ChevronDown, Ban, Sliders, Sparkles, EyeOff } from 'lucide-react';
 import { usePattern } from '../context/PatternContext';
 import { useTheme } from '../context/ThemeContext';
 
-export default function PatternSwitcher() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { pattern, patternId, setPattern, patterns } = usePattern();
+export default function PatternSwitcher({ isOpen, onToggle, onClose }) {
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isExpanded = isOpen !== undefined ? isOpen : internalExpanded;
+  const toggleExpanded = onToggle || (() => setInternalExpanded(prev => !prev));
+  const closeExpanded = onClose || (() => setInternalExpanded(false));
+
+  const { pattern, patternId, setPattern, patterns, patternOpacity, setPatternOpacity } = usePattern();
   const { theme } = useTheme();
   const switcherRef = useRef(null);
 
@@ -14,7 +18,7 @@ export default function PatternSwitcher() {
   useEffect(() => {
     function handleClickOutside(event) {
       if (switcherRef.current && !switcherRef.current.contains(event.target)) {
-        setIsExpanded(false);
+        closeExpanded();
       }
     }
     if (isExpanded) {
@@ -25,20 +29,20 @@ export default function PatternSwitcher() {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, [isExpanded]);
+  }, [isExpanded, closeExpanded]);
 
   return (
     <div 
       ref={switcherRef}
-      className="fixed top-12 sm:top-14 right-[136px] sm:right-[150px] z-[9999] flex flex-col items-end pointer-events-auto select-none"
+      className="relative flex flex-col items-end pointer-events-auto select-none"
     >
-      {/* Sleek Pattern Button with Arrow */}
+      {/* Sleek Pattern Button with Arrow (Stacked below Theme) */}
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        onClick={() => setIsExpanded(!isExpanded)}
-        aria-label={isExpanded ? "Close pattern selection" : "Open pattern selection"}
-        title={isExpanded ? "Click to close" : "Click to choose background pattern"}
+        onClick={toggleExpanded}
+        aria-label={isExpanded ? "Close pattern controls" : "Open pattern controls"}
+        title={isExpanded ? "Click to close" : "Click to choose background pattern and opacity"}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-xl border shadow-lg cursor-pointer transition-all duration-300"
         style={{
           backgroundColor: `${theme.colors.darkRich}E6`,
@@ -55,6 +59,13 @@ export default function PatternSwitcher() {
           {patternId === 'none' ? 'Pattern' : pattern.name.split(' ')[0]}
         </span>
 
+        {/* Mini level indicator badge when pattern is active */}
+        {patternId !== 'none' && (
+          <span className="text-[9px] font-mono px-1 py-0.2 rounded-full bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]/30 font-bold">
+            {Math.round(patternOpacity * 100)}%
+          </span>
+        )}
+
         {/* Arrow Button - Rotates smoothly downwards when open */}
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -65,82 +76,177 @@ export default function PatternSwitcher() {
         </motion.div>
       </motion.button>
 
-      {/* Downward Sliding Vertical Stack of Pattern Options */}
+      {/* Downward Sliding Luxury Control Panel with Opacity Level Slider & Pattern Selection */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            initial={{ height: 0, opacity: 0, y: -8 }}
-            animate={{ height: 'auto', opacity: 1, y: 0 }}
-            exit={{ height: 0, opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.96 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className="flex flex-col items-center gap-2 sm:gap-2.5 py-2.5 px-2 rounded-full backdrop-blur-2xl border shadow-2xl overflow-y-auto max-h-[82vh] mt-1.5 scrollbar-none"
+            className="w-64 sm:w-72 p-3 sm:p-3.5 rounded-2xl backdrop-blur-2xl border shadow-2xl flex flex-col gap-3 mt-1.5 overflow-hidden"
             style={{
-              backgroundColor: `${theme.colors.darkRich}F2`,
+              backgroundColor: `${theme.colors.darkRich}F5`,
               borderColor: theme.colors.borderLight,
-              boxShadow: `0 8px 30px ${theme.colors.glowShadow}`
+              boxShadow: `0 10px 35px ${theme.colors.glowShadow}`
             }}
           >
-            {patterns.map((p, idx) => {
-              const isActive = p.id === patternId;
-              return (
-                <motion.button
-                  key={p.id}
-                  initial={{ scale: 0, opacity: 0, y: -10 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0, opacity: 0, y: -10 }}
-                  transition={{ delay: idx * 0.025, duration: 0.18 }}
-                  onClick={() => {
-                    setPattern(p.id);
-                  }}
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.94 }}
-                  aria-label={`Switch to ${p.name}`}
-                  title={`${p.name} (${p.subtitle})`}
-                  className={`relative rounded-full transition-all duration-200 cursor-pointer shrink-0 ${
-                    isActive 
-                      ? 'ring-2 ring-[#FFD700] ring-offset-2 ring-offset-black/50' 
-                      : 'hover:ring-1 hover:ring-white/90'
-                  }`}
+            {/* Header: Title & Current Status */}
+            <div className="flex items-center justify-between pb-2 border-b border-white/10">
+              <div className="flex items-center gap-1.5">
+                <Grid className="w-3.5 h-3.5 text-[#FFD700]" />
+                <span className="font-serif text-xs font-bold tracking-wider" style={{ color: theme.colors.textLight }}>
+                  Pattern & Level
+                </span>
+              </div>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-white/70">
+                {patternId === 'none' ? 'Disabled' : pattern.name}
+              </span>
+            </div>
+
+            {/* 1. Opacity / Volume Level Slider */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="font-serif font-semibold text-white/90 flex items-center gap-1.5">
+                  <Sliders className="w-3 h-3 text-[#FFD700]" />
+                  Line Opacity Level
+                </span>
+                <span 
+                  className="px-2 py-0.5 rounded-full font-mono text-[11px] font-bold border"
                   style={{
-                    boxShadow: isActive ? `0 0 14px ${theme.colors.gold}` : '0 2px 8px rgba(0,0,0,0.35)'
+                    backgroundColor: `${theme.colors.gold}20`,
+                    color: theme.colors.gold,
+                    borderColor: `${theme.colors.gold}40`
                   }}
                 >
-                  {/* Swatch Icon Circle */}
-                  <div 
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-[1.5px] shadow-md relative overflow-hidden flex items-center justify-center font-serif text-xs font-bold"
-                    style={{
-                      backgroundColor: isActive ? theme.colors.darkAccent : `${theme.colors.darkSurface}E6`,
-                      borderColor: isActive ? theme.colors.gold : 'rgba(255,255,255,0.85)',
-                      color: isActive ? theme.colors.gold : theme.colors.textLight
-                    }}
-                  >
-                    {p.svgUrl && (
-                      <div 
-                        className="absolute inset-0 opacity-30 pointer-events-none"
-                        style={{
-                          backgroundImage: `url(${p.svgUrl})`,
-                          backgroundSize: '28px 28px',
-                          backgroundRepeat: 'repeat'
-                        }}
-                      />
-                    )}
-                    {p.id === 'none' ? (
-                      <Ban className="w-3.5 h-3.5 opacity-80 relative z-10" />
-                    ) : (
-                      <span className="relative z-10">{p.icon}</span>
-                    )}
-                  </div>
+                  {Math.round(patternOpacity * 100)}%
+                </span>
+              </div>
 
-                  {/* Active indicator dot */}
-                  {isActive && (
-                    <span 
-                      className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-black/50"
-                      style={{ backgroundColor: theme.colors.gold }}
-                    />
-                  )}
-                </motion.button>
-              );
-            })}
+              {/* Volume-Style Slider Track */}
+              <div className="flex items-center gap-2 px-1">
+                <EyeOff className="w-3.5 h-3.5 text-white/40 shrink-0" title="0% - Vanish" />
+                <input 
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={Math.round(patternOpacity * 100)}
+                  onChange={(e) => {
+                    const val = Number(e.target.value) / 100;
+                    setPatternOpacity(val);
+                    // If user slides up while pattern is none, activate the first pattern
+                    if (patternId === 'none' && val > 0) {
+                      setPattern('pattern-1');
+                    }
+                  }}
+                  className="luxury-slider flex-1"
+                  aria-label="Adjust pattern opacity level"
+                />
+                <Sparkles className="w-3.5 h-3.5 text-[#FFD700] shrink-0" title="100% - Bold" />
+              </div>
+
+              {/* Quick Presets for Instant Level Selection */}
+              <div className="grid grid-cols-4 gap-1 pt-1">
+                {[
+                  { label: '0% Vanish', value: 0 },
+                  { label: '25% Soft', value: 0.25 },
+                  { label: '50% Mid', value: 0.5 },
+                  { label: '85% Rich', value: 0.85 }
+                ].map((preset) => {
+                  const isPresetActive = Math.abs(patternOpacity - preset.value) < 0.05;
+                  return (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => {
+                        setPatternOpacity(preset.value);
+                        if (preset.value > 0 && patternId === 'none') {
+                          setPattern('pattern-1');
+                        }
+                      }}
+                      className={`py-1 px-1 rounded text-[10px] font-mono font-medium transition-all cursor-pointer text-center ${
+                        isPresetActive
+                          ? 'bg-[#FFD700] text-black font-bold shadow-md'
+                          : 'bg-white/10 hover:bg-white/20 text-white/70'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Hairline Divider */}
+            <div 
+              className="w-full h-px" 
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent)' }} 
+            />
+
+            {/* 2. Pattern Selectors (6 options) */}
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center justify-between text-[10px] text-white/60 mb-0.5">
+                <span>SELECT DESIGN</span>
+                <span>{patterns.length} options</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto pr-0.5 scrollbar-thin">
+                {patterns.map((p) => {
+                  const isActive = p.id === patternId;
+                  return (
+                    <motion.button
+                      key={p.id}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setPattern(p.id)}
+                      className={`flex items-center gap-2 p-1.5 rounded-xl border transition-all cursor-pointer text-left ${
+                        isActive
+                          ? 'border-[#FFD700] bg-white/15 shadow-sm'
+                          : 'border-white/10 bg-white/5 hover:bg-white/10'
+                      }`}
+                    >
+                      {/* Swatch Icon / Preview */}
+                      <div 
+                        className="w-7 h-7 rounded-lg border flex items-center justify-center shrink-0 relative overflow-hidden"
+                        style={{
+                          borderColor: isActive ? '#FFD700' : 'rgba(255,255,255,0.3)',
+                          backgroundColor: isActive ? 'rgba(255,215,0,0.2)' : 'rgba(0,0,0,0.3)'
+                        }}
+                      >
+                        {p.svgUrl && (
+                          <div 
+                            className="absolute inset-0 opacity-40 pointer-events-none"
+                            style={{
+                              backgroundImage: `url(${p.svgUrl})`,
+                              backgroundSize: '20px 20px',
+                              backgroundRepeat: 'repeat'
+                            }}
+                          />
+                        )}
+                        {p.id === 'none' ? (
+                          <Ban className="w-3.5 h-3.5 text-white/70 relative z-10" />
+                        ) : (
+                          <span className="text-xs relative z-10">{p.icon}</span>
+                        )}
+                      </div>
+
+                      {/* Name & Subtitle */}
+                      <div className="min-w-0 flex-1">
+                        <p className={`font-serif text-[11px] leading-tight truncate font-bold ${
+                          isActive ? 'text-[#FFD700]' : 'text-white/90'
+                        }`}>
+                          {p.name}
+                        </p>
+                        <p className="text-[9px] text-white/50 truncate leading-tight">
+                          {p.id === 'none' ? 'Plain dark' : p.subtitle.split(' ')[0]}
+                        </p>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -3,8 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Palette, ChevronDown } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-export default function ThemeSwitcher() {
-  const [isExpanded, setIsExpanded] = useState(false);
+export default function ThemeSwitcher({ isOpen, onToggle, onClose }) {
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isExpanded = isOpen !== undefined ? isOpen : internalExpanded;
+  const toggleExpanded = onToggle || (() => setInternalExpanded(prev => !prev));
+  const closeExpanded = onClose || (() => setInternalExpanded(false));
+
   const { theme, themeId, setTheme, themes } = useTheme();
   const switcherRef = useRef(null);
 
@@ -12,7 +16,7 @@ export default function ThemeSwitcher() {
   useEffect(() => {
     function handleClickOutside(event) {
       if (switcherRef.current && !switcherRef.current.contains(event.target)) {
-        setIsExpanded(false);
+        closeExpanded();
       }
     }
     if (isExpanded) {
@@ -23,18 +27,18 @@ export default function ThemeSwitcher() {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, [isExpanded]);
+  }, [isExpanded, closeExpanded]);
 
   return (
     <div 
       ref={switcherRef}
-      className="fixed top-12 sm:top-14 right-3.5 sm:right-5 z-[9999] flex flex-col items-end pointer-events-auto select-none"
+      className="relative flex flex-col items-end pointer-events-auto select-none"
     >
       {/* Sleek Theme Button with Arrow */}
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={toggleExpanded}
         aria-label={isExpanded ? "Close themes" : "Open themes"}
         title={isExpanded ? "Click to close" : "Click to choose theme"}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-xl border shadow-lg cursor-pointer transition-all duration-300"
