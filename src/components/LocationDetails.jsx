@@ -4,6 +4,9 @@ import { weddingData } from '../config/weddingData';
 import { MapPin, ExternalLink, Phone, MessageSquare } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
+// Feature Flag: Enable Islamic Girih geometric pattern & background bursts (Default: false)
+const ENABLE_GIRIH_PATTERN = false;
+
 export default function LocationDetails() {
   const { theme } = useTheme();
 
@@ -25,11 +28,40 @@ export default function LocationDetails() {
         />
       </div>
 
-      {/* Subtle Islamic Girih Geometric Tessellation Texture */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.08] sm:opacity-[0.10] bg-girih-pattern transition-opacity duration-500 z-0"
-        aria-hidden="true"
-      />
+      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Feature Flagged) */}
+      {ENABLE_GIRIH_PATTERN && (
+        <div 
+          className="absolute inset-0 pointer-events-none overflow-hidden z-0"
+          aria-hidden="true"
+        >
+          {/* Soft Ambient Radial Luminous Bursts */}
+          <div 
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{
+              background: `
+                radial-gradient(circle at 50% 25%, ${theme.colors.glow}33 0%, transparent 60%),
+                radial-gradient(circle at 50% 75%, ${theme.colors.borderLight} 0%, transparent 65%)
+              `
+            }}
+          />
+
+          {/* Delicate Seamless Islamic Girih Pattern with Radiant Fade */}
+          <div 
+            className="absolute inset-0 bg-girih-pattern transition-opacity duration-500"
+            style={{
+              opacity: 0.12,
+              maskImage: `
+                radial-gradient(ellipse at 50% 25%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 50% 75%, black 28%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
+              `,
+              WebkitMaskImage: `
+                radial-gradient(ellipse at 50% 25%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 50% 75%, black 28%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
+              `
+            }}
+          />
+        </div>
+      )}
 
       <div className="max-w-md md:max-w-2xl lg:max-w-3xl mx-auto text-center relative z-10">
 

@@ -5,6 +5,9 @@ import { Clock, MapPin } from 'lucide-react';
 import FallingFlora from './FallingFlora';
 import { useTheme } from '../context/ThemeContext';
 
+// Feature Flag: Enable Islamic Girih geometric pattern & background bursts (Default: false)
+const ENABLE_GIRIH_PATTERN = false;
+
 export default function EventTimeline() {
   const { theme } = useTheme();
   const [hoveredEventId, setHoveredEventId] = useState(null);
@@ -39,12 +42,47 @@ export default function EventTimeline() {
       {/* Falling Flora and Butterfly Background Animation */}
       <FallingFlora />
       
-      {/* Subtle Islamic Girih Geometric Tessellation Texture */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.08] sm:opacity-[0.10] bg-girih-pattern transition-opacity duration-500 z-0"
-        aria-hidden="true"
-      />
-      
+      {/* Royal Mughal Islamic Girih Geometric Background with Luminous Bursts (Feature Flagged) */}
+      {ENABLE_GIRIH_PATTERN && (
+        <div 
+          className="absolute inset-0 pointer-events-none overflow-hidden z-0"
+          aria-hidden="true"
+        >
+          {/* Soft Ambient Radial Luminous Bursts */}
+          <div 
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{
+              background: `
+                radial-gradient(circle at 50% 12%, ${theme.colors.glow}33 0%, transparent 60%),
+                radial-gradient(circle at 15% 42%, ${theme.colors.borderLight} 0%, transparent 50%),
+                radial-gradient(circle at 85% 68%, ${theme.colors.glow}26 0%, transparent 55%),
+                radial-gradient(circle at 50% 92%, ${theme.colors.borderLight} 0%, transparent 60%)
+              `
+            }}
+          />
+
+          {/* Delicate Seamless Islamic Girih Pattern with Radiant Fade */}
+          <div 
+            className="absolute inset-0 bg-girih-pattern transition-opacity duration-500"
+            style={{
+              opacity: 0.12,
+              maskImage: `
+                radial-gradient(ellipse at 50% 12%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 20% 42%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 80% 68%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 50% 92%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
+              `,
+              WebkitMaskImage: `
+                radial-gradient(ellipse at 50% 12%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 20% 42%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 80% 68%, black 25%, rgba(0,0,0,0.3) 65%, rgba(0,0,0,0.12) 100%),
+                radial-gradient(ellipse at 50% 92%, black 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.12) 100%)
+              `
+            }}
+          />
+        </div>
+      )}
+
       {/* Section Header */}
       <div className="text-center max-w-md mx-auto mb-16 relative z-10">
         <span 
